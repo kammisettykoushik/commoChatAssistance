@@ -1,0 +1,41 @@
+/* Logo Styling */
+.logo {
+    width: 150px;  /* Adjust as needed */
+    height: auto;
+  }
+  
+  /* Trial Text Styling */
+  .trial-text {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: #FF6347; /* Tomato color for highlight */
+    margin-right: 20px;
+  }
+  
+  /* Navbar Right Side Contact Links */
+  .navbar-nav .nav-item .nav-link {
+    padding-right: 15px;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .navbar-nav .nav-item .nav-link:hover {
+    color: #FF6347;
+  }
+  
+  /* Mobile Responsive Navbar */
+  @media (max-width: 768px) {
+    .navbar-nav {
+      flex-direction: column;
+      text-align: center;
+    }
+    .navbar-nav .nav-item {
+      margin-bottom: 10px;
+    }
+    .trial-text {
+      margin-top: 10px;
+    }
+  }
+  
