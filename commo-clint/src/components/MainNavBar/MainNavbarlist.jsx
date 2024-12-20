@@ -1,21 +1,23 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import styles from './MainNavbarlist.module.scss'; // SCSS module import
 
 const NavbarScreen = () => {
   return (
-    <nav className="navbar navbar-expand-lg sticky-top" style={{ backgroundColor: 'whitesmoke' }}>
+    <nav className={`navbar navbar-expand-lg sticky-top ${styles.navbar}`}>
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
-          <p
-            style={{
-              backgroundColor: '#074799', color: 'white', borderRadius: 5, fontSize: 15, padding: '10px 20px',
-              width: 'auto', marginTop: 10
-            }}
-          >
-            COMMO
-          </p>
+        {/* Brand Logo */}
+        <a className="navbar-brand d-flex align-items-center" href="/">
+          <img
+            src="https://cdn.vectorstock.com/i/500p/69/77/logo-c-monogram-modern-letter-mockup-elegant-vector-5246977.jpg"
+            alt="Logo"
+            className={styles.logoImage}
+          />
+          <span className={`ms-2 ${styles.brandText}`}>COMMO</span>
         </a>
+
+        {/* Toggle Button for Mobile */}
         <button
           className="navbar-toggler"
           type="button"
@@ -25,36 +27,42 @@ const NavbarScreen = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon" style={{ color: '#212121' }}></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
 
+        {/* Navbar Links */}
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex justify-content-evenly align-items-center w-100">
-            <li className="nav-item">
-              <a className="nav-link" href="https://wa.me/yourwhatsappnumber" target="_blank" rel="noopener noreferrer" style={{ color: '#074799' }}>
-                WhatsApp
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="mailto:your.email@example.com" style={{ color: '#074799' }}>
-                Email
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="tel:+yourphonenumber" style={{ color: '#074799' }}>
-                Cold Calling
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="sms:+yourphonenumber" style={{ color: '#074799' }}>
-                SMS
-              </a>
-            </li>
-            <div className="navbar-text ms-4">
-              <span style={{ color: '#FF6347', fontWeight: 'bold' }}>7 Days Free Trial</span>
-            </div>
-          </ul>
-        </div>
+  <ul className="navbar-nav mx-auto mb-2 mb-lg-0 d-flex align-items-center">
+    <li className="nav-item">
+      <a className={`nav-link ${styles.animatedNavLink}`} href="/services">
+        WhatsApp Marketing
+      </a>
+    </li>
+    <li className="nav-item">
+      <a className={`nav-link ${styles.animatedNavLink}`} href="/pricing">
+        Email Marketing
+      </a>
+    </li>
+    <li className="nav-item">
+      <a className={`nav-link ${styles.animatedNavLink}`} href="/blog">
+        Cold Calling Marketing
+      </a>
+    </li>
+    <li className="nav-item">
+      <a className={`nav-link ${styles.animatedNavLink}`} href="/about">
+        SMS Marketing
+      </a>
+    </li>
+  </ul>
+
+  {/* CTA Button with Advanced Animation */}
+  <div className="d-flex align-items-center">
+    <button className={`btn ${styles.animatedCtaButton}`} type="button">
+      7 Days Free Trial
+    </button>
+  </div>
+</div>
+
       </div>
     </nav>
   );
