@@ -1,41 +1,174 @@
-/* Logo Styling */
-.logo {
-    width: 150px;  /* Adjust as needed */
-    height: auto;
+.navbar {
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+
+  .logoImage {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
   }
-  
-  /* Trial Text Styling */
-  .trial-text {
-    display: flex;
-    align-items: center;
+
+  .brandText {
+    font-size: 18px;
     font-weight: bold;
-    color: #FF6347; /* Tomato color for highlight */
-    margin-right: 20px;
-  }
-  
-  /* Navbar Right Side Contact Links */
-  .navbar-nav .nav-item .nav-link {
-    padding-right: 15px;
     color: #333;
-    font-size: 14px;
+  }
+
+  .nav-link {
+    color: #555;
     font-weight: 500;
+    margin: 0 15px;
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+      color: #0073e6;
+    }
   }
-  
-  .navbar-nav .nav-item .nav-link:hover {
-    color: #FF6347;
+
+  .ctaButton {
+    background-color: #ff6347;
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #e5533d;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.3);
+      transition: all 0.4s ease-in-out;
+    }
+
+    &:hover:before {
+      left: 100%;
+    }
   }
-  
-  /* Mobile Responsive Navbar */
+
   @media (max-width: 768px) {
-    .navbar-nav {
-      flex-direction: column;
-      text-align: center;
-    }
-    .navbar-nav .nav-item {
-      margin-bottom: 10px;
-    }
-    .trial-text {
-      margin-top: 10px;
+    .nav-link {
+      margin: 0 10px;
     }
   }
-  
+}
+/* Navigation Links */
+.animatedNavLink {
+  position: relative;
+  color: #074799;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 15px;
+  transition: color 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+
+  &:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #074799;
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+
+  &:hover {
+    color:red;
+    transform: translateY(-3px);
+
+    &:before {
+      width: 100%;
+      left: 0;
+    }
+  }
+
+  &:hover:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(7, 71, 153, 0.1);
+    animation: nav-hover-bg 0.5s ease-in-out;
+  }
+}
+
+@keyframes nav-hover-bg {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 7 Days Free Trial Button */
+.animatedCtaButton {
+  position: relative;
+  background-color: #ff6347;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #e5533d;
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(255, 99, 71, 0.3);
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: left 0.5s ease;
+  }
+
+  &:hover:before {
+    left: 100%;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all 0.6s ease;
+  }
+
+  &:hover:after {
+    width: 200%;
+    height: 200%;
+    opacity: 1;
+  }
+}
