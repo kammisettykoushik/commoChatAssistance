@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { Whatsapp } from "iconsax-react";
 
 const WhatsAppNavigation = () => {
   const dropDownLinks = [
@@ -21,7 +22,7 @@ const WhatsAppNavigation = () => {
         <a className="navbar-brand" href="/">
           <p
             style={{
-              backgroundColor: "#074799",
+              // backgroundColor: "#074799",
               color: "white",
               borderRadius: 5,
               fontSize: 15,
@@ -30,7 +31,11 @@ const WhatsAppNavigation = () => {
               marginTop: 15,
             }}
           >
-            COMMO
+            {/* <Whatsapp size="40" color="#074799"/> */}
+            <Link to="/whatsappmarketing">
+      <Whatsapp size="40" color="#074799" />
+    </Link>
+       
           </p>
         </a>
 

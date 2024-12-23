@@ -4,15 +4,12 @@ import styles from "./WhatsappLandingPage.module.scss";
 const WhatsappLandingPage = () => {
   return (
     <div style={{ padding: "20px" }}>
-      {/* Welcome Message */}
       <div style={{ textAlign: "left", margin: "20px 10%" }}>
         <span style={{ fontSize: "1.2em", fontWeight: "bold" }}>
           Hello, Sneha!
         </span>
         <h6 style={{ margin: "10px 0" }}>Welcome to Team Inbox!</h6>
       </div>
-
-      {/* Message Section */}
       <div className={styles.Testingstyle}>
         <h6>Send your first message to check out Team Inbox</h6>
         <p>

@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
-import servicesData from "./../../utils/data";
+import servicesData from "../../utils/data";
 import styles from "./Services.module.scss";
 
 const Services = () => {

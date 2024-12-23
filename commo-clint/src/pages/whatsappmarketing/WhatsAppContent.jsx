@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ArrowCircleLeft2 } from "iconsax-react";
-import { contentData } from "./../../utils/data";
+import { contentData } from "../../utils/data";
 
 const WhatsAppContent = () => {
   const [selectedContent, setSelectedContent] = useState(contentData[0]);

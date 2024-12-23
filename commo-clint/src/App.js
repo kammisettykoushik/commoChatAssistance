@@ -6,6 +6,11 @@ import WhatsAppNavigation from './pages/whatsappmarketing/WhatsAppNavigation';
 import Contacts from './components/Contact';
 import TeamInbox from './pages/whatsappmarketing/TeamInbox';
 import WhatsappLandingPage from './pages/whatsappmarketing/WhatsappLandingPage';
+import Footer from './components/Footer';
+import WhatsAppMarketing from './pages/whatsappmarketing/whatsappmarketing';
+import EmailMarketing from './pages/emailmarketing/EmailMarketing';
+import ColdCalling from './pages/coldcallingmarketing/ColdCalling';
+import SMS from './pages/smsmarketing/SMS';
 
 function App() {
   const WhatsappMainLayout = () => (
@@ -18,7 +23,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <MainNavbarlist />,
+      element: <MainNavbarlist/>,
     },
     {
       path: '/whatsappmarketing',
@@ -26,23 +31,42 @@ function App() {
       children: [
         {
           path:'',
-          element:<WhatsappLandingPage />,
+          element:<><WhatsappLandingPage /><Footer /></>,
         },
         {
           path: "TeamInbox",
-          element: <TeamInbox />,
+          element:<><TeamInbox /><Footer /></>,
         },
         {
           path: 'Broadcast',
-          element: <TeamInbox />,
+          element:<><TeamInbox /><Footer /></>,
         },
         {
           path: 'contacts',
-          element: <Contacts />,
+          element:<><Contacts /><Footer /></>,
         },
       
       ],
     },
+
+    {
+      path:'/Features/WhatsAppMarketing',
+      element: <WhatsAppMarketing/>
+    },
+
+    {
+      path:'/Features/EmailMarketing',
+      element:<EmailMarketing/>
+    },
+    {
+      path:'/Features/ColdCalling',
+      element:<ColdCalling/>
+    },
+    {
+      path:'/Features/SMS',
+      element:<SMS/>
+    },
+
     // {
     //   path: '/email',
     //   element: <WhatsappMainLayout />,

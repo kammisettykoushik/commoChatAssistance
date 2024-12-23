@@ -7,10 +7,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const TeamInbox = () => {
   return (
     <div>
-      <Clients />
+      {/* <Clients />
       <Services />
       <WhatsAppContent />
-      <Footer />
+      <Footer /> */}
+      <h1>welcome</h1>
     </div>
   );
 };

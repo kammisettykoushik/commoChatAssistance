@@ -2,36 +2,52 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Link } from "react-router-dom";
-import TeamInbox from "../../pages/whatsappmarketing/TeamInbox";
+import { FaWhatsapp, FaEnvelope, FaPhoneAlt, FaSms } from "react-icons/fa"; // Import the icons
+import Clients from "../../pages/ourclints/Client";
+import Services from "../../pages/whatsappmarketing/Services";
+import WhatsAppContent from "../../pages/whatsappmarketing/WhatsAppContent";
+import Footer from "../Footer";
 
 const NavbarScreen = () => {
   const navItems = [
-    { path: "/whatsappmarketing", label: "WhatsApp" },
-    { path: "/email", label: "Email" },
-    { path: "/cold-calling", label: "Cold Calling" },
-    { path: "/sms", label: "SMS" },
+    { path: "/whatsappmarketing", label: "WhatsApp", icon: <FaWhatsapp size={25} color="#074799" /> },
+    { path: "/email", label: "Email", icon: <FaEnvelope size={25} color="#074799" /> },
+    { path: "/cold-calling", label: "Cold Calling", icon: <FaPhoneAlt size={20} color="#074799" /> },
+    { path: "/sms", label: "SMS", icon: <FaSms size={25} color="#074799" /> },
   ];
 
   return (
     <div>
       <nav
         className="navbar navbar-expand-lg sticky-top"
-        style={{ backgroundColor: "whitesmoke" }}
+        style={{
+          backgroundColor: "white",
+          height: "60px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        }}
       >
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            <span
-              className="brand-logo"
-              style={{
-                backgroundColor: "#074799",
-                color: "white",
-                borderRadius: 5,
-                padding: "10px 20px",
-              }}
-            >
-              COMMO
-            </span>
-          </Link>
+          <div className="d-flex align-items-center">
+            <img
+              src="https://cdn.vectorstock.com/i/500p/69/77/logo-c-monogram-modern-letter-mockup-elegant-vector-5246977.jpg"
+              alt="C-Shape"
+              style={{ width: "40px", height: "40px", marginRight: "10px" }}
+            />
+            <Link className="navbar-brand" to="/">
+              <span
+                className="brand-logo"
+                style={{
+                  color: "#074799",
+                  borderRadius: 5,
+                  padding: "10px 20px",
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                }}
+              >
+                COMMO
+              </span>
+            </Link>
+          </div>
           <button
             className="navbar-toggler"
             type="button"
@@ -45,132 +61,69 @@ const NavbarScreen = () => {
           </button>
 
           <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
+            <ul
+              className="navbar-nav mx-auto"
+              style={{ justifyContent: "center", gap: "30px" }}
+            >
               {navItems.map((item, index) => (
                 <li className="nav-item" key={index}>
                   <Link
                     to={item.path}
                     className="nav-link"
-                    style={{ color: "#074799" }}
+                    style={{
+                      color: "#074799",
+                      fontWeight: "bold",
+                      fontSize: "16px",
+                      transition: "transform 0.3s ease, color 0.3s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.color = "red";
+                      e.target.style.transform = "translateY(-3px)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.color = "#074799";
+                      e.target.style.transform = "translateY(0)";
+                    }}
                   >
-                    {item.label}
+                  {item.label}  {item.icon}
                   </Link>
                 </li>
               ))}
-              <div className="navbar-text ms-4">
-                <span style={{ color: "#FF6347", fontWeight: "bold" }}>
-                  7 Days Free Trial
-                </span>
-              </div>
             </ul>
+            <div className="navbar-text ms-auto">
+              <span
+                style={{
+                  color: "white",
+                  backgroundColor: "#074799",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  padding: "10px 20px",
+                  borderRadius: "5px",
+                  transition: "all 0.3s ease-in-out",
+                  cursor: "pointer",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = "red";
+                  e.target.style.color = "white";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = "#074799";
+                  e.target.style.color = "white";
+                }}
+              >
+                7 Days Free Trial
+              </span>
+            </div>
           </div>
         </div>
       </nav>
 
-      <TeamInbox />
+      <Clients />
+      <Services />
+      <WhatsAppContent />
+      <Footer />
     </div>
   );
 };
 
 export default NavbarScreen;
-
-// import React, { useState } from "react";
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import "bootstrap/dist/js/bootstrap.bundle.min.js";
-// import { Link } from "react-router-dom";
-
-// const NavbarScreen = () => {
-//   const [isMainNav, setMainNav] = useState(true);
-//   return (
-//     <nav
-//       className="navbar navbar-expand-lg sticky-top"
-//       style={{ backgroundColor: "whitesmoke" }}
-//     >
-//       <div className="container-fluid">
-//         <a className="navbar-brand" href="/">
-//           <p
-//             style={{
-//               backgroundColor: "#074799",
-//               color: "white",
-//               borderRadius: 5,
-//               fontSize: 15,
-//               padding: "10px 20px",
-//               width: "auto",
-//               marginTop: 10,
-//             }}
-//           >
-//             COMMO
-//           </p>
-//         </a>
-//         <button
-//           className="navbar-toggler"
-//           type="button"
-//           data-bs-toggle="collapse"
-//           data-bs-target="#navbarNav"
-//           aria-controls="navbarNav"
-//           aria-expanded="false"
-//           aria-label="Toggle navigation"
-//         >
-//           <span
-//             className="navbar-toggler-icon"
-//             style={{ color: "#212121" }}
-//           ></span>
-//         </button>
-
-//         {isMainNav ? (
-//           <div className="collapse navbar-collapse" id="navbarNav">
-//             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex justify-content-evenly align-items-center w-100">
-//               <li className="nav-item">
-//                 <Link
-//                   to="/whatsappmarketing"
-//                   className="nav-link"
-//                   target="_blank"
-//                   rel="noopener noreferrer"
-//                   style={{ color: "#074799" }}
-//                 >
-//                   WhatsApp
-//                 </Link>
-//               </li>
-//               <li className="nav-item">
-//                 <a
-//                   className="nav-link"
-//                   href="mailto:your.email@example.com"
-//                   style={{ color: "#074799" }}
-//                 >
-//                   Email
-//                 </a>
-//               </li>
-//               <li className="nav-item">
-//                 <a
-//                   className="nav-link"
-//                   href="tel:+yourphonenumber"
-//                   style={{ color: "#074799" }}
-//                 >
-//                   Cold Calling
-//                 </a>
-//               </li>
-//               <li className="nav-item">
-//                 <a
-//                   className="nav-link"
-//                   href="sms:+yourphonenumber"
-//                   style={{ color: "#074799" }}
-//                 >
-//                   SMS
-//                 </a>
-//               </li>
-//               <div className="navbar-text ms-4">
-//                 <span style={{ color: "#FF6347", fontWeight: "bold" }}>
-//                   7 Days Free Trial
-//                 </span>
-//               </div>
-//             </ul>
-//           </div>
-//         ) : (
-//           <div></div>
-//         )}
-//       </div>
-//     </nav>
-//   );
-// };
-
-// export default NavbarScreen;
