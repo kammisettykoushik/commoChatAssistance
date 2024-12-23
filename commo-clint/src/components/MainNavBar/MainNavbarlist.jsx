@@ -2,6 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Link } from "react-router-dom";
+import TeamInbox from "../../pages/whatsappmarketing/TeamInbox";
 
 const NavbarScreen = () => {
   const navItems = [
@@ -12,58 +13,62 @@ const NavbarScreen = () => {
   ];
 
   return (
-    <nav
-      className="navbar navbar-expand-lg sticky-top"
-      style={{ backgroundColor: "whitesmoke" }}
-    >
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
-          <span
-            className="brand-logo"
-            style={{
-              backgroundColor: "#074799",
-              color: "white",
-              borderRadius: 5,
-              padding: "10px 20px",
-            }}
+    <div>
+      <nav
+        className="navbar navbar-expand-lg sticky-top"
+        style={{ backgroundColor: "whitesmoke" }}
+      >
+        <div className="container-fluid">
+          <Link className="navbar-brand" to="/">
+            <span
+              className="brand-logo"
+              style={{
+                backgroundColor: "#074799",
+                color: "white",
+                borderRadius: 5,
+                padding: "10px 20px",
+              }}
+            >
+              COMMO
+            </span>
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
           >
-            COMMO
-          </span>
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+            <span className="navbar-toggler-icon"></span>
+          </button>
 
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto">
-            {navItems.map((item, index) => (
-              <li className="nav-item" key={index}>
-                <Link
-                  to={item.path}
-                  className="nav-link"
-                  style={{ color: "#074799" }}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-            <div className="navbar-text ms-4">
-              <span style={{ color: "#FF6347", fontWeight: "bold" }}>
-                7 Days Free Trial
-              </span>
-            </div>
-          </ul>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto">
+              {navItems.map((item, index) => (
+                <li className="nav-item" key={index}>
+                  <Link
+                    to={item.path}
+                    className="nav-link"
+                    style={{ color: "#074799" }}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+              <div className="navbar-text ms-4">
+                <span style={{ color: "#FF6347", fontWeight: "bold" }}>
+                  7 Days Free Trial
+                </span>
+              </div>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      <TeamInbox />
+    </div>
   );
 };
 
