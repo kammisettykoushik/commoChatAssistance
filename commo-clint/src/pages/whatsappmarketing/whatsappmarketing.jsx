@@ -190,7 +190,7 @@ const WhatsAppMarketing = () => {
         </button>
       </div>
      <div style={{marginTop:10}}>
-     <DirectFooter/>
+     <DirectFooter />
      </div>
     </div>
   );
