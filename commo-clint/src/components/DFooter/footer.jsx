@@ -25,7 +25,7 @@ const DirectFooter = () => {
       <h1 style={{ margin: "20px 0" }}>Our Case Study</h1>
       <p
         style={{
-          maxWidth: "600px",
+          maxWidth: "800px",
           margin: "0 auto",
           lineHeight: "1.6",
           padding: "10px",
@@ -41,3 +41,15 @@ const DirectFooter = () => {
 };
 
 export default DirectFooter;
+
+
+  {/* <div className="cta-section bg-dark text-white text-center py-5">
+        <div className="container">
+          <h2 className="mb-3">Ready to Boost Your Business?</h2>
+          <p className="lead">
+            Join thousands of businesses using our email marketing tools to
+            achieve their goals.
+          </p>
+          <button className="btn btn-warning btn-lg">Start Now</button>
+        </div>
+      </div> */}
