@@ -105,32 +105,30 @@ const WhatsAppMarketing = () => {
         </div>
       </div>
 
-
-
       <div className="container py-4">
-        <h1 className="mb-4" style={{ fontFamily: 'Arial, sans-serif',backgroundColor:'#ff156a',width:'55%',color:'white',padding:10}}>
+        <h1 className="mb-4" style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#ff156a', width: '55%', color: 'white', padding: 10 }}>
           Benefits Of WhatsApp Marketing
         </h1>
 
         <div className="row d-flex align-items-center">
-        <div className="col-12 col-md-6 mb-4" style={{ textAlign: 'justify', maxWidth: '800px' }}>
+          <div className="col-12 col-md-6 mb-4" style={{ textAlign: 'justify', maxWidth: '800px' }}>
             <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-            WhatsApp Marketing has the advantage of gaining immediate responses or input from clients when compared to other online marketing channels.
+              WhatsApp Marketing has the advantage of gaining immediate responses or input from clients when compared to other online marketing channels.
             </p>
             <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-            With the help of WhatsApp marketing, business owners or whatsapp bulk message sender can conduct rapid polls and surveys to better assess the level of interest in their goods and services.
+              With the help of WhatsApp marketing, business owners or whatsapp bulk message sender can conduct rapid polls and surveys to better assess the level of interest in their goods and services.
             </p>
             <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-            One of the main benefits of WhatsApp marketing for internet marketers is the ability to communicate directly with potential consumers.
+              One of the main benefits of WhatsApp marketing for internet marketers is the ability to communicate directly with potential consumers.
             </p>
             <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-            With bulk WhatsApp marketing, you may send messages to DND numbers and it works with all gadgets.
+              With bulk WhatsApp marketing, you may send messages to DND numbers and it works with all gadgets.
             </p>
             <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-            Through a variety of online service providers, one can automate the process of sending WhatsApp messages to potential consumers.
+              Through a variety of online service providers, one can automate the process of sending WhatsApp messages to potential consumers.
             </p>
             <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-            Businesses can utilise bulk WhatsApp marketing, like any other marketing approach, as a benefit to boost sales by creating potential leads for the company, and that too at minimal cost and higher response rates than any other medium.
+              Businesses can utilise bulk WhatsApp marketing, like any other marketing approach, as a benefit to boost sales by creating potential leads for the company, and that too at minimal cost and higher response rates than any other medium.
             </p>
           </div>
 
@@ -169,7 +167,7 @@ const WhatsAppMarketing = () => {
       </div>
 
 
-      <div
+      {/* <div
         className="text-center py-5"
         style={{ backgroundColor: "#eaf9ea", color: "#000" }}
       >
@@ -188,10 +186,10 @@ const WhatsAppMarketing = () => {
         >
           Contact Us
         </button>
+      </div> */}
+      <div style={{ marginTop: 10 }}>
+        <DirectFooter />
       </div>
-     <div style={{marginTop:10}}>
-     <DirectFooter />
-     </div>
     </div>
   );
 };
