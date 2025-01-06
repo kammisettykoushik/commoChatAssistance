@@ -8,7 +8,7 @@ import TeamInbox from './pages/whatsappmarketing/TeamInbox';
 import WhatsappLandingPage from './pages/whatsappmarketing/WhatsappLandingPage';
 import Footer from './components/Footer';
 import WhatsAppMarketing from './pages/whatsappmarketing/whatsappmarketing';
-import EmailMarketing from './pages/emailmarketing/EmailMarketing';
+import EmailMarketing from './pages/emailmarketing/Emailmarketing';
 import ColdCalling from './pages/coldcallingmarketing/ColdCalling';
 import SMS from './pages/smsmarketing/SMS';
 
