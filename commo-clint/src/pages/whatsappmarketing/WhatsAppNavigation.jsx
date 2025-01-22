@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -6,12 +6,12 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Whatsapp } from "iconsax-react";
 
 const WhatsAppNavigation = () => {
-  const dropDownLinks = [
-    { label: "WhatsApp Marketing", path: "/Features/WhatsAppMarketing" },
-    { label: "EmailMarketing", path: "/Features/EmailMarketing" },
-    { label: "ColdCalling", path: "/Features/ColdCalling" },
-    { label: "SMS", path: "/Features/SMS" },
-  ];
+  // const dropDownLinks = [
+  //   { label: "WhatsApp Marketing", path: "/Features/WhatsAppMarketing" },
+  //   { label: "EmailMarketing", path: "/Features/EmailMarketing" },
+  //   { label: "ColdCalling", path: "/Features/ColdCalling" },
+  //   { label: "SMS", path: "/Features/SMS" },
+  // ];
   return (
     <nav
       className="navbar navbar-expand-lg sticky-top"
@@ -33,9 +33,9 @@ const WhatsAppNavigation = () => {
           >
             {/* <Whatsapp size="40" color="#074799"/> */}
             <Link to="/whatsappmarketing">
-      <Whatsapp size="40" color="#074799" />
-    </Link>
-       
+              <Whatsapp size="40" color="#074799" />
+            </Link>
+
           </p>
         </a>
 
@@ -68,18 +68,9 @@ const WhatsAppNavigation = () => {
                 Team Inbox
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                to={"/whatsappmarketing/Broadcast"}
-                className="nav-link"
-                style={{ color: "#074799" }}
-              >
-                Broadcast
-              </Link>
-            </li>
-
+           
             {/* Features with Dropdown */}
-            <li className="nav-item dropdown">
+            {/* <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
                 href="#"
@@ -89,7 +80,7 @@ const WhatsAppNavigation = () => {
                 aria-expanded="false"
                 style={{ color: "#074799" }}
               >
-                Features
+                Message Templates
               </a>
               <ul className="dropdown-menu" aria-labelledby="featuresDropdown">
                 {dropDownLinks.map((links, index) => {
@@ -106,6 +97,34 @@ const WhatsAppNavigation = () => {
                   );
                 })}
               </ul>
+            </li> */}
+            <li className="nav-item">
+              <Link
+                to={"/whatsappmarketing/Templates"}
+                className="nav-link"
+                style={{ color: "#074799" }}
+              >
+                Message Templates
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to={"/whatsappmarketing/BroadCast"}
+                className="nav-link"
+                style={{ color: "#074799" }}
+              >
+                Broadcast
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link
+                to={"/whatsappmarketing/Automations"}
+                className="nav-link"
+                style={{ color: "#074799" }}
+              >
+                Automations
+              </Link>
             </li>
 
             <li className="nav-item">
