@@ -8,10 +8,11 @@ const Automations = () => {
       id: 1,
       question: "Do you want to enable auto-replies during non-working hours?",
       options: [
-        "Always enabled",
-        "Enabled on holidays",
-        "Disabled during holidays",
-        "Never enabled",
+        "Text",
+        "Image",
+        "Chat Box",
+        "Template",
+        "Sticker"
       ],
       answer: "",
       isChecked: false,
@@ -20,9 +21,11 @@ const Automations = () => {
       id: 2,
       question: "Should notifications be turned off during working hours?",
       options: [
-        "Yes, all notifications off",
-        "Only critical notifications",
-        "No, keep all notifications",
+        "Text",
+        "Image",
+        "Chat Box",
+        "Template",
+        "Sticker"
       ],
       answer: "",
       isChecked: false,
@@ -31,10 +34,11 @@ const Automations = () => {
       id: 3,
       question: "Do you want to enable custom greetings on your website?",
       options: [
-        "Greeting for all users",
-        "Greeting for new users only",
-        "Greeting for premium users only",
-        "No custom greetings",
+        "Text",
+        "Image",
+        "Chat Box",
+        "Template",
+        "Sticker"
       ],
       answer: "",
       isChecked: false,
@@ -48,7 +52,11 @@ const Automations = () => {
       )
     );
   };
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
 
+  const toggleDropdown = () => {
+    setDropdownVisible(!isDropdownVisible);
+  };
   const handleSubmit = () => {
     console.log("Form Submitted!");
     console.log(questions); // Log all selected answers for debugging or processing
@@ -60,18 +68,37 @@ const Automations = () => {
 
       {/* Dropdown for working hours */}
       <div style={{ marginBottom: "20px" }}>
-        <label htmlFor="working-hours" style={{marginLeft:10}}><b>Set Working Hours:</b> </label>
-        <select
-          id="working-hours"
-          value={workingHours}
-          onChange={(e) => setWorkingHours(e.target.value)}
-          style={{ width: "200px", padding: "5px" }}
-        >
-          <option value="9:00 AM - 5:00 PM">9:00 AM - 5:00 PM</option>
-          <option value="10:00 AM - 6:00 PM">10:00 AM - 6:00 PM</option>
-          <option value="11:00 AM - 7:00 PM">11:00 AM - 7:00 PM</option>
-          <option value="12:00 PM - 8:00 PM">12:00 PM - 8:00 PM</option>
-        </select>
+        <label htmlFor="working-hours" style={{ marginLeft: 10 }}>
+          <b>Current Working Hours:</b>
+        </label>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <button onClick={toggleDropdown} style={{ backgroundColor: '#1743b3', padding: 5, color: 'white', border: 'none', borderRadius: 5, marginLeft: 10 }}>Set Working Hours</button>
+          {isDropdownVisible && (
+            <div
+              style={{
+                position: 'absolute',
+                backgroundColor: '#f9f9f9',
+                minWidth: '160px',
+                boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)',
+                zIndex: 1,
+                marginTop: '10px',
+              }}
+            >
+              <div style={{ padding: 10 }}>
+                <div style={{ display: 'flex', marginBottom: '10px' }}>
+                  <label htmlFor="day" style={{ marginRight: '10px' }}><b>Day:</b></label>
+                  <input type="text" id="day" />
+                </div>
+
+                <div style={{ display: 'flex', marginBottom: '10px' }}>
+                  <label htmlFor="time" style={{ marginRight: '10px' }}><b>Time:</b></label>
+                  <input type="text" id="time" />
+                </div>
+              </div>
+
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Questions with answers as dropdowns */}
@@ -82,7 +109,7 @@ const Automations = () => {
             style={{
               marginBottom: "15px",
               padding: "10px",
-            //   border: "1px solid #ddd",
+              //   border: "1px solid #ddd",
               borderRadius: "5px",
             }}
           >
@@ -138,7 +165,7 @@ const Automations = () => {
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
-            marginLeft:'80%'
+            marginLeft: '80%'
           }}
         >
           Submit
