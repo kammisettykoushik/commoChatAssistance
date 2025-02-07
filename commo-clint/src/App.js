@@ -2,6 +2,7 @@ import './App.css';
 import MainNavbarlist from './components/MainNavBar/MainNavbarlist';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import WhatsAppNavigation from './pages/whatsappmarketing/WhatsAppNavigation';
+import ChildNavigatin from './components/MainNavBar/ChildNavigatin';
 
 import Contacts from './components/Contact';
 import TeamInbox from './pages/whatsappmarketing/TeamInbox';
@@ -17,11 +18,30 @@ import BroadCast from './pages/whatsappmarketing/BroadCast';
 import Preview from './pages/whatsappmarketing/Templates/CreateTemplate/Preview';
 import SavedPreview from './pages/whatsappmarketing/Templates/CreateTemplate/SavedPreview';
 import SelectTemplate from './pages/whatsappmarketing/Templates/CreateTemplate/SelectTemplate';
+import {whatsappmarketingNavigation,emailMarketingNavigation,coldCallingMarketingNavigation, smsMarketingNavigation} from './utils/data';
+import AutomationsScreen from './pages/emailmarketing/AutomationsScreen';
+import Overview from './pages/emailmarketing/Overview';
+import Campaigns from './pages/emailmarketing/Campaigns';
+import ContactPage from './pages/emailmarketing/ContactPage';
+import CampaignsScreen from './pages/coldcallingmarketing/CampaignsScreen';
+import Contactslist from './pages/coldcallingmarketing/Contactslist';
+import Dashboard from './pages/coldcallingmarketing/Dashboard';
+import History from './pages/coldcallingmarketing/History';
+import Dashboardsms from './pages/smsmarketing/Dashboardsms';
+import Message from './pages/smsmarketing/Message';
+import Automationssms from './pages/smsmarketing/Automationssms';
+import Contactsms from './pages/smsmarketing/Contactsms';
+import SmsSender from './pages/smsmarketing/SmsSender';
+import NewCampaign from './pages/emailmarketing/NewCampaign';
+
 
 function App() {
-  const WhatsappMainLayout = () => (
+ 
+  const ChildNavigationMainLayout = (prop) => 
+ 
+    (
     <>
-      <WhatsAppNavigation />
+      <ChildNavigatin data={prop?.data} icon={prop?.icon} />
       <Outlet />
     </>
   );
@@ -33,7 +53,7 @@ function App() {
     },
     {
       path: '/whatsappmarketing',
-      element: <WhatsappMainLayout />,
+      element: <ChildNavigationMainLayout data={whatsappmarketingNavigation}/>,
       children: [
         {
           path:'',
@@ -79,20 +99,94 @@ function App() {
 
     {
       path:'/Features/WhatsAppMarketing',
-      element: <WhatsAppMarketing/>
+      element: <WhatsAppMarketing/>,
     },
 
     {
-      path:'/Features/EmailMarketing',
-      element:<EmailMarketing/>
+      path:'/EmailMarketing',
+      element:<ChildNavigationMainLayout data={emailMarketingNavigation} />,
+      children:[
+        {
+          path:'',
+          element:<WhatsappLandingPage/>
+        },
+        {
+          path: "AutomationsScreen",
+          element:<><AutomationsScreen /><Footer /></>,
+        },
+        {
+          path: "Campaigns",
+          element:<><Campaigns /><Footer /></>,
+        },
+        {
+          path: "ContactPage",
+          element:<><ContactPage /><Footer /></>,
+        },
+        {
+          path: "Overview",
+          element:<><Overview /><Footer /></>,
+        },
+        {
+          path: "Campaigns/NewCampaign",
+          element:<><NewCampaign /><Footer /></>,
+        },
+      ]
     },
     {
-      path:'/Features/ColdCalling',
-      element:<ColdCalling/>
+      path:'/Coldcallingmarketing',
+      element:<ChildNavigationMainLayout data={coldCallingMarketingNavigation}/>,
+      children:[
+        {
+          path:'',
+          element:<WhatsappLandingPage/>
+        },
+        {
+          path: "CampaignsScreen",
+          element:<><CampaignsScreen /><Footer /></>,
+        },
+        {
+          path: "Contactslist",
+          element:<><Contactslist /><Footer /></>,
+        },
+        {
+          path: "Dashboard",
+          element:<><Dashboard /><Footer /></>,
+        },
+        {
+          path: "History",
+          element:<><History /><Footer /></>,
+        },
+      ]
     },
     {
-      path:'/Features/SMS',
-      element:<SMS/>
+      path:'/smsMarketing',
+      element:<ChildNavigationMainLayout data={smsMarketingNavigation}/>,
+      children:[
+        {
+          path:'',
+          element:<WhatsappLandingPage/>
+        },
+        {
+          path: "Contactsms",
+          element:<><Contactsms/><Footer /></>,
+        },
+        {
+          path: "SmsSender",
+          element:<><SmsSender /><Footer /></>,
+        },
+        {
+          path: "Message",
+          element:<><Message /><Footer /></>,
+        },
+        {
+          path: "Automationssms",
+          element:<><Automationssms /><Footer /></>,
+        },
+        {
+          path: "Dashboard",
+          element:<><Dashboard /><Footer /></>,
+        },
+      ]
     },
 
     

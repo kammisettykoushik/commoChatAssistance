@@ -1,4 +1,5 @@
 import { Whatsapp, CallCalling, SmsNotification } from "iconsax-react";
+import { FaEnvelope,FaPhoneAlt,FaSms } from "react-icons/fa";
 import email from "./../assets/images/email.png";
  const servicesData = [
     {
@@ -84,4 +85,53 @@ import email from "./../assets/images/email.png";
       },
     ];
 
-    export {contentData}
+    const whatsappmarketingNavigation = {
+      path:"/whatsappmarketing",
+      icon:  <Whatsapp size="40" color="#074799" />,
+      navigationLinks:[
+        { label: "Team Inbox", path: "/whatsappmarketing/TeamInbox"},
+        { label: "Message Templates", path: "/whatsappmarketing/Templates" },
+        { label: "Broadcast", path: "/whatsappmarketing/BroadCast" },
+        { label: "Automations", path: "/whatsappmarketing/Automations" },
+        { label: "Contacts", path: "/whatsappmarketing/Contacts" },
+      ]
+    }
+    const emailMarketingNavigation = {
+      path:"/emailmarketing",
+      icon:  <FaEnvelope size={25} color="#074799" />,
+      navigationLinks:[
+        { label: "Overview", path: "/emailmarketing/Overview"},
+        { label: "ContactPage", path: "/emailmarketing/ContactPage" },
+        { label: "Campaigns", path: "/emailmarketing/Campaigns" },
+        { label: "Automations", path: "/emailmarketing/AutomationsScreen" },
+      ]
+    }
+    const coldCallingMarketingNavigation = {
+      path:"/coldcallingmarketing",
+      icon: <FaPhoneAlt size={20} color="#074799" />,
+      navigationLinks:[
+        { label: "Contacts", path: "/coldcallingmarketing/Contactslist"},
+        { label: "Campaigns", path: "/coldcallingmarketing/CampaignsScreen" },
+        { label: "History", path: "/coldcallingmarketing/History" },
+        { label: "Dashboard", path: "/coldcallingmarketing/Dashboard" },
+      ]
+    }
+    const smsMarketingNavigation = {
+      path:"/smsmarketing",
+      icon:<FaSms size={25} color="#074799" />,
+      navigationLinks:[
+        { label: "Contacts", path: "/smsmarketing/Contactsms"},
+        { label: "SMS Sender", path: "/smsmarketing/SmsSender" },
+        { label: "Message", path: "/smsmarketing/Message" },
+        { label: "Automations", path: "/smsmarketing/Automationssms" },
+        { label: "Dashboard", path: "/smsmarketing/Dashboard" },
+      ]
+    }
+ 
+    export {whatsappmarketingNavigation,emailMarketingNavigation,coldCallingMarketingNavigation,contentData,smsMarketingNavigation}
+
+
+
+
+
+    // export {contentData}

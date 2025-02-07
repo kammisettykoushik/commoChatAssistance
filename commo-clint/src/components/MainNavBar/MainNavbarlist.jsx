@@ -11,9 +11,9 @@ import Footer from "../Footer";
 const NavbarScreen = () => {
   const navItems = [
     { path: "/whatsappmarketing", label: "WhatsApp", icon: <FaWhatsapp size={25} color="#074799" /> },
-    { path: "/email", label: "Email", icon: <FaEnvelope size={25} color="#074799" /> },
-    { path: "/cold-calling", label: "Cold Calling", icon: <FaPhoneAlt size={20} color="#074799" /> },
-    { path: "/sms", label: "SMS", icon: <FaSms size={25} color="#074799" /> },
+    { path: "/Emailmarketing", label: "Email", icon: <FaEnvelope size={25} color="#074799" /> },
+    { path: "/coldcallingmarketing", label: "Cold Calling", icon: <FaPhoneAlt size={20} color="#074799" /> },
+    { path: "/smsMarketing", label: "SMS", icon: <FaSms size={25} color="#074799" /> },
   ];
 
   return (

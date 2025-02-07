@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-// import "./Automations.css"; // Optional for additional styling
-
 const Automations = () => {
   const [workingHours, setWorkingHours] = useState("9:00 AM - 5:00 PM");
   const [questions, setQuestions] = useState([
@@ -59,14 +57,11 @@ const Automations = () => {
   };
   const handleSubmit = () => {
     console.log("Form Submitted!");
-    console.log(questions); // Log all selected answers for debugging or processing
+    console.log(questions);
   };
 
   return (
     <div style={{ padding: "20px" }}>
-      {/* <h2>Automations</h2> */}
-
-      {/* Dropdown for working hours */}
       <div style={{ marginBottom: "20px" }}>
         <label htmlFor="working-hours" style={{ marginLeft: 10 }}>
           <b>Current Working Hours:</b>
@@ -101,7 +96,7 @@ const Automations = () => {
         </div>
       </div>
 
-      {/* Questions with answers as dropdowns */}
+
       <div>
         {questions.map((q) => (
           <div
@@ -109,7 +104,6 @@ const Automations = () => {
             style={{
               marginBottom: "15px",
               padding: "10px",
-              //   border: "1px solid #ddd",
               borderRadius: "5px",
             }}
           >
@@ -140,7 +134,7 @@ const Automations = () => {
                 marginTop: "10px",
                 width: "100%",
                 padding: "5px",
-                maxWidth: "300px", // Reduced width for dropdown
+                maxWidth: "300px",
               }}
             >
               <option value="">Select an option</option>
@@ -154,7 +148,7 @@ const Automations = () => {
         ))}
       </div>
 
-      {/* Submit Button */}
+
       <div style={{ textAlign: "center", marginTop: "20px" }}>
         <button
           onClick={handleSubmit}
@@ -176,3 +170,7 @@ const Automations = () => {
 };
 
 export default Automations;
+
+
+
+

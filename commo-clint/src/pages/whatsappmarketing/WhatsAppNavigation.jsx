@@ -6,12 +6,6 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Whatsapp } from "iconsax-react";
 
 const WhatsAppNavigation = () => {
-  // const dropDownLinks = [
-  //   { label: "WhatsApp Marketing", path: "/Features/WhatsAppMarketing" },
-  //   { label: "EmailMarketing", path: "/Features/EmailMarketing" },
-  //   { label: "ColdCalling", path: "/Features/ColdCalling" },
-  //   { label: "SMS", path: "/Features/SMS" },
-  // ];
   return (
     <nav
       className="navbar navbar-expand-lg sticky-top"
