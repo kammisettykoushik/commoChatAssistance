@@ -1,5 +1,5 @@
 const express = require('express');
-const User = require('../models/whatsappmarketing/user');
+const User = require('../../models/whatsappmarketing/user');
 
 const router = express.Router();
 
