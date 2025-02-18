@@ -109,7 +109,6 @@ const EmailMarketing = () => {
         </div>
       </div>
 
-      {/* Footer Section */}
       <DirectFooter />
     </div>
   );

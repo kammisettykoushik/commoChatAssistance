@@ -102,6 +102,16 @@ const Preview = () => {
           </div>
 
           <div className="mb-3 d-flex flex-column w-100">
+            <label className="form-label">Upload Media</label>
+            <input
+              type="file"
+              className="form-control"
+              accept={mediaType === "Image" ? "image/*" : "video/*"}
+              onChange={(e) => setMediaFile(e.target.files[0])}
+            />
+          </div>
+
+          <div className="mb-3 d-flex flex-column w-100">
             <label className="form-label">Select Media Shape</label>
             <select
               className="form-select"
@@ -116,16 +126,12 @@ const Preview = () => {
               <option value="Diamond">Diamond</option>
             </select>
           </div>
-
-          <div className="mb-3 d-flex flex-column w-100">
-            <label className="form-label">Upload Media</label>
-            <input
-              type="file"
-              className="form-control"
-              accept={mediaType === "Image" ? "image/*" : "video/*"}
-              onChange={(e) => setMediaFile(e.target.files[0])}
-            />
+  <label htmlFor="Contacts">Contacts</label>
+          <div className="border p-2 rounded">
+          
+          <input type="file" id="fileInput" accept="image/*, application/pdf"/> 
           </div>
+
 
           <div className="mb-3 d-flex flex-column w-100">
             <label className="form-label">Body</label>
