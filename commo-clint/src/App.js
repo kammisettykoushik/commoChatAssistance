@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import WhatsAppNavigation from './pages/whatsappmarketing/WhatsAppNavigation';
 import ChildNavigatin from './components/MainNavBar/ChildNavigatin';
 
-import Contacts from './components/Contact';
+import Contacts from './pages/whatsappmarketing/Contact';
 import TeamInbox from './pages/whatsappmarketing/TeamInbox';
 import WhatsappLandingPage from './pages/whatsappmarketing/WhatsappLandingPage';
 import WhatsAppMarketing from './pages/whatsappmarketing/whatsappmarketing';
@@ -35,7 +35,8 @@ import SmsSender from './pages/smsmarketing/SmsSender';
 import NewCampaign from './pages/emailmarketing/NewCampaign';
 import DesignCampaign from './pages/emailmarketing/DesignCampaign';
 import DesignPreviewScreen from './pages/emailmarketing/DesignPreviewScreen';
-import BroadCastDetailsScreens from './pages/whatsappmarketing/BroadCastDetails'
+import BroadCastDetailsScreens from './pages/whatsappmarketing/BroadCastDetails';
+import Contact from './pages/whatsappmarketing/Contact';
 
 function App() {
 
