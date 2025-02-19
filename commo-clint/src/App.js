@@ -35,7 +35,7 @@ import SmsSender from './pages/smsmarketing/SmsSender';
 import NewCampaign from './pages/emailmarketing/NewCampaign';
 import DesignCampaign from './pages/emailmarketing/DesignCampaign';
 import DesignPreviewScreen from './pages/emailmarketing/DesignPreviewScreen';
-
+import BroadCastDetailsScreens from './pages/whatsappmarketing/BroadCastDetails'
 
 function App() {
 
@@ -47,7 +47,16 @@ function App() {
       <Outlet />
     </>
   );
-
+  const BroadCas = () => {
+    return (
+      <>
+        <h1><><BroadCast /></></h1>
+        <Outlet /> {/* This is required for nested routes */}
+        <Footer />
+      </>
+    );
+  };
+  
   const router = createBrowserRouter([
     {
       path: '/',
@@ -67,8 +76,19 @@ function App() {
         },
         {
           path: 'BroadCast',
-          element: <><BroadCast /><Footer /></>,
+          element: <BroadCas/>,
+          children:[
+            {
+              path:"BroadCastDetailsScreen",
+              element:<BroadCastDetailsScreens />
+            }
+          ]
         },
+        // {
+        //   path: 'BroadCastDetailsScreen',
+        //   element: <><BroadCastDetailsScreens /><Footer /></>,
+        // },
+        
         {
           path: 'Templates',
           element: <><Templates /><Footer /></>,
