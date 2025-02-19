@@ -38,6 +38,7 @@ import DesignPreviewScreen from './pages/emailmarketing/DesignPreviewScreen';
 import BroadCastDetailsScreens from './pages/whatsappmarketing/BroadCastDetails';
 import Contact from './pages/whatsappmarketing/Contact';
 
+
 function App() {
 
   const ChildNavigationMainLayout = (prop) =>
