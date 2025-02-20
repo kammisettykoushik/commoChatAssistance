@@ -20,4 +20,12 @@ const testConnection = async () => {
   
   testConnection();
   
+// Sync the database schema (with force: true to recreate the tables)
+// Caution: This will drop the existing tables and recreate them, losing any data!
+// sequelize.sync({ force: true }).then(() => {
+//   console.log('Database synced successfully.');
+// }).catch(err => {
+//   console.error('Error syncing the database:', err);
+// });
+
   module.exports = sequelize;
