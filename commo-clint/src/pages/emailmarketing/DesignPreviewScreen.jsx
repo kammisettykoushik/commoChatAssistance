@@ -48,7 +48,7 @@ const DesignPreviewScreen = () => {
                             </div>
                             <p><strong>Campaign Name:</strong> {campaign.name || 'No name entered'}</p>
                             <p><strong>Folders:</strong> {campaign.folders || 'No folders assigned'}</p>
-                            <p><strong>From:</strong> {campaign.owners || 'No owners assigned'} | <strong>To:</strong> {campaign.tags || 'No tags added'}</p>
+                            {/* <p><strong>From:</strong> {campaign.owners || 'No owners assigned'} | <strong>To:</strong> {campaign.tags || 'No tags added'}</p> */}
                             <h5 style={{ margin: '0' }}>{campaign.subject || 'Email Subject'}</h5>
                             <div className="email-body" style={{ marginTop: '20px', padding: '15px', backgroundColor: '#F8F9FA', borderRadius: '5px' }}>
                                 <p>{campaign.content || 'No content available.'}</p>

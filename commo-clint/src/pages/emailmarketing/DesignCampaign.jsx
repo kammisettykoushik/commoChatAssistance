@@ -173,7 +173,7 @@ const DesignCampaign = () => {
                     </div>
                 </div>
 
-                <div className="card shadow-lg border" style={{ width: '48%', height: '600px' }}>
+                <div className="card shadow-lg border mb-2" style={{ width: '48%', height: 'auto' }}>
                     <div className="card-body">
                         <h5 className="fw-bold mb-3" style={{ fontSize: '1.5rem' }}>Preview Email</h5>
                         <p><strong>Campaign Name:</strong> {name || 'No name entered'}</p>
