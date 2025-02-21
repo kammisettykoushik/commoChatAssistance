@@ -5,21 +5,24 @@ import { ArrowRight2 } from 'iconsax-react';
 
 const DesignPreviewScreen = () => {
     const navigate = useNavigate();
-    
+
     const [campaigns, setCampaigns] = useState([]);
+    const [file, setFile] = useState(null);
+    const [excelData, setExcelData] = useState([]);
 
     useEffect(() => {
-        // Load saved campaigns from localStorage
         const savedCampaigns = JSON.parse(localStorage.getItem('campaigns')) || [];
         setCampaigns(savedCampaigns);
+console.log(savedCampaigns)
+        const savedFile = JSON.parse(localStorage.getItem('uploadedFile'));
+        if (savedFile) {
+            setFile(savedFile);
+        }
     }, []);
 
     const handleDelete = (id) => {
-        // Remove the campaign with the given ID
         const updatedCampaigns = campaigns.filter(campaign => campaign.id !== id);
         setCampaigns(updatedCampaigns);
-
-        // Update localStorage with the new campaign list
         localStorage.setItem('campaigns', JSON.stringify(updatedCampaigns));
     };
 
@@ -27,16 +30,27 @@ const DesignPreviewScreen = () => {
         navigate(-1);
     };
 
+    const handleFileUpload = (event) => {
+        const uploadedFile = event.target.files[0];
+        setFile(uploadedFile);
+        localStorage.setItem('uploadedFile', JSON.stringify(uploadedFile));
+    };
+
     return (
         <div className="container mt-4 mb-4">
             <div className="d-flex gap-4 align-items-center mb-4">
                 <button className="btn " onClick={handleBack}>
-                    <ArrowRight2 size="32" color="blue" variant="Bold"/>
+                    <ArrowRight2 size="32" color="blue" variant="Bold" />
                 </button>
                 <h4 className="fw-bold">Campaign Preview</h4>
             </div>
 
-            {campaigns.length > 0 ? (
+            {/* <input type="file" onChange={handleFileUpload} className="form-control mb-3" /> */}
+
+
+
+          <div style={{display:'flex'}}>
+          {campaigns.length > 0 ? (
                 campaigns.map((campaign) => (
                     <div key={campaign.id} className="card shadow-lg border mb-4 " style={{ maxWidth: '600px', margin: 'auto' }}>
                         <div className="card-body">
@@ -46,62 +60,23 @@ const DesignPreviewScreen = () => {
                                     <FaTrashAlt />
                                 </button>
                             </div>
-                            
-                            {/* Campaign Information */}
+
                             <p><strong>Campaign Name:</strong> {campaign.name || 'No name entered'}</p>
                             <p><strong>From:</strong> {campaign.owners || 'No owners assigned'} | <strong>To:</strong> {campaign.tags || 'No tags added'}</p>
-                            
-                            {/* Subject */}
                             <h5 style={{ margin: '0' }}>{campaign.subject || 'Email Subject'}</h5>
-
-                            {/* File Preview (if any file exists) */}
-                            {campaign.file && (
+                            {/* {file && ( */}
                                 <div className="file-preview" style={{ marginTop: '30px' }}>
-                                    <p><strong>Uploaded File:</strong> {campaign.file.name}</p>
-
-                                    {/* Excel preview logic */}
-                                    {campaign.excelData && campaign.excelData.length > 0 && (
-                                        <div style={{ marginTop: '20px' }}>
-                                            {/* Uncomment to display Excel preview */}
-                                            {/* <strong>Excel Preview:</strong>
-                                            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                                                <thead>
-                                                    <tr>
-                                                        {Object.keys(campaign.excelData[0]).map((key) => (
-                                                            <th key={key} style={{ border: '1px solid #ccc', padding: '5px' }}>
-                                                                {key}
-                                                            </th>
-                                                        ))}
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {campaign.excelData.slice(0, 3).map((row, index) => (
-                                                        <tr key={index}>
-                                                            {Object.values(row).map((value, i) => (
-                                                                <td key={i} style={{ border: '1px solid #ccc', padding: '5px' }}>
-                                                                    {value}
-                                                                </td>
-                                                            ))}
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table> */}
-                                        </div>
-                                    )}
+                                    <p><strong>Uploaded File:</strong> {campaign?.files?.fileName || 'no files added'}</p>
                                 </div>
-                            )}
-
-                            {/* Email Body Content */}
+                            {/* )} */}
                             <div className="email-body" style={{ marginTop: '20px', padding: '15px', backgroundColor: '#F8F9FA', borderRadius: '5px' }}>
                                 <p>{campaign.content || 'No content available.'}</p>
                             </div>
 
-                            {/* Email Headers */}
                             <div className="email-headers" style={{ marginTop: '20px', fontSize: '12px', color: '#777' }}>
                                 <strong>Headers:</strong> {campaign.headers || 'No headers'}
                             </div>
 
-                            {/* Footer */}
                             <div className="email-footer" style={{ marginTop: '30px', padding: '15px', fontSize: '12px', color: '#777', borderTop: '1px solid #ddd' }}>
                                 <p><strong>Footer:</strong> {campaign.footer || 'No footer'}</p>
                             </div>
@@ -113,6 +88,7 @@ const DesignPreviewScreen = () => {
                     No campaigns available. Please create a new campaign.
                 </div>
             )}
+          </div>
         </div>
     );
 };

@@ -14,6 +14,7 @@ const DesignCampaign = () => {
     const [footer, setFooter] = useState('');
     const [savedData, setSavedData] = useState(null);
     const [file, setFile] = useState(null);
+    const [files, setFiles]= useState(null);
     const [excelData, setExcelData] = useState([]); // New state for storing parsed Excel data
 
     const navigate = useNavigate();
@@ -30,11 +31,13 @@ const DesignCampaign = () => {
             setContent(savedCampaignData.content || '');
             setHeaders(savedCampaignData.headers || '');
             setFooter(savedCampaignData.footer || '');
+            setFiles(savedCampaignData.files || '');
         }
     }, []);
 
     const handleFileChange = (event) => {
         const uploadedFile = event.target.files[0];
+      console.log(event)
         setFile(uploadedFile); // Set the file to display the name
 
         if (uploadedFile) {
@@ -69,6 +72,7 @@ const DesignCampaign = () => {
             tags,
             owners,
             subject,
+            files,
             content,
             headers,
             footer,
@@ -89,6 +93,7 @@ const DesignCampaign = () => {
         setOwners('');
         setSubject('');
         setContent('');
+        setFiles('');
         setHeaders('');
         setFooter('');
         localStorage.removeItem('campaignData');
@@ -136,6 +141,16 @@ const DesignCampaign = () => {
                                 />
                             </div>
                         </div>
+                        <div className="mb-3">
+                            <label className="form-label">subject</label>
+                            <input
+                                value={subject || ''}
+                                onChange={(e) =>setSubject(e.target.value)}
+                                style={{ width: '100%', padding: '5px' }}
+                                type="text"
+                                className="form-control"
+                            />
+                        </div>
                         {/* More Inputs */}
                         <div className="mb-2">
                             <label htmlFor="Contacts">Contacts</label>
@@ -144,7 +159,10 @@ const DesignCampaign = () => {
                                     type="file"
                                     id="fileInput"
                                     accept=".xls,.xlsx" // Only allows Excel files
-                                    onChange={handleFileChange} // Add the file change handler here
+                                    // onChange={handleFileChange} // Add the file change handler here
+                                    onChange={(ev)=>{
+                                        setFiles({fileName:ev.target.files[0]['name'],file:ev.target.value});
+                                        handleFileChange(ev)}}
                                 />
                             </div>
                         </div>
@@ -155,7 +173,7 @@ const DesignCampaign = () => {
                             <input
                                 value={content || ''}
                                 onChange={(e) => setContent(e.target.value)}
-                                style={{ fontSize: '1.2rem', width: '100%', padding: '5px' }}
+                                style={{ width: '100%', padding: '5px' }}
                                 type="text"
                                 className="form-control"
                             />
@@ -199,29 +217,7 @@ const DesignCampaign = () => {
                                     {/* Display Excel preview */}
                                     {excelData.length > 0 && (
                                         <div style={{ marginTop: '20px' }}>
-                                            {/* <strong>Excel Preview:</strong>
-                                            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                                                <thead>
-                                                    <tr>
-                                                        {Object.keys(excelData[0]).map((key) => (
-                                                            <th key={key} style={{ border: '1px solid #ccc', padding: '5px' }}>
-                                                                {key}
-                                                            </th>
-                                                        ))}
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {excelData.slice(0, 3).map((row, index) => (
-                                                        <tr key={index}>
-                                                            {Object.values(row).map((value, i) => (
-                                                                <td key={i} style={{ border: '1px solid #ccc', padding: '5px' }}>
-                                                                    {value}
-                                                                </td>
-                                                            ))}
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table> */}
+
                                         </div>
                                     )}
                                 </div>

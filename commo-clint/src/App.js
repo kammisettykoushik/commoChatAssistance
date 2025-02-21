@@ -37,6 +37,8 @@ import DesignCampaign from './pages/emailmarketing/DesignCampaign';
 import DesignPreviewScreen from './pages/emailmarketing/DesignPreviewScreen';
 import BroadCastDetailsScreens from './pages/whatsappmarketing/BroadCastDetails';
 import Contact from './pages/whatsappmarketing/Contact';
+import RegisterScreen from './components/MainNavBar/RegisterScreen';
+import LoginScreen from './components/MainNavBar/LoginScreen';
 
 
 function App() {
@@ -64,6 +66,14 @@ function App() {
       path: '/',
       element: <MainNavbarlist />,
     },
+    {
+      path: '/RegisterScreen', 
+      element: <><RegisterScreen /><Footer /></>,
+    } ,   
+    {
+      path: '/LoginScreen', 
+      element: <><LoginScreen /><Footer /></>,
+    } ,   
     {
       path: '/whatsappmarketing',
       element: <ChildNavigationMainLayout data={whatsappmarketingNavigation} />,

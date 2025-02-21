@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const ChildNavigatin = (props) => {
+
+  const navigate = useNavigate();
+
+
+
   return (
     <nav
       className="navbar navbar-expand-lg sticky-top"
@@ -80,13 +86,14 @@ const ChildNavigatin = (props) => {
               />
             </a>
             <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown" style={{ backgroundColor: "white" }}>
-              <li>
+              {/* <li>
                 <Link className="dropdown-item" to="/profile">
                   Profile
                 </Link>
-              </li>
+              </li> */}
               <li>
-                <Link className="dropdown-item" to="/Register">
+
+                <Link className="dropdown-item" to="/RegisterScreen">
                   Register
                 </Link>
               </li>
