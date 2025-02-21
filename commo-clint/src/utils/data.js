@@ -101,8 +101,8 @@ import email from "./../assets/images/email.png";
       icon:  <FaEnvelope size={25} color="#074799" />,
       navigationLinks:[
         { label: "Campaigns", path: "/emailmarketing/Campaigns" },
-        { label: "ContactPage", path: "/emailmarketing/ContactPage" },
         { label: "Overview", path: "/emailmarketing/Overview"},
+        { label: "ContactPage", path: "/emailmarketing/ContactPage" },
         { label: "Automations", path: "/emailmarketing/AutomationsScreen" },
       ]
     }
