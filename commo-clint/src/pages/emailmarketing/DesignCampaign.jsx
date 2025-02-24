@@ -15,7 +15,8 @@ const DesignCampaign = () => {
     const [savedData, setSavedData] = useState(null);
     const [file, setFile] = useState(null);
     const [files, setFiles]= useState(null);
-    const [excelData, setExcelData] = useState([]); // New state for storing parsed Excel data
+    const [excelData, setExcelData] = useState([]); 
+    const [image, setImage] = useState(null);// New state for storing parsed Excel data
 
     const navigate = useNavigate();
 
@@ -34,6 +35,19 @@ const DesignCampaign = () => {
             setFiles(savedCampaignData.files || '');
         }
     }, []);
+
+    const handleImageChange = (event) => {
+        const uploadedImage = event.target.files[0];
+    
+        if (uploadedImage) {
+            const reader = new FileReader();
+            reader.readAsDataURL(uploadedImage); // Convert to Base64
+            reader.onloadend = () => {
+                setImage(reader.result); // Save as Base64
+            };
+        }
+    };
+    
 
     const handleFileChange = (event) => {
         const uploadedFile = event.target.files[0];
@@ -76,6 +90,7 @@ const DesignCampaign = () => {
             content,
             headers,
             footer,
+            image
         };
 
         const savedCampaigns = JSON.parse(localStorage.getItem('campaigns')) || [];
@@ -151,6 +166,11 @@ const DesignCampaign = () => {
                                 className="form-control"
                             />
                         </div>
+
+                        <div className="mb-3">
+                    <label className="form-label">Upload Image</label>
+                    <input type="file" className="form-control" accept="image/*" onChange={handleImageChange} />
+                </div>
                         {/* More Inputs */}
                         <div className="mb-2">
                             <label htmlFor="Contacts">Contacts</label>
@@ -209,6 +229,13 @@ const DesignCampaign = () => {
                         <p><strong>Campaign Name:</strong> {name || 'No name entered'}</p>
                         <p><strong>From:</strong> {owners || 'No owners assigned'} | <strong>To:</strong> {tags || 'No tags added'}</p>
                         <h4 style={{ margin: '0', fontSize: '1.75rem' }}>{subject || 'Email Subject'}</h4>
+                        {image && (
+                    <div className="mb-3">
+                        <p>Uploaded Image Preview:</p>
+                        <img src={image} alt="Preview" style={{ maxWidth: '100%', height: 'auto' }} />
+                    </div>
+                )}
+                       
                         <p>
                             {file && (
                                 <div className="file-preview" style={{ marginTop: '30px' }}>
