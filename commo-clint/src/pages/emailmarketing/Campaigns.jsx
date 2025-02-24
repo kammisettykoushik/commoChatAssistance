@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Table, Form, Pagination } from "react-bootstrap";
+import { Button, Table, Form, Pagination, Card } from "react-bootstrap";
 import { FaPlus, FaCopy, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -84,31 +84,43 @@ const Campaigns = () => {
                     onChange={(e) => setSearch(e.target.value)} 
                 />
             </div>
-            
-            <Table striped hover>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Name</th>
-                        <th>Last Modified</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {displayedCampaigns.map((campaign) => (
-                        <tr key={campaign.id}>
-                            <td>{campaign.date}</td>
-                            <td>{campaign.name}</td>
-                            <td>3 min ago</td>
-                            <td>
-                                {campaign.status} 
-                                <FaCopy className="ms-2 text-primary" onClick={() => handleCopy(campaign.status)} style={{ cursor: "pointer" }} />  | 
-                                <FaTrash className="ms-2 text-danger" onClick={() => handleDelete(campaign.id)} style={{ cursor: "pointer" }} />
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
+
+            <Card className="shadow-sm">
+                <Card.Body>
+                    <Table striped hover responsive="sm">
+                        <thead>
+                            <tr>
+                                <th className="text-center" style={{ width: "15%" }}>Date</th>
+                                <th className="text-center" style={{ width: "40%" }}>Name</th>
+                                <th className="text-center" style={{ width: "20%" }}>Last Modified</th>
+                                <th className="text-center" style={{ width: "25%" }}>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {displayedCampaigns.map((campaign) => (
+                                <tr key={campaign.id}>
+                                    <td className="text-center">{campaign.date}</td>
+                                    <td className="text-center">{campaign.name}</td>
+                                    <td className="text-center">3 min ago</td>
+                                    <td className="text-center">
+                                        {campaign.status} 
+                                        <FaCopy 
+                                            className="ms-2 text-primary" 
+                                            onClick={() => handleCopy(campaign.status)} 
+                                            style={{ cursor: "pointer" }} 
+                                        />  | 
+                                        <FaTrash 
+                                            className="ms-2 text-danger" 
+                                            onClick={() => handleDelete(campaign.id)} 
+                                            style={{ cursor: "pointer" }} 
+                                        />
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Card.Body>
+            </Card>
             
             <Pagination className="justify-content-center mt-3">
                 <Pagination.Prev onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} />

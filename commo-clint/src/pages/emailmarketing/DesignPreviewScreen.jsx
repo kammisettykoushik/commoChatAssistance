@@ -30,6 +30,9 @@ const DesignPreviewScreen = () => {
         navigate(-1);
     };
 
+    const handleOverview = () => {
+        navigate('/EmailMarketing/Overview');
+    };
     const handleFileUpload = (event) => {
         const uploadedFile = event.target.files[0];
         setFile(uploadedFile);
@@ -38,12 +41,21 @@ const DesignPreviewScreen = () => {
 
     return (
         <div className="container mt-4 mb-4">
-            <div className="d-flex gap-4 align-items-center mb-4">
-                <button className="btn " onClick={handleBack}>
-                    <ArrowRight2 size="32" color="blue" variant="Bold" />
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <div className="d-flex gap-4 align-items-center">
+                    <button className="btn" onClick={handleBack}>
+                        <ArrowRight2 size="32" color="blue" variant="Bold" />
+                    </button>
+                    <h4 className="fw-bold">Campaign Preview</h4>
+                </div>
+                <button
+                    className="fw-bold ml-auto bg-success border p-2 rounded text-white"
+                    onClick={handleOverview}
+                >
+                    See the Overview
                 </button>
-                <h4 className="fw-bold">Campaign Preview</h4>
             </div>
+
 
             {/* <input type="file" onChange={handleFileUpload} className="form-control mb-3" /> */}
 
