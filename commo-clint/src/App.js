@@ -39,7 +39,9 @@ import BroadCastDetailsScreens from './pages/whatsappmarketing/BroadCastDetails'
 import Contact from './pages/whatsappmarketing/Contact';
 import RegisterScreen from './components/MainNavBar/RegisterScreen';
 import LoginScreen from './components/MainNavBar/LoginScreen';
-
+import OverViewScreen from './pages/emailmarketing/OverViewScreen';
+import SentDataScreen from './pages/emailmarketing/SentDataScreen';
+import ReachScreen from './pages/emailmarketing/ReachScreen';
 
 function App() {
 
@@ -73,7 +75,7 @@ function App() {
     {
       path: '/LoginScreen', 
       element: <><LoginScreen /><Footer /></>,
-    } ,   
+    } ,     
     {
       path: '/whatsappmarketing',
       element: <ChildNavigationMainLayout data={whatsappmarketingNavigation} />,
@@ -155,6 +157,18 @@ function App() {
         {
           path: "ContactPage",
           element: <><ContactPage /><Footer /></>,
+        },
+        {
+          path: "OverViewScreen",
+          element: <><OverViewScreen /><Footer /></>,
+        },
+        {
+          path: "ReachScreen",
+          element: <><ReachScreen /><Footer /></>,
+        },
+        {
+          path: "SentDataScreen",
+          element: <><SentDataScreen /><Footer /></>,
         },
         {
           path: "Overview",

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine, PieChart, Pie, Cell } from "recharts";
 import { Dropdown } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const barData = [
   { name: "Jan", value: 30, delivered: 200, read: 20 },
@@ -12,9 +13,9 @@ const barData = [
 ];
 
 const pieData = [
-  { name: "Sent", value: 50, color: "#8884d8" },
-  { name: "Failed", value: 25, color: "#82ca9d" },
-  { name: "Reach", value: 25, color: "#ffc658" }
+  { name: "Sent", value: 50, color: "#82ca9d", route: "/emailmarketing/SentDataScreen" },
+  { name: "Failed", value: 25, color: "#ffc658", route: "/emailmarketing/OverViewScreen" },
+  { name: "Reach", value: 25, color: "#8884d8", route: "/emailmarketing/ReachScreen" }
 ];
 
 const Overview = () => {
@@ -22,6 +23,8 @@ const Overview = () => {
   const [filteredBarData, setFilteredBarData] = useState(barData);
   const [hoveredData, setHoveredData] = useState(null);
   const [hoveredPosition, setHoveredPosition] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleFilterChange = (filter) => {
     setSelectedFilter(filter);
@@ -32,6 +35,11 @@ const Overview = () => {
     } else {
       setFilteredBarData(barData);
     }
+  };
+
+  // Navigate correctly based on pie chart or label click
+  const handleNavigation = (route) => {
+    navigate(route);
   };
 
   return (
@@ -70,7 +78,7 @@ const Overview = () => {
                     setTimeout(() => {
                       setHoveredData(null);
                       setHoveredPosition(null);
-                    }, 200); // Smooth transition, no flickering
+                    }, 200);
                   }}
                 >
                   <XAxis dataKey="name" />
@@ -89,7 +97,6 @@ const Overview = () => {
                   style={{
                     position: "absolute",
                     left: `${hoveredPosition}px`,
-                    // top: "30px",
                     top: 65,
                     transform: "translateX(-50%)",
                     fontSize: "14px",
@@ -111,21 +118,44 @@ const Overview = () => {
           <div className="col-md-6">
             <div className="border p-4 rounded-lg shadow-md" style={{ height: "350px" }}>
               <h2 className="text-xl font-semibold mb-2">Sent vs Failed vs Reach</h2>
-              <div className="d-flex justify-content-between align-items-center" style={{ height: '100%' }}>
+              <div className="d-flex justify-content-between align-items-center" style={{ height: "100%" }}>
                 <ResponsiveContainer width="50%" height="100%">
                   <PieChart>
-                    <Pie data={barData.slice(0, 3)} cx="50%" cy="50%" outerRadius={100} dataKey="value" label>
-                      {barData.slice(0, 3).map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={["#8884d8", "#82ca9d", "#ffc658"][index % 3]} />
+                    <Pie
+                      data={pieData}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={100}
+                      dataKey="value"
+                      label
+                      onClick={(data, index) => handleNavigation(pieData[index].route)}
+                    >
+                      {pieData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="d-flex flex-column justify-content-between align-items-start ml-3">
-                  {pieData.slice(0, 3).map((entry) => (
-                    <div key={entry.name} className="d-flex justify-content-between mb-2">
-                      <p style={{ color: "blue" }}>{entry.name} - </p>
-                      <span style={{ color: "orange" }}> {entry.value}%</span>
+                  {pieData.map((entry) => (
+                    <div
+                      key={entry.name}
+                      className="d-flex align-items-center mb-2 cursor-pointer"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleNavigation(entry.route)}
+                    >
+                      <span
+                        style={{
+                          display: "inline-block",
+                          width: "12px",
+                          height: "12px",
+                          borderRadius: "50%",
+                          backgroundColor: entry.color,
+                          marginRight: "8px"
+                        }}
+                      ></span>
+                      <p style={{ color: entry.name === "Sent" ? "#82ca9d" : entry.name === "Failed" ? "#ffc658" : "#8884d8", marginBottom: 0 }}>{entry.name} - </p>
+                      <span style={{ color: entry.name === "Sent" ? "#82ca9d" : entry.name === "Failed" ? "#ffc658" : "#8884d8", marginLeft: "5px" }}> {entry.value}%</span>
                     </div>
                   ))}
                 </div>
