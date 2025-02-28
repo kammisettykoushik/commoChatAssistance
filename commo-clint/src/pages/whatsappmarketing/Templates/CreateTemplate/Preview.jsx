@@ -154,7 +154,7 @@ const Preview = () => {
           </div>
 
           <button className="btn btn-success" onClick={handleSave}>
-            Save
+            Done
           </button>
         </div>
 
