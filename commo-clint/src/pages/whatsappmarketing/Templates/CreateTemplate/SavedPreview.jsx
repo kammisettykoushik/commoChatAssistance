@@ -1,47 +1,67 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Footer from "../../../../components/Footer";
 
 const SavedPreview = () => {
   const navigate = useNavigate();
-  
-  // Initialize state by reading from localStorage
   const [savedData, setSavedData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedContacts, setSelectedContacts] = useState(null); // State for contacts data
 
   useEffect(() => {
-    // Check if there is saved data in localStorage
-    const savedTemplates = JSON.parse(localStorage.getItem("SavedPreviews") || "[]");
-    setSavedData(savedTemplates); // Set state with retrieved templates
+    const fetchTemplates = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/api/whatsappmarketing/templates");
+        setSavedData(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching templates:", err);
+        setError("Failed to load templates");
+        setLoading(false);
+      }
+    };
+    fetchTemplates();
   }, []);
 
-  // Function to handle deleting a template
-  const handleDelete = (index) => {
-    const updatedData = savedData.filter((_, i) => i !== index);
-    setSavedData(updatedData);
-    localStorage.setItem("SavedPreviews", JSON.stringify(updatedData)); // Save updated data to localStorage
+  // Function to fetch and display contacts
+  const handleViewContacts = async (templateId) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/api/whatsappmarketing/templates/${templateId}/contacts`);
+      setSelectedContacts(response.data); // Store contacts data
+    } catch (err) {
+      console.error("Error fetching contacts:", err);
+      alert("Failed to load contacts");
+    }
   };
 
-  // Function to get the shape styles for images
+  const handleDelete = async (templateId) => {
+    try {
+      await axios.delete(`http://localhost:3001/api/whatsappmarketing/templates/${templateId}`);
+      const updatedData = savedData.filter((template) => template.id !== templateId);
+      setSavedData(updatedData);
+      setSelectedContacts(null); // Clear contacts if deleted
+    } catch (err) {
+      console.error("Error deleting template:", err);
+      alert("Failed to delete template");
+    }
+  };
+
   const getMediaShapeStyle = (shape) => {
     switch (shape) {
-      case "Round":
-        return { borderRadius: "50%" };
-      case "Oval":
-        return { borderRadius: "50% / 25%" };
-      case "Rounded":
-        return { borderRadius: "15px" };
-      case "Semi-border":
-        return { borderRadius: "0 50% 50% 0" };
-      case "Diamond":
-        return { transform: "rotate(45deg)", borderRadius: "10px" };
-      default:
-        return { borderRadius: "0" };
+      case "Round": return { borderRadius: "50%" };
+      case "Oval": return { borderRadius: "50% / 25%" };
+      case "Rounded": return { borderRadius: "15px" };
+      case "Semi-border": return { borderRadius: "0 50% 50% 0" };
+      case "Diamond": return { transform: "rotate(45deg)", borderRadius: "10px" };
+      default: return { borderRadius: "0" };
     }
   };
 
   return (
     <>
-      <div className="container mt-4" style={{marginBottom:20}}>
+      <div className="container mt-4" style={{ marginBottom: 20 }}>
         <button
           className="btn btn-primary mb-4"
           onClick={() => navigate("/whatsappmarketing/Templates/Preview")}
@@ -49,7 +69,15 @@ const SavedPreview = () => {
           Back
         </button>
 
-        {savedData.length === 0 ? (
+        {loading ? (
+          <div className="text-center mt-5">
+            <p>Loading templates...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center mt-5">
+            <p>{error}</p>
+          </div>
+        ) : savedData.length === 0 ? (
           <div className="text-center mt-5">
             <p>No saved templates found!</p>
           </div>
@@ -59,9 +87,9 @@ const SavedPreview = () => {
               Saved Templates
             </h2>
             <div className="d-flex flex-wrap justify-content-center gap-4">
-              {savedData.map((template, index) => (
+              {savedData.map((template) => (
                 <div
-                  key={index}
+                  key={template.id}
                   className="card shadow-lg"
                   style={{
                     flex: "1 1 350px",
@@ -74,7 +102,6 @@ const SavedPreview = () => {
                     position: "relative",
                   }}
                 >
-                  {/* Card Header */}
                   <div
                     className="card-header text-white text-center py-3"
                     style={{
@@ -90,16 +117,12 @@ const SavedPreview = () => {
                     </span>
                   </div>
 
-                  {/* Media Section */}
-                  {template.mediaFile && (
-                    <div
-                      className="media-container my-3"
-                      style={{ textAlign: "center" }}
-                    >
+                  {template.mediaUrl && (
+                    <div className="media-container my-3" style={{ textAlign: "center" }}>
                       {template.mediaType === "Image" ? (
                         <img
-                          src={template.mediaFile} // Ensure this is the correct image path
-                          alt={`Preview ${index}`}
+                          src={`http://localhost:3001${template.mediaUrl}`}
+                          alt={`${template.templateName} Preview`}
                           className="img-fluid"
                           style={{
                             maxWidth: "90%",
@@ -108,13 +131,13 @@ const SavedPreview = () => {
                             ...getMediaShapeStyle(template.mediaShape),
                           }}
                           onError={(e) => {
-                            console.log("Image failed to load", e.target.src); // Log any image load errors
-                            e.target.src = "defaultImage.jpg"; // Fallback image if error occurs
+                            console.log("Image failed to load:", template.mediaUrl);
+                            e.target.src = "defaultImage.jpg";
                           }}
                         />
                       ) : (
                         <video
-                          src={template.mediaFile} // Video file path
+                          src={`http://localhost:3001${template.mediaUrl}`}
                           controls
                           className="img-fluid"
                           style={{
@@ -127,24 +150,31 @@ const SavedPreview = () => {
                     </div>
                   )}
 
-                  {/* Card Body */}
                   <div className="card-body px-4 py-3">
-                    <p>
-                      <strong>Header:</strong> {template.header}
-                    </p>
-                    <p>
-                      <strong>Body:</strong> {template.body}
-                    </p>
-                    <p>
-                      <strong>Footer:</strong> {template.footer}
-                    </p>
+                    <p><strong>Header:</strong> {template.header || "N/A"}</p>
+                    <p><strong>Body:</strong> {template.body}</p>
+                    <p><strong>Footer:</strong> {template.footer || "N/A"}</p>
+                    {template.contactsUrl && (
+                      <p>
+                        <strong>Contacts:</strong>{" "}
+                        <a href={`http://localhost:3001${template.contactsUrl}`} download>
+                          Download
+                        </a>{" "}
+                        |{" "}
+                        <button
+                          className="btn btn-link p-0"
+                          onClick={() => handleViewContacts(template.id)}
+                        >
+                          View Contacts
+                        </button>
+                      </p>
+                    )}
                   </div>
 
-                  {/* Card Footer */}
                   <div className="card-footer text-center">
                     <button
                       className="btn btn-danger"
-                      onClick={() => handleDelete(index)}
+                      onClick={() => handleDelete(template.id)}
                     >
                       Delete
                     </button>
@@ -152,6 +182,37 @@ const SavedPreview = () => {
                 </div>
               ))}
             </div>
+
+            {/* Display selected contacts */}
+            {selectedContacts && (
+              <div className="mt-4">
+                <h3>Contacts</h3>
+                <button
+                  className="btn btn-secondary mb-2"
+                  onClick={() => setSelectedContacts(null)}
+                >
+                  Close
+                </button>
+                <table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      {Object.keys(selectedContacts[0] || {}).map((key) => (
+                        <th key={key}>{key}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedContacts.map((contact, index) => (
+                      <tr key={index}>
+                        {Object.values(contact).map((value, i) => (
+                          <td key={i}>{value}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </>
         )}
       </div>

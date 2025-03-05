@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Preview = () => {
   const [templateName, setTemplateName] = useState("");
@@ -10,42 +11,40 @@ const Preview = () => {
   const [body, setBody] = useState("");
   const [footer, setFooter] = useState("");
   const [mediaShape, setMediaShape] = useState("Square");
+  const [contactsFile, setContactsFile] = useState(null); // CSV or Excel file
   const navigate = useNavigate();
 
-  const handleSave = () => {
-    const savedData = {
-      templateName,
-      category,
-      header,
-      mediaType,
-      mediaFile: mediaFile ? URL.createObjectURL(mediaFile) : null,
-      body,
-      footer,
-      mediaShape,
-      timestamp: new Date().toLocaleString(),
-    };
+  const handleSave = async () => {
+    const formData = new FormData();
+    formData.append("templateName", templateName);
+    formData.append("category", category);
+    formData.append("header", header);
+    formData.append("mediaType", mediaType);
+    if (mediaFile) formData.append("mediaFile", mediaFile);
+    formData.append("body", body);
+    formData.append("footer", footer);
+    formData.append("mediaShape", mediaShape);
+    if (contactsFile) formData.append("contactsFile", contactsFile);
 
-    const existingTemplates = JSON.parse(localStorage.getItem("SavedPreviews")) || [];
-    const updatedTemplates = [...existingTemplates, savedData];
-    localStorage.setItem("SavedPreviews", JSON.stringify(updatedTemplates));
-
-    navigate("/whatsappmarketing/Templates/SavedPreview");
+    try {
+      await axios.post("http://localhost:3001/api/whatsappmarketing/templates", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      navigate("/whatsappmarketing/Templates/SavedPreview");
+    } catch (error) {
+      console.error("Error saving template:", error);
+      alert("Failed to save template: " + error.response?.data?.error || error.message);
+    }
   };
 
   const getMediaShapeStyle = () => {
     switch (mediaShape) {
-      case "Round":
-        return { borderRadius: "50%" };
-      case "Oval":
-        return { borderRadius: "50% / 25%" };
-      case "Rounded":
-        return { borderRadius: "15px" };
-      case "Semi-border":
-        return { borderRadius: "0 50% 50% 0" };
-      case "Diamond":
-        return { transform: "rotate(45deg)", borderRadius: "10px" };
-      default:
-        return { borderRadius: "0" };
+      case "Round": return { borderRadius: "50%" };
+      case "Oval": return { borderRadius: "50% / 25%" };
+      case "Rounded": return { borderRadius: "15px" };
+      case "Semi-border": return { borderRadius: "0 50% 50% 0" };
+      case "Diamond": return { transform: "rotate(45deg)", borderRadius: "10px" };
+      default: return { borderRadius: "0" };
     }
   };
 
@@ -126,10 +125,17 @@ const Preview = () => {
               <option value="Diamond">Diamond</option>
             </select>
           </div>
-  <label htmlFor="Contacts">Contacts</label>
-          <div className="border p-2 rounded">
-          
-          <input type="file" id="fileInput" accept="image/*, application/pdf"/> 
+  <div className="mb-3 d-flex flex-column w-100">
+            <label htmlFor="contactsFile" className="form-label">Contacts (CSV or Excel)</label>
+            <div className="border p-2 rounded">
+              <input
+                type="file"
+                id="contactsFile"
+                className="form-control"
+                accept=".csv, .xlsx" // Restrict to CSV and Excel
+                onChange={(e) => setContactsFile(e.target.files[0])}
+              />
+            </div>
           </div>
 
 
@@ -154,7 +160,7 @@ const Preview = () => {
           </div>
 
           <button className="btn btn-success" onClick={handleSave}>
-            Done
+            Save
           </button>
         </div>
 
@@ -208,6 +214,11 @@ const Preview = () => {
                   </div>
                 )}
               </div>
+              {contactsFile && (
+                <div className="mb-3">
+                  <p>Contacts File: {contactsFile.name} ({contactsFile.type === "text/csv" ? "CSV" : "Excel"})</p>
+                </div>
+              )}
               <p className="card-text">{body || "Body Content"}</p>
             </div>
             <div className="card-footer text-muted">

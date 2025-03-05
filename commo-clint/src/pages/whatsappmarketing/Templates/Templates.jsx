@@ -1,51 +1,95 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Copy, UserEdit, Trash } from 'iconsax-react';
+import axios from 'axios';
 
 const Templates = () => {
   const navigate = useNavigate();
-  const [templates, setTemplates] = useState([
-    { id: 1, name: 'Template 1', updatedDate: '2025-01-01', modifiedDate: '2025-01-01', status: 'Approved' },
-    { id: 2, name: 'Template 2', updatedDate: '2025-01-02', modifiedDate: '2025-01-02', status: 'Draft' },
-    { id: 3, name: 'Template 3', updatedDate: '2025-01-03', modifiedDate: '2025-01-03', status: 'Approved' },
-  ]);
+  const [templates, setTemplates] = useState([]);
   const [editingTemplate, setEditingTemplate] = useState(null);
   const [newName, setNewName] = useState('');
   const [newUpdatedDate, setNewUpdatedDate] = useState('');
   const [newModifiedDate, setNewModifiedDate] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/api/whatsappmarketing/templates');
+        setTemplates(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching templates:', err);
+        setError('Failed to load templates');
+        setLoading(false);
+      }
+    };
+    fetchTemplates();
+  }, []);
 
   const handleCopy = (id) => {
     const template = templates.find((t) => t.id === id);
-    navigator.clipboard.writeText(template.name);
+    navigator.clipboard.writeText(template.templateName);
   };
 
   const handleEdit = (template) => {
     setEditingTemplate(template);
-    setNewName(template.name);
-    setNewUpdatedDate(template.updatedDate);
-    setNewModifiedDate(template.modifiedDate);
+    setNewName(template.templateName);
+    setNewUpdatedDate(template.timestamp.split('T')[0]);
+    setNewModifiedDate(template.modifiedDate ? template.modifiedDate.split('T')[0] : template.timestamp.split('T')[0]);
   };
 
-  const handleSaveEdit = () => {
-    const updatedTemplates = templates.map((template) =>
-      template.id === editingTemplate.id
-        ? { ...template, name: newName, updatedDate: newUpdatedDate, modifiedDate: newModifiedDate }
-        : template
-    );
-    setTemplates(updatedTemplates);
-    setEditingTemplate(null);
+  const handleSaveEdit = async () => {
+    try {
+      const updatedTemplate = {
+        ...editingTemplate,
+        templateName: newName,
+        timestamp: newUpdatedDate,
+        modifiedDate: newModifiedDate,
+        status: editingTemplate.status,
+      };
+      const response = await axios.put(
+        `http://localhost:3001/api/whatsappmarketing/templates/${editingTemplate.id}`,
+        updatedTemplate
+      );
+      const updatedTemplates = templates.map((t) =>
+        t.id === editingTemplate.id ? response.data : t
+      );
+      setTemplates(updatedTemplates);
+      setEditingTemplate(null);
+    } catch (err) {
+      console.error('Error saving edit:', err);
+      alert('Failed to save changes');
+    }
   };
 
-  const handleDelete = (id) => {
-    setTemplates(templates.filter((t) => t.id !== id));
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3001/api/whatsappmarketing/templates/${id}`);
+      setTemplates(templates.filter((t) => t.id !== id));
+    } catch (err) {
+      console.error('Error deleting template:', err);
+      alert('Failed to delete template');
+    }
   };
 
-  const handleSubmit = (id) => {
-    const updatedTemplates = templates.map((template) =>
-      template.id === id ? { ...template, status: 'Approved' } : template
-    );
-    setTemplates(updatedTemplates);
+  const handleSubmit = async (id) => {
+    try {
+      const template = templates.find((t) => t.id === id);
+      const response = await axios.put(
+        `http://localhost:3001/api/whatsappmarketing/templates/${id}`,
+        { ...template, status: 'Approved', modifiedDate: new Date().toISOString() }
+      );
+      const updatedTemplates = templates.map((t) =>
+        t.id === id ? response.data : t
+      );
+      setTemplates(updatedTemplates);
+    } catch (err) {
+      console.error('Error submitting template:', err);
+      alert('Failed to submit template');
+    }
   };
 
   const handleCreateNewTemplate = () => {
@@ -65,7 +109,6 @@ const Templates = () => {
         </button>
       </div>
 
-      {/* Editable Template Modal */}
       {editingTemplate && (
         <div className="modal show" style={{ display: 'block' }}>
           <div className="modal-dialog">
@@ -77,7 +120,7 @@ const Templates = () => {
                   className="close"
                   onClick={() => setEditingTemplate(null)}
                 >
-                  <span>&times;</span>
+                  <span>×</span>
                 </button>
               </div>
               <div className="modal-body">
@@ -133,67 +176,75 @@ const Templates = () => {
         </div>
       )}
 
-      <table className="table table-bordered table-hover">
-        <thead className="table-light">
-          <tr>
-            <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Template Name</th>
-            <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Updated Date</th>
-            <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Modified Date</th>
-            <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Status</th>
-            <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Actions</th>
-          </tr>
-        </thead>
-        <tbody style={{ textAlign: 'center' }}>
-          {templates.map((template) => (
-            <tr key={template.id}>
-              <td>{template.name}</td>
-              <td>{template.updatedDate}</td>
-              <td>{template.modifiedDate}</td>
-              <td
-                style={{
-                  backgroundColor: template.status === 'Approved' ? '#3a7027' : '#e2e622',
-                  color: 'white',
-                }}
-              >
-                {template.status}
-              </td>
-              <td>
-                <div className="d-flex gap-3">
-                  <Copy
-                    size="38"
-                    color="#2b3f87"
-                    className="btn btn-sm"
-                    onClick={() => handleCopy(template.id)}
-                  />
-                  {template.status === 'Draft' && (
-                    <>
-                      <UserEdit
-                        size="38"
-                        color="#2b3f87"
-                        className="btn btn-sm"
-                        onClick={() => handleEdit(template)}
-                      />
-                      <button
-                        className="btn btn-sm"
-                        style={{ color: '#2b3f87' }}
-                        onClick={() => handleSubmit(template.id)}
-                      >
-                        Submit
-                      </button>
-                    </>
-                  )}
-                  <Trash
-                    size="38"
-                    color="#2b3f87"
-                    className="btn btn-sm"
-                    onClick={() => handleDelete(template.id)}
-                  />
-                </div>
-              </td>
+      {loading ? (
+        <div className="text-center">Loading templates...</div>
+      ) : error ? (
+        <div className="text-center text-danger">{error}</div>
+      ) : templates.length === 0 ? (
+        <div className="text-center">No templates found</div>
+      ) : (
+        <table className="table table-bordered table-hover">
+          <thead className="table-light">
+            <tr>
+              <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Template Name</th>
+              <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Updated Date</th>
+              <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Modified Date</th>
+              <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Status</th>
+              <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody style={{ textAlign: 'center' }}>
+            {templates.map((template) => (
+              <tr key={template.id}>
+                <td>{template.templateName}</td>
+                <td>{new Date(template.timestamp).toLocaleDateString()}</td>
+                <td>{template.modifiedDate ? new Date(template.modifiedDate).toLocaleDateString() : new Date(template.timestamp).toLocaleDateString()}</td>
+                <td
+                  style={{
+                    backgroundColor: template.status === 'Approved' ? '#3a7027' : '#e2e622',
+                    color: 'white',
+                  }}
+                >
+                  {template.status || 'Draft'}
+                </td>
+                <td>
+                  <div className="d-flex gap-3 justify-content-center">
+                    <Copy
+                      size="38"
+                      color="#2b3f87"
+                      className="btn btn-sm"
+                      onClick={() => handleCopy(template.id)}
+                    />
+                    {(!template.status || template.status === 'Draft') && (
+                      <>
+                        <UserEdit
+                          size="38"
+                          color="#2b3f87"
+                          className="btn btn-sm"
+                          onClick={() => handleEdit(template)}
+                        />
+                        <button
+                          className="btn btn-sm"
+                          style={{ color: '#2b3f87' }}
+                          onClick={() => handleSubmit(template.id)}
+                        >
+                          Submit
+                        </button>
+                      </>
+                    )}
+                    <Trash
+                      size="38"
+                      color="#2b3f87"
+                      className="btn btn-sm"
+                      onClick={() => handleDelete(template.id)}
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
