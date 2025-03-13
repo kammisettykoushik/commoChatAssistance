@@ -65,7 +65,7 @@ const TemplatePreview = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "skyblue", padding: "20px" }}>
+    <div style={{ backgroundColor: "#FFF8EF", padding: "20px" }}>
       <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Select Template</h2>
       <div
         style={{

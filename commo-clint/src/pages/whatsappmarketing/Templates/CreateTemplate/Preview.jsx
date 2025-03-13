@@ -49,7 +49,7 @@ const Preview = () => {
   };
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4" style={{backgroundColor:'#FFF8EF'}}>
       <div className="row">
         {/* Form Section */}
         <div className="col-md-6 d-flex flex-column justify-content-between border p-4" style={{ height: '100%' }}>

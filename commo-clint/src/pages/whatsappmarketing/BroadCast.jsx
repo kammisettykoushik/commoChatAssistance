@@ -38,7 +38,8 @@ const BroadCast = () => {
 
 
   return (
-    <div className="container mt-4">
+    <div style={{backgroundColor:'#FFF8EF',padding:5}}>
+    <div className="container mt-4" >
 
       <div className="row align-items-center mb-4">
         {/* Pickup Date */}
@@ -131,9 +132,9 @@ const BroadCast = () => {
           </div>
         </div>
       </div>
+      <h2 className="row g-3 justify-content-center">Outline Preview</h2>
 
-      <div className="container" style={{ width: '70%', marginBottom: 30 }}>
-        <h2>Outline Preview</h2>
+      <div className="container" style={{ width: '70%', marginBottom: 20,backgroundColor:'#5FD568',padding:10,borderRadius:10}}>
 
         {/* First Row: Display up to 4 cards */}
         <div className="row g-3 justify-content-center" style={{ marginBottom: 20, marginTop: 20 }}>
@@ -161,7 +162,7 @@ const BroadCast = () => {
                   <div style={{ fontSize: "2rem", fontWeight: "bold" }}>{message.count}</div>
                   <div style={{
                     fontSize: "1rem",
-                    backgroundColor: "#27468a",
+                    backgroundColor: "#5FD568",
                     color: "white",
                     padding: "5px",
                     borderRadius: "50%",
@@ -206,7 +207,7 @@ const BroadCast = () => {
                   <div
                     style={{
                       fontSize: "1rem",
-                      backgroundColor: "#27468a",
+                      backgroundColor: "#5FD568",
                       color: "white",
                       padding: "5px",
                       borderRadius: "50%",
@@ -231,6 +232,7 @@ const BroadCast = () => {
           ))}
         </div>
       </div>
+    </div>
     </div>
   );
 };

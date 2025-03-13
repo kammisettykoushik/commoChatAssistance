@@ -61,13 +61,13 @@ const Automations = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px",backgroundColor:'#FFF8EF'}}>
       <div style={{ marginBottom: "20px" }}>
         <label htmlFor="working-hours" style={{ marginLeft: 10 }}>
           <b>Current Working Hours:</b>
         </label>
         <div style={{ position: 'relative', display: 'inline-block' }}>
-          <button onClick={toggleDropdown} style={{ backgroundColor: '#1743b3', padding: 5, color: 'white', border: 'none', borderRadius: 5, marginLeft: 10 }}>Set Working Hours</button>
+          <button onClick={toggleDropdown} style={{ backgroundColor: '#4b8bf2', padding: 5, color: 'white', border: 'none', borderRadius: 5, marginLeft: 10 }}>Set Working Hours</button>
           {isDropdownVisible && (
             <div
               style={{
@@ -154,7 +154,7 @@ const Automations = () => {
           onClick={handleSubmit}
           style={{
             padding: "10px 20px",
-            backgroundColor: "#4CAF50",
+            backgroundColor: "#549149",
             color: "white",
             border: "none",
             borderRadius: "5px",
@@ -162,7 +162,7 @@ const Automations = () => {
             marginLeft: '80%'
           }}
         >
-          Submit
+          Save chnages
         </button>
       </div>
     </div>

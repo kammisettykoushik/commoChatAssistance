@@ -61,7 +61,8 @@ const SavedPreview = () => {
 
   return (
     <>
-      <div className="container mt-4" style={{ marginBottom: 20 }}>
+     <div style={{backgroundColor:'#FFF8EF'}}>
+     <div className="container mt-4" style={{ marginBottom: 20 }}>
         <button
           className="btn btn-primary mb-4"
           onClick={() => navigate("/whatsappmarketing/Templates/Preview")}
@@ -216,6 +217,7 @@ const SavedPreview = () => {
           </>
         )}
       </div>
+     </div>
       <Footer />
     </>
   );

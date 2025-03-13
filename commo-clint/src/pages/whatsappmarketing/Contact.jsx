@@ -106,6 +106,7 @@ const Contact = () => {
   );
 
   return (
+    <div style={{backgroundColor:'#FFF8EF',padding:5}}>
     <div className="container my-5">
       {/* Controls: Sorting, Search, Add Contact */}
       <div className="d-flex justify-content-between mb-3 align-items-center p-2" style={{ borderRadius: "0" }}>
@@ -245,6 +246,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

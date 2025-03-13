@@ -97,7 +97,8 @@ const Templates = () => {
   };
 
   return (
-    <div className="container mt-4">
+   <div style={{backgroundColor:'#FFF8EF',padding:10}}>
+     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h3>Message Templates</h3>
         <button
@@ -246,6 +247,7 @@ const Templates = () => {
         </table>
       )}
     </div>
+   </div>
   );
 };
 
