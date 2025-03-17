@@ -71,7 +71,7 @@ const BroadCastDetailsScreen = () => {
   const filteredData = filter === "All" ? broadcastData : broadcastData.filter((item) => item.status === filter);
 
   return (
-    <div className="p-4 border rounded-lg shadow-lg w-full h-screen overflow-auto">
+    <div className="p-4 border rounded-lg shadow-lg w-full h-screen overflow-auto" style={{backgroundColor:'#FFF8EF'}}>
       <div className="items-center mb-4" style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
           <h2 className="text-xl font-bold">Broadcast Details</h2>

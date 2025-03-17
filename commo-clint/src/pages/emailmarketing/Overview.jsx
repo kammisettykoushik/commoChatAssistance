@@ -134,7 +134,7 @@ const Overview = () => {
       <div className="d-flex justify-content-between mb-4">
         <h2 className="text-xl font-semibold">Performance Over Time</h2>
         <Dropdown>
-          <Dropdown.Toggle variant="primary">
+          <Dropdown.Toggle style={{backgroundColor:'#FDEE96',border:'none',color:'black'}}>
             Filter: {selectedFilter}
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -196,7 +196,7 @@ const Overview = () => {
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="value" fill="#8884d8" />
+                  <Bar dataKey="value" fill="#FDEE96" />
                 </BarChart>
               </ResponsiveContainer>
             </div>

@@ -39,7 +39,7 @@
 
 //   return (
 //     <div className="d-flex justify-content-center p-4">
-//       <Card className="w-50 p-4 shadow">
+//       <Card className="w-50 p-4 shadow" style={{backgroundColor:'#CECEFF'}}>
 //         <Card.Header>
 //           <h4>Campaign Information</h4>
 //         </Card.Header>

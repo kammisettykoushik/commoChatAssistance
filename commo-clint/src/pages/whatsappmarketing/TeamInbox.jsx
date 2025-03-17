@@ -173,11 +173,14 @@ const TeamInbox = () => {
         <div
           className="col-12 d-flex flex-column justify-content-center align-items-center"
           style={{
-            height: "100vh",
+            height: "85vh",
             // width: "100vw",
+            marginTop:10,
+            backgroundColor:'#FFF8EF',
+            padding:10,
             backgroundImage: "url('https://img.freepik.com/free-vector/chat-concept-illustration_114360-129.jpg?t=st=1738320425~exp=1738324025~hmac=d9e82fc2f47710b8f3ff074a40be363c89cacf44ed6d2114282fafff8d382ad4&w=740')",
             backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
+            backgroundSize: "contain",
             backgroundPosition: "center"
           }}
         >

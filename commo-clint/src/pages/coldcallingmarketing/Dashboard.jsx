@@ -77,7 +77,7 @@
 //       <div className="p-4 rounded-lg bg-white">
 //   <div className="row g-4 mb-4">
 //     <div className="col-md-12">
-//       <div className="row text-black p-4 rounded-lg shadow-md" style={{ backgroundColor: "#8b61ed" }}>
+//       <div className="row text-black p-4 rounded-lg shadow-md" style={{ backgroundColor: "#9A9AFF" }}>
         
 //         <div className="col-md-3 d-flex flex-column align-items-center">
 //           <h5 className="mb-2">Total Calls Made</h5>

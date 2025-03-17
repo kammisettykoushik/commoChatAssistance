@@ -59,7 +59,7 @@ const Campaigns = () => {
         <div className="container mt-4 mb-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <h2>Campaigns</h2>
-                <Button variant="primary" onClick={handleCreateNewCampaign}>
+                <Button onClick={handleCreateNewCampaign} style={{backgroundColor:'#032D60'}}>
                     <FaPlus /> Create Campaign
                 </Button>
             </div>
@@ -90,19 +90,19 @@ const Campaigns = () => {
                     <Table striped hover responsive="sm">
                         <thead>
                             <tr>
-                                <th className="text-center" style={{ width: "15%" }}>Date</th>
-                                <th className="text-center" style={{ width: "40%" }}>Name</th>
-                                <th className="text-center" style={{ width: "20%" }}>Last Modified</th>
-                                <th className="text-center" style={{ width: "25%" }}>Actions</th>
+                                <th className="text-center" style={{ width: "15%",backgroundColor:'#FDEE96'}}>Date</th>
+                                <th className="text-center" style={{ width: "40%" ,backgroundColor:'#FDEE96'}}>Name</th>
+                                <th className="text-center" style={{ width: "20%",backgroundColor:'#FDEE96' }}>Last Modified</th>
+                                <th className="text-center" style={{ width: "25%",backgroundColor:'#FDEE96' }}>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {displayedCampaigns.map((campaign) => (
                                 <tr key={campaign.id}>
-                                    <td className="text-center">{campaign.date}</td>
-                                    <td className="text-center">{campaign.name}</td>
-                                    <td className="text-center">3 min ago</td>
-                                    <td className="text-center">
+                                    <td className="text-center" style={{backgroundColor:'#FFF7C8'}}>{campaign.date}</td>
+                                    <td className="text-center" style={{backgroundColor:'#FFF7C8'}}>{campaign.name}</td>
+                                    <td className="text-center" style={{backgroundColor:'#FFF7C8'}}>3 min ago</td>
+                                    <td className="text-center" style={{backgroundColor:'#FFF7C8'}}>
                                         {campaign.status} 
                                         <FaCopy 
                                             className="ms-2 text-primary" 

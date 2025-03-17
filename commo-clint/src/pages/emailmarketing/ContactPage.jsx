@@ -83,7 +83,6 @@ const ContactPage = () => {
   // Pagination Handler
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
-
   const handleExportClick = () => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
@@ -98,142 +97,154 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="container mt-5">
-      {/* Header Controls */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <div className="d-flex align-items-center">
-          <h4 className="mr-4">Contacts ({filteredContacts.length})</h4>
-        </div>
+    <div style={{ backgroundColor: ' #FFF8EF', padding: 5 }}>
+      <div className="container mt-5">
+        {/* Header Controls */}
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <div className="d-flex align-items-center">
+            <h4 className="mr-4">Contacts ({filteredContacts.length})</h4>
+          </div>
 
-        <div className="d-flex align-items-center space-x-3 gap-2">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="form-control w-40"
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+          <div className="d-flex align-items-center space-x-3 gap-2">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="form-control w-40"
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
 
-          {/* Filter Dropdown */}
-          <Dropdown onSelect={handleFilterChange}>
-            <Dropdown.Toggle variant="secondary" id="filter-dropdown">
-              Filter
-            </Dropdown.Toggle>
+            {/* Filter Dropdown */}
+            <Dropdown onSelect={handleFilterChange}>
+              <Dropdown.Toggle variant="secondary" id="filter-dropdown">
+                Filter
+              </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              <Dropdown.Item eventKey="Today">Today</Dropdown.Item>
-              <Dropdown.Item eventKey="Last Day">Last Day</Dropdown.Item>
-              <Dropdown.Item eventKey="Last 7 Days">Last 7 Days</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+              <Dropdown.Menu>
+                <Dropdown.Item eventKey="Today">Today</Dropdown.Item>
+                <Dropdown.Item eventKey="Last Day">Last Day</Dropdown.Item>
+                <Dropdown.Item eventKey="Last 7 Days">Last 7 Days</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
 
-          {/* Export Button */}
-          <Button variant="success" className="d-flex align-items-center" onClick={handleExportClick}>
-          <FaFileExport className="mr-2" /> Export
-        </Button>
-        </div>
-      </div>
-
-      {/* Table */}
-      <table className="table table-bordered">
-        <thead className="thead-light">
-          <tr>
-            <th className="text-center">
-              <input type="checkbox" />
-            </th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentContacts.map((contact) => (
-            <tr key={contact.id}>
-              <td className="text-center">
-                <input
-                  type="checkbox"
-                  checked={selectedContacts.includes(contact.id)}
-                  onChange={() => toggleSelection(contact.id)}
-                />
-              </td>
-              <td>{contact.firstName}</td>
-              <td>{contact.lastName}</td>
-              <td>{contact.email}</td>
-              <td>
-                <span
-                  className={`badge ${
-                    contact.status === "Completed"
-                      ? "bg-success"
-                      : contact.status === "Pending"
-                      ? "bg-warning"
-                      : "bg-danger"
-                  }`}
-                >
-                  {contact.status}
-                </span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Pagination */}
-      <Pagination>
-        <Pagination.Prev
-          onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-        />
-        {Array.from({ length: Math.ceil(filteredContacts.length / contactsPerPage) }, (_, index) => (
-          <Pagination.Item
-            key={index + 1}
-            active={index + 1 === currentPage}
-            onClick={() => handlePageChange(index + 1)}
-          >
-            {index + 1}
-          </Pagination.Item>
-        ))}
-        <Pagination.Next
-          onClick={() =>
-            currentPage < Math.ceil(filteredContacts.length / contactsPerPage) &&
-            handlePageChange(currentPage + 1)
-          }
-        />
-      </Pagination>
-
-      {/* Delete Modal */}
-      {selectedContacts.length > 0 && (
-        <div className="mt-4 d-flex justify-content-between align-items-center bg-light p-3 rounded">
-          <p>{selectedContacts.length} contacts selected</p>
-          <div>
-            <Button variant="danger" onClick={() => setIsModalOpen(true)}>
-              Delete
-            </Button>
-            <Button
-              variant="secondary"
-              style={{ marginLeft: 10 }}
-              onClick={() => setSelectedContacts([])}
-            >
-              Unselect All
+            {/* Export Button */}
+            <Button variant="success" className="d-flex align-items-center" onClick={handleExportClick}>
+              <FaFileExport className="mr-2" /> Export
             </Button>
           </div>
         </div>
-      )}
 
-      <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Contacts</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete {selectedContacts.length} contacts?
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
-            Close
-          </Button>
-          <Button variant="danger" onClick={handleDeleteSelected}>
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        {/* Table */}
+        <table className="table table-bordered" >
+          <thead className="thead-light">
+            <tr>
+              <th className="text-center" style={{ backgroundColor: "#FDEE96" }}>
+                <input type="checkbox" />
+              </th>
+              <th style={{ backgroundColor: "#FDEE96" }}>First Name</th>
+              <th style={{ backgroundColor: "#FDEE96" }}>Last Name</th>
+              <th style={{ backgroundColor: "#FDEE96" }}>Email</th>
+              <th style={{ backgroundColor: "#FDEE96" }}>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentContacts.map((contact) => (
+              <tr
+                key={contact.id}
+                style={{
+                  backgroundColor:
+                    contact.status === "Completed"
+                      ? "#d4edda"
+                      : contact.status === "Pending"
+                      ? "#fff3cd"
+                      : "#f8d7da",
+                }}
+              >
+                <td className="text-center" style={{backgroundColor:'#FFF7C8'}}>
+                  <input
+                    type="checkbox"
+                    checked={selectedContacts.includes(contact.id)}
+                    onChange={() => toggleSelection(contact.id)}
+                  />
+                </td>
+                <td style={{backgroundColor:'#FFF7C8'}}>{contact.firstName}</td>
+                <td style={{backgroundColor:'#FFF7C8'}}>{contact.lastName}</td>
+                <td style={{backgroundColor:'#FFF7C8'}}>{contact.email}</td>
+                <td style={{backgroundColor:'#FFF7C8'}}>
+                  <span
+                    className={`badge ${
+                      contact.status === "Completed"
+                        ? "bg-success"
+                        : contact.status === "Pending"
+                        ? "bg-warning"
+                        : "bg-danger"
+                    }`}
+                  >
+                    {contact.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Pagination */}
+        <Pagination>
+          <Pagination.Prev
+            onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+          />
+          {Array.from({ length: Math.ceil(filteredContacts.length / contactsPerPage) }, (_, index) => (
+            <Pagination.Item
+              key={index + 1}
+              active={index + 1 === currentPage}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </Pagination.Item>
+          ))}
+          <Pagination.Next
+            onClick={() =>
+              currentPage < Math.ceil(filteredContacts.length / contactsPerPage) &&
+              handlePageChange(currentPage + 1)
+            }
+          />
+        </Pagination>
+
+        {/* Delete Modal */}
+        {selectedContacts.length > 0 && (
+          <div className="mt-4 d-flex justify-content-between align-items-center bg-light p-3 rounded">
+            <p>{selectedContacts.length} contacts selected</p>
+            <div>
+              <Button variant="danger" onClick={() => setIsModalOpen(true)}>
+                Delete
+              </Button>
+              <Button
+                variant="secondary"
+                style={{ marginLeft: 10 }}
+                onClick={() => setSelectedContacts([])}
+              >
+                Unselect All
+              </Button>
+            </div>
+          </div>
+        )}
+
+        <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Contacts</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Are you sure you want to delete {selectedContacts.length} contacts?
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
+              Close
+            </Button>
+            <Button variant="danger" onClick={handleDeleteSelected}>
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </div>
   );
 };

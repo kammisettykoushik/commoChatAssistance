@@ -92,17 +92,18 @@ import email from "./../assets/images/email.png";
         { label: "Team Inbox", path: "/whatsappmarketing/TeamInbox"},
         { label: "Message Templates", path: "/whatsappmarketing/Templates" },
         { label: "Broadcast", path: "/whatsappmarketing/BroadCast" },
-        { label: "Automations", path: "/whatsappmarketing/Automations" },
         { label: "Contacts", path: "/whatsappmarketing/Contacts" },
+        { label: "Automations", path: "/whatsappmarketing/Automations" },
+
       ]
     }
     const emailMarketingNavigation = {
       path:"/emailmarketing",
       icon:  <FaEnvelope size={25} color="#074799" />,
       navigationLinks:[
-        { label: "Campaigns", path: "/emailmarketing/Campaigns" },
         { label: "Overview", path: "/emailmarketing/Overview"},
-        { label: "ContactPage", path: "/emailmarketing/ContactPage" },
+        { label: "Contacts", path: "/emailmarketing/ContactPage" },
+        { label: "Campaigns", path: "/emailmarketing/Campaigns" },
         { label: "Automations", path: "/emailmarketing/AutomationsScreen" },
       ]
     }

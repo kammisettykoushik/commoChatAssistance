@@ -22,19 +22,19 @@ const OverViewScreen = () => {
                 <table className="table table-bordered text-center w-75">
                     <thead className="table-light">
                         <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Reason</th>
-                            <th>Status</th>
+                            <th style={{backgroundColor:'#FDEE96'}}>#</th>
+                            <th style={{backgroundColor:'#FDEE96'}}>Name</th>
+                            <th style={{backgroundColor:'#FDEE96'}}>Reason</th>
+                            <th style={{backgroundColor:'#FDEE96'}}>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         {currentData.map((item) => (
                             <tr key={item.count}>
-                                <td>{item.count}</td>
-                                <td>{item.name}</td>
-                                <td>{item.reason}</td>
-                                <td>❌</td>
+                                <td style={{backgroundColor:' #FFF7C8'}}>{item.count}</td>
+                                <td style={{backgroundColor:' #FFF7C8'}}>{item.name}</td>
+                                <td style={{backgroundColor:' #FFF7C8'}}>{item.reason}</td>
+                                <td style={{backgroundColor:' #FFF7C8'}}>❌</td>
                             </tr>
                         ))}
                     </tbody>

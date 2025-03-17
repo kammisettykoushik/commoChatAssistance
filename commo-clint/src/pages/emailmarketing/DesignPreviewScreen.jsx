@@ -40,7 +40,7 @@ const DesignPreviewScreen = () => {
     };
 
     return (
-        <div className="container mt-4 mb-4">
+        <div className="container mt-4 mb-4" >
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <div className="d-flex gap-4 align-items-center">
                     <button className="btn" onClick={handleBack}>
@@ -65,7 +65,7 @@ const DesignPreviewScreen = () => {
                 {campaigns.length > 0 ? (
                     campaigns.map((campaign) => (
                         <div key={campaign.id} className="card shadow-lg border mb-4 " style={{ maxWidth: '600px', margin: 'auto' }}>
-                            <div className="card-body">
+                            <div className="card-body" style={{backgroundColor:'#FFF7C8'}}>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <h5 className="fw-bold mb-3">Preview Email</h5>
                                     <button className="btn btn-danger" onClick={() => handleDelete(campaign.id)}>

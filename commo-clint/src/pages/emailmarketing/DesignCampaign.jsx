@@ -115,7 +115,8 @@ const DesignCampaign = () => {
     };
 
     return (
-        <div className="container mt-4">
+        <div style={{backgroundColor:'#FFF8EF',padding:10}}>
+        <div className="container mt-4" >
             <h4 className="fw-bold mb-4">Design Your Campaign</h4>
 
             <div className="d-flex justify-content-between">
@@ -223,7 +224,7 @@ const DesignCampaign = () => {
                 </div>
 
                 {/* Preview Section */}
-                <div className="card shadow-lg border mb-2" style={{ width: '48%', height: 'auto' }}>
+                <div className="card shadow-lg border mb-2" style={{ width: '48%', height: 'auto',backgroundColor:'#FFF7C8' }}>
                     <div className="card-body">
                         <h5 className="fw-bold mb-3" style={{ fontSize: '1.5rem' }}>Preview Email</h5>
                         <p><strong>Campaign Name:</strong> {name || 'No name entered'}</p>
@@ -267,6 +268,7 @@ const DesignCampaign = () => {
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     );
 };
