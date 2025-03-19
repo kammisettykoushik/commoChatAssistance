@@ -27,7 +27,6 @@ import CampaignsScreen from './pages/coldcallingmarketing/CampaignsScreen';
 import Contactslist from './pages/coldcallingmarketing/Contactslist';
 import Dashboard from './pages/coldcallingmarketing/Dashboard';
 import History from './pages/coldcallingmarketing/History';
-import Dashboardsms from './pages/smsmarketing/Dashboardsms';
 import Message from './pages/smsmarketing/Message';
 import Automationssms from './pages/smsmarketing/Automationssms';
 import Contactsms from './pages/smsmarketing/Contactsms';
@@ -42,6 +41,9 @@ import LoginScreen from './components/MainNavBar/LoginScreen';
 import OverViewScreen from './pages/emailmarketing/OverViewScreen';
 import SentDataScreen from './pages/emailmarketing/SentDataScreen';
 import ReachScreen from './pages/emailmarketing/ReachScreen';
+import Campaignsms from './pages/smsmarketing/Campaignsms';
+import FailedCampaigns from './pages/smsmarketing/FailedCampaigns';
+import Dashboardsms from './pages/smsmarketing/Dashboardsms';
 
 function App() {
 
@@ -239,8 +241,16 @@ function App() {
           element: <><Automationssms /><Footer /></>,
         },
         {
-          path: "Dashboard",
-          element: <><Dashboard /><Footer /></>,
+          path: "Dashboardsms",
+          element: <><Dashboardsms /><Footer /></>,
+        },
+        {
+          path: "Campaignsms",
+          element: <><Campaignsms /><Footer /></>,
+        },
+        {
+          path: "FailedCampaigns",
+          element: <><FailedCampaigns /><Footer /></>,
         },
       ]
     },

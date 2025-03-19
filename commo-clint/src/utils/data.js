@@ -121,11 +121,13 @@ import email from "./../assets/images/email.png";
       path:"/smsmarketing",
       icon:<FaSms size={25} color="#074799" />,
       navigationLinks:[
-        { label: "Contacts", path: "/smsmarketing/Contactsms"},
-        { label: "SMS Sender", path: "/smsmarketing/SmsSender" },
         { label: "Message", path: "/smsmarketing/Message" },
+        { label: "Campaign", path: "/smsmarketing/Campaignsms" },
+        { label: "SMS Sender", path: "/smsmarketing/SmsSender" },
+        { label: "Dashboard", path: "/smsmarketing/Dashboardsms" },
+        { label: "Contacts", path: "/smsmarketing/Contactsms"},
         { label: "Automations", path: "/smsmarketing/Automationssms" },
-        { label: "Dashboard", path: "/smsmarketing/Dashboard" },
+      
       ]
     }
  

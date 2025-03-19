@@ -191,9 +191,9 @@ const Footer = () => {
       
       </div>
    
-      {/* <div className="text-center mt-3">
+      <div className="text-center mt-3">
         <img src={require("../assets/images/footerimage.jpeg")} alt="Footer Logo" className="img-fluid w-100" style={{ maxHeight: '120px', objectFit: 'cover' }} />
-      </div> */}
+      </div>
       {/* <p className="mt-2">© {currentYear} COMMO. All Rights Reserved.</p> */}
     </div>
   );
