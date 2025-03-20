@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Col, Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Campaignsms = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -44,6 +46,7 @@ const Campaignsms = () => {
     const handleCloseModal = () => {
         // Close the modal when done is clicked
         setShowModal(false);
+        navigate("/smsmarketing/Automationssms");
     };
 
     const handleSave = () => {

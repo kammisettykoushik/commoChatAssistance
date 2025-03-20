@@ -68,7 +68,8 @@ const SmsSender = () => {
   };
 
   return (
-    <div style={{ margin: "20px" }}>
+    <div style={{ backgroundColor: '#EAF6FE', padding: 5 }}>
+    <div style={{ margin: "20px",backgroundColor:'white',padding:20 }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
         <h2>New Campaign</h2>
         <button
@@ -159,6 +160,7 @@ const SmsSender = () => {
           Next
         </button>
       </div>
+    </div>
     </div>
   );
 };
