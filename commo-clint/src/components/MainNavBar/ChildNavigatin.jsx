@@ -55,7 +55,7 @@ const ChildNavigatin = (props) => {
           </ul>
 
           {/* Search Bar */}
-          <form className="d-flex me-3">
+          {/* <form className="d-flex me-3">
             <input
               className="form-control"
               type="search"
@@ -66,7 +66,7 @@ const ChildNavigatin = (props) => {
             <button className="btn btn-outline-dark ms-2" type="submit" style={{ color: "#074799" }}>
               Search
             </button>
-          </form>
+          </form> */}
 
           {/* Profile Section */}
           <div className="dropdown">

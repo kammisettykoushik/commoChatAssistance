@@ -196,7 +196,7 @@ const Templates = () => {
           </thead>
           <tbody style={{ textAlign: 'center' }}>
             {templates.map((template) => (
-              <tr key={template.id}>
+              <tr key={template.id}  onClick={() => navigate('/whatsappmarketing/BroadCast')}>
                 <td>{template.templateName}</td>
                 <td>{new Date(template.timestamp).toLocaleDateString()}</td>
                 <td>{template.modifiedDate ? new Date(template.modifiedDate).toLocaleDateString() : new Date(template.timestamp).toLocaleDateString()}</td>

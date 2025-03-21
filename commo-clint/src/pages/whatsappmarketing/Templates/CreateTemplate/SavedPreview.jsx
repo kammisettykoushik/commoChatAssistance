@@ -48,6 +48,10 @@ const SavedPreview = () => {
     }
   };
 
+  const handleSave = () => {
+    navigate("/whatsappmarketing/Templates");
+  };
+  
   const getMediaShapeStyle = (shape) => {
     switch (shape) {
       case "Round": return { borderRadius: "50%" };
@@ -179,6 +183,13 @@ const SavedPreview = () => {
                     >
                       Delete
                     </button>
+                    <button
+  className="btn btn-success" style={{marginLeft:10}}
+  onClick={handleSave}  // Correctly call the handleSave function
+>
+  Save
+</button>
+
                   </div>
                 </div>
               ))}

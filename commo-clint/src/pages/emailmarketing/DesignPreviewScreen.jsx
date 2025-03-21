@@ -10,6 +10,10 @@ const DesignPreviewScreen = () => {
     const [file, setFile] = useState(null);
     const [excelData, setExcelData] = useState([]);
 
+    const handleSave = () => {
+        navigate("/emailmarketing/AutomationsScreen");
+      };
+
     useEffect(() => {
         const savedCampaigns = JSON.parse(localStorage.getItem('campaigns')) || [];
         setCampaigns(savedCampaigns);
@@ -64,8 +68,8 @@ const DesignPreviewScreen = () => {
             <div style={{ display: 'flex' }}>
                 {campaigns.length > 0 ? (
                     campaigns.map((campaign) => (
-                        <div key={campaign.id} className="card shadow-lg border mb-4 " style={{ maxWidth: '600px', margin: 'auto' }}>
-                            <div className="card-body" style={{backgroundColor:'#FFF7C8'}}>
+                        <><div key={campaign.id} className="card shadow-lg border mb-4 " style={{ maxWidth: '600px', margin: 'auto' }}>
+                            <div className="card-body" style={{ backgroundColor: '#FFF7C8' }}>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <h5 className="fw-bold mb-3">Preview Email</h5>
                                     <button className="btn btn-danger" onClick={() => handleDelete(campaign.id)}>
@@ -100,16 +104,24 @@ const DesignPreviewScreen = () => {
                                 <div className="email-footer" style={{ marginTop: '30px', padding: '15px', fontSize: '12px', color: '#777', borderTop: '1px solid #ddd' }}>
                                     <p><strong>Footer:</strong> {campaign.footer || 'No footer'}</p>
                                 </div>
+                                <button
+                            className="btn btn-success" style={{ marginLeft: 10,width:100 }}
+                            onClick={handleSave} // Correctly call the handleSave function
+                        >
+                                Save
+                            </button>
                             </div>
-                        </div>
+                            
+                        </div></>
                     ))
-                ) : (
-                    <div className="alert alert-warning text-center">
-                        No campaigns available. Please create a new campaign.
-                    </div>
-                )}
+                   
+            ) : (
+            <div className="alert alert-warning text-center">
+                No campaigns available. Please create a new campaign.
             </div>
+                )}
         </div>
+        </div >
     );
 };
 

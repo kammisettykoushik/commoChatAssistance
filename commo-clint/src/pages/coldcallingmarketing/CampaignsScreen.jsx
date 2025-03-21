@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Card, Form, Button, InputGroup, Row, Col } from "react-bootstrap";
 import { FaUpload, FaDownload } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const CampaignsScreen = () => {
   const [campaignName, setCampaignName] = useState("");
@@ -21,10 +22,11 @@ const CampaignsScreen = () => {
       setExcelFile(event.target.files[0]);
     }
   };
+  const navigate = useNavigate();
 
   const handleCreate = () => {
     if (!campaignName || !campaignFrom || !contactList || !sendDate) {
-      alert("Please fill all fields before creating the campaign.");
+    navigate("/coldcallingmarketing/History");
       return;
     }
     console.log("Campaign Created:", {
@@ -129,8 +131,8 @@ const CampaignsScreen = () => {
             </Row>
 
             <div className="d-flex justify-content-end mt-3">
-              <Button variant="secondary" className="me-2" onClick={() => alert("Campaign creation canceled.")}>Cancel</Button>
-              <Button variant="primary" onClick={handleCreate}>Create</Button>
+              <Button variant="white bg-white border-dark" className="me-2" onClick={() => alert("Campaign creation canceled.")}>Cancel</Button>
+              <Button variant="success" onClick={handleCreate}>Done</Button>
             </div>
           </Form>
         </Card.Body>

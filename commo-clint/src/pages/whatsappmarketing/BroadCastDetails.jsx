@@ -94,7 +94,7 @@ const BroadCastDetailsScreen = () => {
         <div className="text-center">No broadcast data available</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-300">
+          <table className="w-full border-collapse border border-gray-300 bg-white">
             <thead>
               <tr className="bg-gray-200">
                 <th className="border p-4">Template Name</th>
