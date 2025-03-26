@@ -141,8 +141,8 @@ const Footer = () => {
   return (
     <div className="container-fluid text-white text-center py-3" style={{ backgroundColor: '#455da1' }}>
       <div className="d-flex flex-column flex-md-row justify-content-center align-items-center mb-3">
-        <h1 className="fw-bold text-primary me-md-3 mb-3 mb-md-0">COMMO</h1>
-        <form className="d-flex" onSubmit={handleSubmit} style={{ width: '50%' }}>
+        {/* <h1 className="fw-bold text-primary me-md-3 mb-3 mb-md-0">COMMO</h1> */}
+        {/* <form className="d-flex" onSubmit={handleSubmit} style={{ width: '50%' }}>
           <input 
             type="email" 
             className="form-control me-2" 
@@ -152,7 +152,7 @@ const Footer = () => {
             required
           />
           <button type="submit" className="btn btn-primary">Submit</button>
-        </form>
+        </form> */}
       </div>
       {message && <p className="text-success">{message}</p>}
 

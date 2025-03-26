@@ -7,6 +7,7 @@ import Clients from "../../pages/ourclints/Client";
 import Services from "../../pages/whatsappmarketing/Services";
 import WhatsAppContent from "../../pages/whatsappmarketing/WhatsAppContent";
 import Footer from "../Footer";
+import { useNavigate } from "react-router-dom";
 
 const NavbarScreen = () => {
   const navItems = [
@@ -15,7 +16,10 @@ const NavbarScreen = () => {
     { path: "/coldcallingmarketing", label: "Cold Calling", icon: <FaPhoneAlt size={20} color="#074799" /> },
     { path: "/smsMarketing", label: "SMS", icon: <FaSms size={25} color="#074799" /> },
   ];
-
+ const navigate = useNavigate();
+const ClickToGo = ()=>{
+  navigate("/RegisterScreen");
+}
   return (
     <div>
       <nav
@@ -110,6 +114,7 @@ const NavbarScreen = () => {
                   e.target.style.backgroundColor = "#074799";
                   e.target.style.color = "white";
                 }}
+                onClick={ClickToGo}
               >
                 7 Days Free Trial
               </span>

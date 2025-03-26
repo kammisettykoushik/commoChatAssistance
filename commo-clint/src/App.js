@@ -10,7 +10,6 @@ import WhatsappLandingPage from './pages/whatsappmarketing/WhatsappLandingPage';
 import WhatsAppMarketing from './pages/whatsappmarketing/whatsappmarketing';
 import EmailMarketing from './pages/emailmarketing/Emailmarketing';
 import ColdCalling from './pages/coldcallingmarketing/ColdCalling';
-import SMS from './pages/smsmarketing/SMS';
 import Footer from './components/Footer';
 import Automations from './pages/whatsappmarketing/Automations';
 import Templates from './pages/whatsappmarketing/Templates/Templates';
@@ -44,6 +43,9 @@ import ReachScreen from './pages/emailmarketing/ReachScreen';
 import Campaignsms from './pages/smsmarketing/Campaignsms';
 import FailedCampaigns from './pages/smsmarketing/FailedCampaigns';
 import Dashboardsms from './pages/smsmarketing/Dashboardsms';
+import SMSMarketingPage from './pages/smsmarketing/SMSMarketingPage';
+import ForgotScreen from './components/MainNavBar/ForgotScreen';
+import PasswordResetSuccessScreen from './components/MainNavBar/PasswordResetSuccessScreen';
 
 function App() {
 
@@ -64,20 +66,28 @@ function App() {
       </>
     );
   };
-  
+
   const router = createBrowserRouter([
     {
       path: '/',
       element: <MainNavbarlist />,
     },
     {
-      path: '/RegisterScreen', 
+      path: '/RegisterScreen',
       element: <><RegisterScreen /><Footer /></>,
-    } ,   
+    },
     {
-      path: '/LoginScreen', 
+      path: '/LoginScreen',
       element: <><LoginScreen /><Footer /></>,
-    } ,     
+    },
+    {
+      path: '/ForgotScreen',
+      element: <><ForgotScreen /><Footer /></>,
+    },
+    {
+      path: '/PasswordResetSuccessScreen',
+      element: <><PasswordResetSuccessScreen /><Footer /></>,
+    },
     {
       path: '/whatsappmarketing',
       element: <ChildNavigationMainLayout data={whatsappmarketingNavigation} />,
@@ -92,11 +102,11 @@ function App() {
         },
         {
           path: 'BroadCast',
-          element: <BroadCas/>,
-          children:[
+          element: <BroadCas />,
+          children: [
             {
-              path:"BroadCastDetailsScreen",
-              element:<BroadCastDetailsScreens />
+              path: "BroadCastDetailsScreen",
+              element: <BroadCastDetailsScreens />
             }
           ]
         },
@@ -104,7 +114,7 @@ function App() {
         //   path: 'BroadCastDetailsScreen',
         //   element: <><BroadCastDetailsScreens /><Footer /></>,
         // },
-        
+
         {
           path: 'Templates',
           element: <><Templates /><Footer /></>,
@@ -189,6 +199,12 @@ function App() {
           element: <><DesignPreviewScreen /><Footer /></>,
         },
       ]
+
+    },
+
+    {
+      path: '/Features/EmailMarketing',
+      element: <EmailMarketing />,
     },
     {
       path: '/Coldcallingmarketing',
@@ -217,8 +233,13 @@ function App() {
       ]
     },
     {
+      path: '/Features/ColdCalling',
+      element: <ColdCalling />,
+    },
+    {
       path: '/smsMarketing',
       element: <ChildNavigationMainLayout data={smsMarketingNavigation} />,
+      
       children: [
         {
           path: '',
@@ -253,10 +274,15 @@ function App() {
           element: <><FailedCampaigns /><Footer /></>,
         },
       ]
+      
     },
-
-
+   
+    {
+      path: '/Features/SMSMarketingPage',
+      element: <SMSMarketingPage />,
+    },
   ]);
+  
 
   return <RouterProvider router={router} />;
 }

@@ -27,7 +27,7 @@ const Automationssms = () => {
   // Save button click logic
   const handleSave = () => {
     if (isImmediately || (scheduleDate && scheduleTime)) {
-      navigate("/smsmarketing/Campaignsms");
+      navigate("/smsmarketing/SmsSender");
     } else {
       alert("Please select a date and time before saving.");
     }
