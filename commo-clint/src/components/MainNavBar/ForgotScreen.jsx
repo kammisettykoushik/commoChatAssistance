@@ -13,7 +13,7 @@ const ForgotScreen = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/PasswordResetSuccessScreen")
+    navigate("/CheckEmail")
 
     // Simple validation to check if the email is not empty
     if (!email || !/\S+@\S+\.\S+/.test(email)) {

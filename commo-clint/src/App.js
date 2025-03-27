@@ -46,6 +46,8 @@ import Dashboardsms from './pages/smsmarketing/Dashboardsms';
 import SMSMarketingPage from './pages/smsmarketing/SMSMarketingPage';
 import ForgotScreen from './components/MainNavBar/ForgotScreen';
 import PasswordResetSuccessScreen from './components/MainNavBar/PasswordResetSuccessScreen';
+import CheckEmail from './components/MainNavBar/CheckEmail';
+import CreateNewPassword from './components/MainNavBar/CreateNewPassword';
 
 function App() {
 
@@ -87,6 +89,14 @@ function App() {
     {
       path: '/PasswordResetSuccessScreen',
       element: <><PasswordResetSuccessScreen /><Footer /></>,
+    },
+    {
+      path: '/CheckEmail',
+      element: <><CheckEmail/><Footer /></>,
+    },
+    {
+      path: '/CreateNewPassword',
+      element: <><CreateNewPassword/><Footer /></>,
     },
     {
       path: '/whatsappmarketing',
