@@ -105,6 +105,11 @@ const ChildNavigatin = (props) => {
                   Logout
                 </Link>
               </li>
+              <li>
+                <Link className="dropdown-item" to="/AdminScreen">
+                  Admin
+                </Link> 
+              </li>
             </ul>
           </div>
         </div>

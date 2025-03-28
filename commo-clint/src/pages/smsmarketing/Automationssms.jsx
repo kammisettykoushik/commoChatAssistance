@@ -39,69 +39,85 @@ const Automationssms = () => {
         <h2>Automations:</h2>
 
         <div style={styles.row}>
-          {/* Immediately field */}
+          {/* Radio buttons to switch between Immediately and Schedule Date */}
           <div style={styles.inputGroup}>
-            <h4 style={styles.label}>Immediately</h4>
+            <h4 style={styles.label}>Choose Option</h4>
             <div style={styles.flexRow}>
-              {isImmediately ? (
-                <div style={styles.immediatelyText}>
-                  <h4 style={{color:'green', border:'1px solid #0070C0', padding:10, borderRadius:10}}>{immediatelyDate}</h4> {/* Show today's date */}
-                </div>
-              ) : (
-                <Button onClick={() => {
+              <label  style={{fontSize:22,fontFamily:'bold',gap:5}}>
+                <input
+                  type="radio"
+                  name="timingOption"
+                  style={{height:20,width:20,marginRight:10,marginBottom:10}}
+                  checked={isImmediately}
+                  onChange={() => {
                     setIsImmediately(true);
-                    setIsSchedule(false);  // Disable Schedule when Immediately is selected
-                  }} 
-                  style={styles.switchButton}
-                  disabled={isSchedule} // Disable if Schedule is selected
-                >
-                  Set Immediately
-                </Button>
-              )}
-            </div>
-          </div>
-
-          {/* Schedule Date field */}
-          <div style={styles.inputGroup}>
-            <h4 style={styles.label}>Schedule Date</h4>
-            <div style={styles.flexRow}>
-              {isSchedule ? (
-                <div style={styles.scheduleWrapper}>
-                  <InputGroup className="mb-3" style={styles.inputWrapper}>
-                    <FormControl
-                      type="date"
-                      value={scheduleDate}
-                      onChange={handleScheduleDateChange}
-                    />
-                    <DropdownButton
-                      as={InputGroup.Append}
-                      variant="outline-secondary"
-                      title={scheduleTime || "Select Time"}
-                      id="input-group-dropdown-2"
-                      style={styles.dropdownButton}
-                    >
-                      {["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM"].map((time, index) => (
-                        <Dropdown.Item key={index} onClick={() => handleScheduleTimeChange(time)}>
-                          {time}
-                        </Dropdown.Item>
-                      ))}
-                    </DropdownButton>
-                  </InputGroup>
-                </div>
-              ) : (
-                <Button onClick={() => {
+                    setIsSchedule(false); // Deselect "Schedule Date" when "Immediately" is selected
+                  }}
+                 
+                />
+                Set Immediately
+              </label>
+              <label  style={{fontSize:22,fontFamily:'bold',}}>
+                <input
+                  type="radio"
+                  name="timingOption"
+                  checked={isSchedule}
+                  style={{height:20,width:20,marginRight:10,marginBottom:10}}
+                  onChange={() => {
                     setIsSchedule(true);
-                    setIsImmediately(false);  // Disable Immediately when Schedule is selected
-                  }} 
-                  style={styles.switchButton}
-                  disabled={isImmediately} // Disable if Immediately is selected
-                >
-                  Set Schedule
-                </Button>
-              )}
+                    setIsImmediately(false); // Deselect "Immediately" when "Schedule Date" is selected
+                  }}
+                />
+                Set Schedule
+              </label>
             </div>
           </div>
         </div>
+
+        {/* Displaying Immediately Date */}
+        {isImmediately && (
+          <div style={styles.row}>
+            <div style={styles.inputGroup}>
+              <h4 style={styles.label}>Immediately Date</h4>
+              <div style={styles.immediatelyText}>
+                <h4 style={{ color: 'green', border: '1px solid #0070C0', padding: 10, borderRadius: 10 }}>
+                  {immediatelyDate}
+                </h4>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Displaying Schedule Date and Time */}
+        {isSchedule && (
+          <div style={styles.row}>
+            <div style={styles.inputGroup}>
+              <h4 style={styles.label}>Schedule Date</h4>
+              <div style={styles.scheduleWrapper}>
+                <InputGroup className="mb-3" style={styles.inputWrapper}>
+                  <FormControl
+                    type="date"
+                    value={scheduleDate}
+                    onChange={handleScheduleDateChange}
+                  />
+                  <DropdownButton
+                    as={InputGroup.Append}
+                    variant="outline-secondary"
+                    title={scheduleTime || "Select Time"}
+                    id="input-group-dropdown-2"
+                    style={styles.dropdownButton}
+                  >
+                    {["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM"].map((time, index) => (
+                      <Dropdown.Item key={index} onClick={() => handleScheduleTimeChange(time)}>
+                        {time}
+                      </Dropdown.Item>
+                    ))}
+                  </DropdownButton>
+                </InputGroup>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div style={styles.infoText}>
           <h4>Send message to contacts who opted-in for marketing</h4>
@@ -153,14 +169,6 @@ const styles = {
     display: "flex",
     alignItems: "center",
     gap: "10px",
-  },
-  switchButton: {
-    backgroundColor: "#0070C0",
-    width: 200,
-    color: "white",
-    border: "none",
-    padding: "10px",
-    marginLeft: "10px", // Ensures the button is next to the label
   },
   flexRow: {
     display: "flex",

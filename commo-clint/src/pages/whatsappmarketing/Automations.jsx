@@ -33,7 +33,7 @@ const Automations = () => {
     }
   };
 
-  // Disable the other option when one is selected
+  // Toggle functions to switch between Immediately and Schedule
   const handleImmediatelyClick = () => {
     setIsImmediately(true);
     setIsSchedule(false);
@@ -54,65 +54,83 @@ const Automations = () => {
         <h2>Automations:</h2>
 
         <div style={styles.row}>
-          {/* Immediately field */}
+          {/* Radio buttons to switch between Immediately and Schedule Date */}
           <div style={styles.inputGroup}>
-            <h4 style={styles.label}>Immediately</h4>
+            <h4 style={styles.label}>Choose Option</h4>
             <div style={styles.flexRow}>
-              {isImmediately ? (
-                <div style={styles.immediatelyText}>
-                  <h4 style={{color:'green'}}>{immediatelyDate}</h4> {/* Show today's date */}
-                </div>
-              ) : (
-                <Button
-                  onClick={handleImmediatelyClick}
-                  style={{...styles.switchButton, backgroundColor: isSchedule ? '#D3D3D3' : '#28a745'}}
-                  disabled={isSchedule} // Disable if schedule is selected
-                >
-                  Set Immediately
-                </Button>
-              )}
-            </div>
-          </div>
-
-          {/* Schedule Date field */}
-          <div style={styles.inputGroup}>
-            <h4 style={styles.label}>Schedule Date</h4>
-            <div style={styles.flexRow}>
-              {isSchedule ? (
-                <div style={styles.scheduleWrapper}>
-                  <InputGroup className="mb-3" style={styles.inputWrapper}>
-                    <FormControl
-                      type="date"
-                      value={scheduleDate}
-                      onChange={handleScheduleDateChange}
-                    />
-                    <DropdownButton
-                      as={InputGroup.Append}
-                      variant="outline-secondary"
-                      title={scheduleTime || "Select Time"}
-                      id="input-group-dropdown-2"
-                      style={styles.dropdownButton}
-                    >
-                      {["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM"].map((time, index) => (
-                        <Dropdown.Item key={index} onClick={() => handleScheduleTimeChange(time)}>
-                          {time}
-                        </Dropdown.Item>
-                      ))}
-                    </DropdownButton>
-                  </InputGroup>
-                </div>
-              ) : (
-                <Button
-                  onClick={handleScheduleClick}
-                  style={{...styles.switchButton, backgroundColor: isImmediately ? '#D3D3D3' : '#28a745'}}
-                  disabled={isImmediately} // Disable if immediately is selected
-                >
-                  Set Schedule
-                </Button>
-              )}
+              <label  style={{fontSize:22,fontFamily:'bold',gap:5}}>
+                <input
+                  type="radio"
+                  name="timingOption"
+                  style={{height:20,width:20,marginRight:10,marginBottom:10}}
+                  checked={isImmediately}
+                  onChange={() => {
+                    setIsImmediately(true);
+                    setIsSchedule(false); // Deselect "Schedule Date" when "Immediately" is selected
+                  }}
+                 
+                />
+                Set Immediately
+              </label>
+              <label  style={{fontSize:22,fontFamily:'bold',}}>
+                <input
+                  type="radio"
+                  name="timingOption"
+                  checked={isSchedule}
+                  style={{height:20,width:20,marginRight:10,marginBottom:10}}
+                  onChange={() => {
+                    setIsSchedule(true);
+                    setIsImmediately(false); // Deselect "Immediately" when "Schedule Date" is selected
+                  }}
+                />
+                Set Schedule
+              </label>
             </div>
           </div>
         </div>
+
+        {/* Displaying Immediately Date */}
+        {isImmediately && (
+          <div style={styles.row}>
+            <div style={styles.inputGroup}>
+              <h4 style={styles.label}>Immediately Date</h4>
+              <div style={styles.immediatelyText}>
+                <h4 style={{ color: 'green' }}>{immediatelyDate}</h4> {/* Show today's date */}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Displaying Schedule Date and Time */}
+        {isSchedule && (
+          <div style={styles.row}>
+            <div style={styles.inputGroup}>
+              <h4 style={styles.label}>Schedule Date</h4>
+              <div style={styles.scheduleWrapper}>
+                <InputGroup className="mb-3" style={styles.inputWrapper}>
+                  <FormControl
+                    type="date"
+                    value={scheduleDate}
+                    onChange={handleScheduleDateChange}
+                  />
+                  <DropdownButton
+                    as={InputGroup.Append}
+                    variant="outline-secondary"
+                    title={scheduleTime || "Select Time"}
+                    id="input-group-dropdown-2"
+                    style={styles.dropdownButton}
+                  >
+                    {["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM"].map((time, index) => (
+                      <Dropdown.Item key={index} onClick={() => handleScheduleTimeChange(time)}>
+                        {time}
+                      </Dropdown.Item>
+                    ))}
+                  </DropdownButton>
+                </InputGroup>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div style={styles.infoText}>
           <h4>Send message to contacts who opted-in for marketing</h4>

@@ -48,6 +48,8 @@ import ForgotScreen from './components/MainNavBar/ForgotScreen';
 import PasswordResetSuccessScreen from './components/MainNavBar/PasswordResetSuccessScreen';
 import CheckEmail from './components/MainNavBar/CheckEmail';
 import CreateNewPassword from './components/MainNavBar/CreateNewPassword';
+import AdminScreen from './components/MainNavBar/AdminScreen';
+import AdminData from './components/MainNavBar/AdminData';
 
 function App() {
 
@@ -97,6 +99,14 @@ function App() {
     {
       path: '/CreateNewPassword',
       element: <><CreateNewPassword/><Footer /></>,
+    },
+    {
+      path: '/AdminScreen',
+      element: <><AdminScreen/><Footer /></>,
+    },
+    {
+      path: '/AdminData',
+      element: <><AdminData/><Footer /></>,
     },
     {
       path: '/whatsappmarketing',
