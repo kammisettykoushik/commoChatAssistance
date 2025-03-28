@@ -50,6 +50,8 @@ import CheckEmail from './components/MainNavBar/CheckEmail';
 import CreateNewPassword from './components/MainNavBar/CreateNewPassword';
 import AdminScreen from './components/MainNavBar/AdminScreen';
 import AdminData from './components/MainNavBar/AdminData';
+import UsersScreen from './components/MainNavBar/UsersScreen';
+import BusinessProfile from './components/MainNavBar/BusinessProfile';
 
 function App() {
 
@@ -107,6 +109,14 @@ function App() {
     {
       path: '/AdminData',
       element: <><AdminData/><Footer /></>,
+    },
+    {
+      path: '/UsersScreen',
+      element: <><UsersScreen/><Footer /></>,
+    },
+    {
+      path: '/BusinessProfile',
+      element: <><BusinessProfile/><Footer /></>,
     },
     {
       path: '/whatsappmarketing',

@@ -110,6 +110,16 @@ const ChildNavigatin = (props) => {
                   Admin
                 </Link> 
               </li>
+              <li>
+                <Link className="dropdown-item" to="/UsersScreen">
+                  User
+                </Link> 
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/BusinessProfile">
+                Business Profile
+                </Link> 
+              </li>
             </ul>
           </div>
         </div>
