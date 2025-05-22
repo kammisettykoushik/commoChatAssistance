@@ -9,35 +9,18 @@ const BroadCastDetailsScreen = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch templates and contacts count on mount
   useEffect(() => {
-    const fetchBroadcastData = async () => {
+    const fetchTemplateData = async () => {
       try {
-        // Fetch all templates
-        const templatesResponse = await axios.get("http://localhost:3001/api/whatsappmarketing/templates");
-        const templates = templatesResponse.data;
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`);
+        const templates = response.data;
 
-        // For each template, fetch contacts count if contactsUrl exists
-        const broadcastDetails = await Promise.all(
-          templates.map(async (template) => {
-            let contactsCount = 0;
-            if (template.contactsUrl) {
-              const contactsResponse = await axios.get(
-                `http://localhost:3001/api/whatsappmarketing/templates/${template.id}/contacts`
-              );
-              contactsCount = contactsResponse.data.length; // Count contacts from parsed file
-            }
-
-            // Map template data to broadcast format
-            // For now, status and reason are placeholders; adjust based on your broadcast logic
-            return {
-              template: template.templateName,
-              contacts: contactsCount,
-              status: template.status === "Approved" ? "Sent" : "Processing", // Example mapping
-              reason: template.status === "Approved" ? null : "Pending Approval", // Placeholder
-            };
-          })
-        );
+        const broadcastDetails = templates.map((template) => ({
+          template: template.templateName,
+          contacts: template.contactsCount || 0,
+          status: template.status,
+          reason: template.reason,
+        }));
 
         setBroadcastData(broadcastDetails);
         setLoading(false);
@@ -48,7 +31,7 @@ const BroadCastDetailsScreen = () => {
       }
     };
 
-    fetchBroadcastData();
+    fetchTemplateData();
   }, []);
 
   const getStatusIcon = (status) => {

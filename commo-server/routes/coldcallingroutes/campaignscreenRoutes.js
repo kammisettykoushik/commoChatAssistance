@@ -8,7 +8,7 @@ const slugify = require('slugify'); // Import slugify library for creating slugs
 const xlsx = require('xlsx');
 // const twilio = require('twilio');
 
-// // Twilio config
+// Twilio config
 // const accountSid = 'AC4c5309e35c5bf5ba1cd458d5721c0712';
 // const authToken = 'af17271e6cd1b67fedeb9627d196622b';
 // const twilioClient = twilio(accountSid, authToken);
@@ -67,13 +67,13 @@ router.post(
 
       const phoneNumbers = contacts.map(c => c.Phone || c.phone || c.Mobile || c.mobile).filter(Boolean);
 
-      // const callResults = await Promise.all(phoneNumbers.map(number =>
-      //   twilioClient.calls.create({
-      //     to: number,
-      //     from: TWILIO_NUMBER,
-      //     url: `https://745e-2406-b400-d5-7e22-180d-8333-95cc-526f.ngrok-free.app/api/coldcallingmarketing/campaignscreens/twiml/${audioFile}`
-      //   })
-      // ));
+      const callResults = await Promise.all(phoneNumbers.map(number =>
+        twilioClient.calls.create({
+          to: number,
+          from: TWILIO_NUMBER,
+          url: `https://745e-2406-b400-d5-7e22-180d-8333-95cc-526f.ngrok-free.app/api/coldcallingmarketing/campaignscreens/twiml/${audioFile}`
+        })
+      ));
 
             // Save to DB via Sequelize
             const newCampaign = await Campaign.create({
@@ -112,19 +112,19 @@ router.get('/', async (req, res) => {
 });
 
 // Serve TwiML that plays uploaded audio file
-// router.get('/twiml/:audioFile', (req, res) => {
-//   const { audioFile } = req.params;
-//   const audioUrl = `https://745e-2406-b400-d5-7e22-180d-8333-95cc-526f.ngrok-free.app/api/coldcallingmarketing/campaignscreens/twiml/${audioFile}`; // Use ngrok in production
+router.get('/twiml/:audioFile', (req, res) => {
+  const { audioFile } = req.params;
+  const audioUrl = `https://745e-2406-b400-d5-7e22-180d-8333-95cc-526f.ngrok-free.app/api/coldcallingmarketing/campaignscreens/twiml/${audioFile}`; // Use ngrok in production
 
-//   const twiml = `
-//     <Response>
-//       <Play>${audioUrl}</Play>
-//     </Response>
-//   `;
+  const twiml = `
+    <Response>
+      <Play>${audioUrl}</Play>
+    </Response>
+  `;
 
-//   res.type('text/xml');
-//   res.send(twiml);
-// });
+  res.type('text/xml');
+  res.send(twiml);
+});
 
 
 module.exports = router;

@@ -2,11 +2,16 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const sequelize = require('./config/config');
-const userRoutes = require('./routes/whatsappmarketingroutes/userRoutes');
 const contactRoutes = require('./routes/whatsappmarketingroutes/contactRoutes');
 const templateRoutes = require('./routes/whatsappmarketingroutes/templateRoutes');
+const campaignRoutes = require('./routes/emailmarketingroutes/campaignRoutes');
+const userRoutes = require('./routes/authenticationroutes/userRoutes');
+const campaignscreenRoutes = require('./routes/coldcallingroutes/campaignscreenRoutes');
+const campaignsmsRoutes = require('./routes/smsmarketingroutes/campaignsmsRoutes');
+const contactsmsRoutes = require('./routes/smsmarketingroutes/contactsmsRoutes');
 const path = require('path');
 const fs = require('fs');
+
 
 require('dotenv').config();
 
@@ -17,6 +22,7 @@ const port = process.env.PORT || 3001;  // Make port configurable with .env
 app.use(cors());
 app.use(bodyParser.json());
 
+
 // Serve static files from uploads directory
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
@@ -26,12 +32,14 @@ app.use('/uploads', express.static(uploadsDir));
 
 
 //Whatsapp marketing url path starts here:-
-app.use('/api/whatsappmarketing/users', userRoutes);
 app.use('/api/whatsappmarketing/contacts', contactRoutes);
 app.use('/api/whatsappmarketing/templates', templateRoutes);
-
-
-
+app.use('/api/emailmarketing/campaigns', campaignRoutes);
+// app.use('/api/authentication/users', userRoutes);
+app.use('/api/authentication', userRoutes);
+app.use('/api/coldcallingmarketing/campaignscreens', campaignscreenRoutes);
+app.use('/api/smsmarketing/campaignsms', campaignsmsRoutes);
+app.use('/api/smsmarketing/contactsms', contactsmsRoutes);
 // Handle 404 errors for undefined routes
 app.use((req, res, next) => {
   res.status(404).json({ error: "Route not found" });

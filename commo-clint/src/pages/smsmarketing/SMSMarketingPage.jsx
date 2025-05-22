@@ -1,6 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import DirectFooter from "../../components/DFooter/footer";
+import whychoosesmsmarketing from "../../assets/images/whychoosesmsmarketing.jpg";
 
 const SMSMarketingPage = () => {
   return (
@@ -69,9 +70,9 @@ const SMSMarketingPage = () => {
               it’s one of the most powerful tools for reaching a broad audience instantly.
             </p>
           </div>
-          <div className="col-lg-6">
+          <div className="col-lg-4 offset-lg-1">
             <img
-              src="https://www.brsender.com/images1/v1.jpg"
+              src={whychoosesmsmarketing}
               alt="SMS Marketing Overview"
               className="img-fluid rounded shadow"
             />

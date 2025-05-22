@@ -1,6 +1,8 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DirectFooter from "../../components/DFooter/footer";
+import whychoosewhatsappmarketing from "../../assets/images/whychoosewhatsappmarketing.jpg";
+import benefitsofwhatsappmarketing from "../../assets/images/benefitsofwhatsappmarketing.jpg";
 
 const WhatsAppMarketing = () => {
   return (
@@ -72,35 +74,14 @@ const WhatsAppMarketing = () => {
           </div>
 
           <div className="col-12 col-md-6 mt-4 mt-md-0 d-flex flex-wrap justify-content-center">
-            <div className="d-flex flex-column align-items-center" style={{ flex: '1 1 45%' }}>
+            <div className="d-flex flex-column  align-items-center" style={{ flex: '1 1 45%' }}>
               <img
-                src="https://www.brsender.com/images/wm.webp"
+                src={whychoosewhatsappmarketing}
                 alt="WhatsApp Marketing"
                 className="img-fluid rounded-3 mb-3"
                 style={{ objectFit: 'cover' }}
               />
-              <img
-                src="https://www.brsender.com/images/wm3.webp"
-                alt="WhatsApp Marketing"
-                className="img-fluid rounded-3"
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-
-            <div className="d-flex flex-column align-items-center" style={{ flex: '1 1 45%', marginLeft: 20 }}>
-              <img
-                src="https://www.brsender.com/images/wm2.webp"
-                alt="WhatsApp Marketing"
-                className="img-fluid rounded-3 mt-4 mb-3"
-                style={{ objectFit: 'cover' }}
-              />
-              <img
-                src="https://www.brsender.com/images/wm4.webp"
-                alt="WhatsApp Marketing"
-                className="img-fluid rounded-3"
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
+             </div>
           </div>
         </div>
       </div>
@@ -135,33 +116,12 @@ const WhatsAppMarketing = () => {
           <div className="col-12 col-md-6 mt-4 mt-md-0 d-flex flex-wrap justify-content-center">
             <div className="d-flex flex-column align-items-center" style={{ flex: '1 1 45%' }}>
               <img
-                src="https://www.brsender.com/images/wm5.webp"
+                src={benefitsofwhatsappmarketing}
                 alt="WhatsApp Marketing"
                 className="img-fluid rounded-3 mb-3"
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'cover', }}
               />
-              <img
-                src="https://www.brsender.com/images/wm7.webp"
-                alt="WhatsApp Marketing"
-                className="img-fluid rounded-3"
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-
-            <div className="d-flex flex-column align-items-center" style={{ flex: '1 1 45%', marginLeft: 20 }}>
-              <img
-                src="https://www.brsender.com/images/wm6.webp"
-                alt="WhatsApp Marketing"
-                className="img-fluid rounded-3 mt-4 mb-3"
-                style={{ objectFit: 'cover' }}
-              />
-              <img
-                src="https://www.brsender.com/images/wm8.webp"
-                alt="WhatsApp Marketing"
-                className="img-fluid rounded-3"
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
+              </div>
           </div>
         </div>
       </div>

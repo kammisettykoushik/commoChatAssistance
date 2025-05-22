@@ -1,7 +1,11 @@
 import { Whatsapp, CallCalling, SmsNotification } from "iconsax-react";
 import { FaEnvelope,FaPhoneAlt,FaSms } from "react-icons/fa";
 import email from "./../assets/images/email.png";
- const servicesData = [
+import whatsappmarketing from "./../assets/homescreenimages/whatsappmarketing.jpg";
+import emailmarketing from "./../assets/homescreenimages/emailmarketing.jpg";
+import coldcalling from "./../assets/homescreenimages/coldcallingmarketing.jpg";
+import smsmarketing from "./../assets/homescreenimages/smsmarketing.jpg";
+const servicesData = [
     {
       id: 1,
       name: "WhatsApp Marketing",
@@ -24,7 +28,7 @@ import email from "./../assets/images/email.png";
       id: 4,
       name: "SMS Marketing",
       Icon: <SmsNotification size="32" color="white" />,
-      path: "/Features/SMS",
+      path: "/Features/SMSMarketingPage",
     },
   ];
 
@@ -41,76 +45,62 @@ import email from "./../assets/images/email.png";
 
 
   const contentData = [
-      {
-        id: 1,
-        imageUrl:
-          "https://www.movylo.com/wp-content/uploads/2022/09/whatsapp-marketing.jpg",
-        heading: "WhatsApp Marketing",
-        description:"Leverage WhatsApp Marketing to build strong customer relationships and deliver personalized, impactful campaigns.",
-      },
-      {
-        id: 2,
-        imageUrl:
-          "https://media.licdn.com/dms/image/v2/D4E12AQFzT2eXu8I9cg/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1698343157543?e=2147483647&v=beta&t=o8gCXQXXr3SgOorkOBRq_Eqfd9K-aueoP46KKgRhRfQ",
-        heading: "Email Marketing",
-        description:"Enhance customer engagement with personalized email campaigns that deliver relevant content at the right time.",
-      },
-      {
-        id: 3,
-        imageUrl:
-          "https://assets.mailshake.com/wp-content/uploads/2021/08/01114115/1477625_Update-Old-Blog-Images_10_102722.jpg",
-        heading: "ColdCalling",
-        description: "Enhance outreach with Cold Calling by reaching potential customers through personalized, direct communication.",
-      },
-      {
-        id: 4,
-        imageUrl:
-          "https://www.moengage.com/wp-content/uploads/Personalized-Push-Notifications@2x.webp",
-        heading: "SMS Marketing",
-        description: "Boost customer engagement with SMS Marketing by delivering quick, personalized, and impactful messages directly to their phones.",
-      },
-      {
-        id: 5,
-        imageUrl:
-          "https://www.moengage.com/wp-content/uploads/onsite-messaging-4.webp",
-        heading: "Email Campaigns",
-        description: "Boost customer engagement with targeted Email Campaigns that deliver personalized and timely messages.",
-      },
-      {
-        id: 6,
-        imageUrl:
-          "https://water.r.worldssl.net/assets/images/blog-WhatIsBulkSmsMarketing_20211104-01.jpg",
-        heading: "Bulk SMS Marketing",
-        description:"Boost your reach with Bulk SMS Marketing by sending targeted, impactful messages to a large audience instantly.",
-      },
-    ];
+    {
+      id: 1,
+      image: whatsappmarketing,
+      heading: "WhatsApp Marketing",
+      description:"Leverage WhatsApp Marketing to build strong customer relationships and deliver personalized, impactful campaigns.",
+    },
+    {
+      id: 2,
+      image: emailmarketing,
+      heading: "Email Marketing",
+      description:"Enhance customer engagement with personalized email campaigns that deliver relevant content at the right time.",
+    },
+    {
+      id: 3,
+      image: coldcalling,
+      heading: "ColdCalling",
+      description: "Enhance outreach with Cold Calling by reaching potential customers through personalized, direct communication.",
+    },
+    {
+      id: 4,
+      image: smsmarketing,
+      heading: "SMS Marketing",
+      description: "Boost customer engagement with SMS Marketing by delivering quick, personalized, and impactful messages directly to their phones.",
+    },
+  ];
 
     const whatsappmarketingNavigation = {
-      path:"/whatsappmarketing",
+      path:"/",
       icon:  <Whatsapp size="40" color="#074799" />,
       navigationLinks:[
+        { label: "Home", path: "/whatsappmarketing" },
         { label: "Team Inbox", path: "/whatsappmarketing/TeamInbox"},
         { label: "Message Templates", path: "/whatsappmarketing/Templates" },
         { label: "Broadcast", path: "/whatsappmarketing/BroadCast" },
-        { label: "Contacts", path: "/whatsappmarketing/Contacts" },
-        { label: "Automations", path: "/whatsappmarketing/Automations" },
+        // { label: "Automations", path: "/whatsappmarketing/Automations" },
 
+        // { label: "Automations", path: "/whatsappmarketing/Automations" },
+        { label: "Contacts", path: "/whatsappmarketing/WhatsappContactList" },
       ]
     }
     const emailMarketingNavigation = {
-      path:"/emailmarketing",
+      path:"/",
       icon:  <FaEnvelope size={25} color="#074799" />,
       navigationLinks:[
-        { label: "Overview", path: "/emailmarketing/Overview"},
-        { label: "Contacts", path: "/emailmarketing/ContactPage" },
+        { label: "Home", path: "/emailmarketing" },
         { label: "Campaigns", path: "/emailmarketing/Campaigns" },
+        { label: "Overview", path: "/emailmarketing/Overview"},
+        { label: "ContactPage", path: "/emailmarketing/CampaignList" },
         { label: "Automations", path: "/emailmarketing/AutomationsScreen" },
       ]
     }
     const coldCallingMarketingNavigation = {
-      path:"/coldcallingmarketing",
+      path:"/",
       icon: <FaPhoneAlt size={20} color="#074799" />,
       navigationLinks:[
+        { label: "Home", path: "/coldcallingmarketing" },
         { label: "Contacts", path: "/coldcallingmarketing/Contactslist"},
         { label: "Campaigns", path: "/coldcallingmarketing/CampaignsScreen" },
         { label: "History", path: "/coldcallingmarketing/History" },
@@ -118,9 +108,10 @@ import email from "./../assets/images/email.png";
       ]
     }
     const smsMarketingNavigation = {
-      path:"/smsmarketing",
+      path:"/",
       icon:<FaSms size={25} color="#074799" />,
       navigationLinks:[
+        { label: "Home", path: "/smsmarketing" },
         { label: "Message", path: "/smsmarketing/Message" },
         { label: "Campaign", path: "/smsmarketing/Campaignsms" },
         { label: "SMS Sender", path: "/smsmarketing/SmsSender" },
@@ -131,10 +122,4 @@ import email from "./../assets/images/email.png";
       ]
     }
  
-    export {whatsappmarketingNavigation,emailMarketingNavigation,coldCallingMarketingNavigation,contentData,smsMarketingNavigation}
-
-
-
-
-
-    // export {contentData}
+export {whatsappmarketingNavigation,emailMarketingNavigation,coldCallingMarketingNavigation,contentData,smsMarketingNavigation}

@@ -1,231 +1,231 @@
 .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-  }
-  
-  .image-container img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  
-  .text-container {
-    flex: 1;
-    padding-left: 20px;
-  }
-  
-  .btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .btn:hover {
-    background-color: #28a745;
-    color: #fff;
-  }
-  
-  .heading {
-    display: block;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    opacity: 0;
-    animation: fadeIn 2s forwards;
-  }
-  
-  .description {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 20px;
-    opacity: 0;
-    animation: fadeIn 4s forwards;
-  }
-  
-  ul {
-    list-style-type: disc;
-    padding-left: 20px;
-  }
-  
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  
-
-
-
-  /* Services Container */
-.servicesContainer {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
   align-items: center;
-  padding: 40px;
-  background-color:#074799;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.text-container {
+  flex: 1;
+  padding-left: 20px;
+}
+
+.btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.heading {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+}
+
+.description {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeIn 4s forwards;
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+
+
+/* Services Container */
+.servicesContainer {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+align-items: center;
+padding: 40px;
+background-color:#074799;
 }
 
 /* About Services Section */
 .aboutServices {
-  flex: 1 1 40%;
-  max-width: 40%;
-  padding: 20px;
-  text-align: center;
+flex: 1 1 40%;
+max-width: 40%;
+padding: 20px;
+text-align: center;
 }
 
 .animatedTitle {
-  font-size: 48px;
-  font-weight: bold;
-  animation: typing 4s steps(40, end), fade-in 4s ease-out;
-  white-space: nowrap;
-  overflow: hidden;
-  display: inline-block;
-  color: whitesmoke;
+font-size: 48px;
+font-weight: bold;
+animation: typing 4s steps(40, end), fade-in 4s ease-out;
+white-space: nowrap;
+overflow: hidden;
+display: inline-block;
+color: whitesmoke;
 }
 
 .aboutText {
-  font-size: 18px;
-  color: white;
-  margin-top: 20px;
-  text-align: left;
+font-size: 18px;
+color: white;
+margin-top: 20px;
+text-align: left;
 }
 
 .buttonGroup {
-  display: flex;
-  justify-content: space-evenly;
-  margin-top: 30px;
+display: flex;
+justify-content: space-evenly;
+margin-top: 30px;
 }
 
 .demoButton,
 .trialButton {
-  background-color: rgba(65, 128, 245, 0.6);
-  border: none;
-  border-radius: 5px;
-  padding: 15px;
-  width: 30%;
-  color: white;
+background-color: rgba(65, 128, 245, 0.6);
+border: none;
+border-radius: 5px;
+padding: 15px;
+width: 30%;
+color: white;
 }
 
 /* Circle Wrapper */
 .circleWrapper {
-  // position: relative;
-  // flex: 1 1 50%;
-  // max-width: 50%;
-  // margin: 0 auto;
+// position: relative;
+// flex: 1 1 50%;
+// max-width: 50%;
+// margin: 0 auto;
 
-  position: relative;
-    flex: 1 1 50%;
-    max-width: 50%;
-    width: 400px;
-    height: 400px;
-    margin: 0px auto;
+position: relative;
+  flex: 1 1 50%;
+  max-width: 50%;
+  width: 400px;
+  height: 400px;
+  margin: 0px auto;
 }
 
 .mainCircle {
-  background-color: #fff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  font-size: 18px;
-  font-weight: bold;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  animation: zoom-animation 3s infinite ease-in-out;
+background-color: #fff;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+font-size: 18px;
+font-weight: bold;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+z-index: 2;
+animation: zoom-animation 3s infinite ease-in-out;
 }
 
 .serviceCircle {
-  border-radius: 50%;
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  animation: zoom-animation 3s infinite ease-in-out;
+border-radius: 50%;
+position: absolute;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+color: #fff;
+font-size: 12px;
+font-weight: bold;
+box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+z-index: 1;
+animation: zoom-animation 3s infinite ease-in-out;
 }
 
 /* Why Choose Us Section */
 .whyChoose {
+border-radius: 10px;
+width: fit-content;
+border: 1px solid skyblue;
+padding: 10px;
+margin-top: 30px;
+}
+
+.title {
+margin-top: 20px;
+}
+
+.blueText {
+color: blue;
+font-size: 30px;
+}
+
+.grayText {
+color: gray;
+font-size: 20px;
+}
+
+.benefitsList {
+line-height: 2;
+color: gray;
+font-size: 20px;
+}
+
+/* Typing Animation */
+@keyframes typing {
+from {
+  width: 0;
+}
+to {
+  width: 100%;
+}
+}
+
+/* Zoom-in and Zoom-out Animation */
+@keyframes zoom-animation {
+0%,
+100% {
+  transform: translate(-50%, -50%) scale(1);
+}
+50% {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+}
+.clintImage{
+  width: 100%;
+  max-width: 600;
+  height: auto;
+  object-fit: contain;
+}
+.clientContent{
+
   border-radius: 10px;
   width: fit-content;
   border: 1px solid skyblue;
   padding: 10px;
   margin-top: 30px;
-}
 
-.title {
-  margin-top: 20px;
-}
 
-.blueText {
-  color: blue;
-  font-size: 30px;
-}
-
-.grayText {
-  color: gray;
-  font-size: 20px;
-}
-
-.benefitsList {
-  line-height: 2;
-  color: gray;
-  font-size: 20px;
-}
-
-/* Typing Animation */
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
-
-/* Zoom-in and Zoom-out Animation */
-@keyframes zoom-animation {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.2);
-  }
-}
-.clintImage{
-    width: 100%;
-    max-width: 600;
-    height: auto;
-    object-fit: contain;
-}
-.clientContent{
-
-    border-radius: 10px;
-    width: fit-content;
-    border: 1px solid skyblue;
-    padding: 10px;
-    margin-top: 30px;
-
-  
 }

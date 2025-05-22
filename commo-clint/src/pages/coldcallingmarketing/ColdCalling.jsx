@@ -1,6 +1,10 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DirectFooter from "../../components/DFooter/footer";
+import realtimetracking from "../../assets/images/realtimetracking.jpg";
+import automatedcalls from "../../assets/images/automatedcalls.jpg";
+import custommessages from "../../assets/images/custommessages.jpg";
+import coldcalling from "../../assets/homescreenimages/coldcallingmarketing.jpg";
 // import "animate.css/animate.min.css";
 
 const ColdCalling = () => {
@@ -58,11 +62,11 @@ const ColdCalling = () => {
               </p>
             </div>
             <div
-              className="col-md-6 text-center animate__animated animate__fadeInRight">
+              className="col text-center animate__animated animate__fadeInRight">
               <img
-                src="https://www.brsender.com/images1/v1.jpg"
+                src={coldcalling}
                 alt="Cold Calling"
-                className="img-fluid rounded shadow"
+                className="img-fluid rounded"
               />
             </div>
           </div>
@@ -76,7 +80,7 @@ const ColdCalling = () => {
       <div className="col-md-4 mb-4 d-flex">
         <div className="card h-100 shadow border-0 animate__animated animate__fadeInUp w-100">
           <img
-            src="https://yellow.ai/wp-content/uploads/2024/02/Call-center-agents.webp"
+            src={automatedcalls}
             className="card-img-top"
             alt="Automated Calls"
           />
@@ -91,7 +95,7 @@ const ColdCalling = () => {
       <div className="col-md-4 mb-4 d-flex">
         <div className="card h-100 shadow border-0 animate__animated animate__fadeInUp w-100">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRARx0ATC2_5l7pQYIa8D9YjvBkLuoSshiLsA&s"
+            src={realtimetracking}
             className="card-img-top"
             alt="Automated Calls"
           />
@@ -106,7 +110,7 @@ const ColdCalling = () => {
       <div className="col-md-4 mb-4 d-flex">
         <div className="card h-100 shadow border-0 animate__animated animate__fadeInUp w-100">
           <img
-            src="https://www.omnisend.com/blog/wp-content/uploads/2022/05/05-26-Personalized-text-messages.png"
+            src={custommessages}
             className="card-img-top"
             alt="Automated Calls"
           />
@@ -130,4 +134,3 @@ const ColdCalling = () => {
 };
 
 export default ColdCalling;
-

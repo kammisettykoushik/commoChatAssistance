@@ -1,38 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Table, Form, Pagination, Card } from "react-bootstrap";
 import { FaPlus, FaCopy, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
-const campaignsData = [
-    { id: 1, name: "Summer Sale", username: "Template1", date: "01 June 2025", status: "Active" },
-    { id: 2, name: "Winter Deals", username: "Template2", date: "10 Dec 2025", status: "Expired" },
-    { id: 3, name: "Black Friday", username: "Template3", date: "25 Nov 2025", status: "Active" },
-    { id: 4, name: "Cyber Monday", username: "Template4", date: "28 Nov 2025", status: "Active" },
-    { id: 5, name: "New Year Promo", username: "Template5", date: "31 Dec 2025", status: "Expired" },
-    { id: 6, name: "Spring Discount", username: "Template6", date: "15 Mar 2025", status: "Active" },
-    { id: 7, name: "Easter Special", username: "Template7", date: "10 Apr 2025", status: "Active" },
-    { id: 8, name: "Back to School", username: "Template8", date: "01 Sep 2025", status: "Expired" },
-    { id: 9, name: "Halloween Treats", username: "Template9", date: "31 Oct 2025", status: "Active" },
-    { id: 10, name: "Thanksgiving Giveaway", username: "Template10", date: "24 Nov 2025", status: "Expired" },
-    { id: 11, name: "Valentine's Offer", username: "Template11", date: "14 Feb 2025", status: "Active" },
-    { id: 12, name: "Independence Day", username: "Template12", date: "04 Jul 2025", status: "Expired" },
-    { id: 13, name: "Christmas Specials", username: "Template13", date: "25 Dec 2025", status: "Active" },
-    { id: 14, name: "Mega Anniversary Sale", username: "Template14", date: "15 Aug 2025", status: "Expired" },
-    { id: 15, name: "Flash Deals", username: "Template15", date: "05 May 2025", status: "Active" },
-    { id: 16, name: "Exclusive Members Sale", username: "Template16", date: "20 Oct 2025", status: "Active" },
-    { id: 17, name: "Father's Day Discount", username: "Template17", date: "16 Jun 2025", status: "Expired" },
-    { id: 18, name: "Mother's Day Offer", username: "Template18", date: "12 May 2025", status: "Active" },
-    { id: 19, name: "Weekend Special", username: "Template19", date: "22 Jun 2025", status: "Active" },
-    { id: 20, name: "Daily Flash Sale", username: "Template20", date: "02 Jul 2025", status: "Expired" }
-];
+import axios from "axios";
 
 const Campaigns = () => {
     const navigate = useNavigate();
     const [filter, setFilter] = useState("all");
-    const [search, setSearch] = useState("");
-    const [campaigns, setCampaigns] = useState(campaignsData);
+    const [search, setSearch] = useState(""); // Search state
+    const [campaigns, setCampaigns] = useState([]); // Empty array for backend data
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 15;
+
+    // Fetch campaigns from the backend API
+    useEffect(() => {
+        const fetchCampaigns = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns`);
+                setCampaigns(response.data || []); // Fallback to empty array
+            } catch (error) {
+                console.error("Error fetching campaigns:", error);
+            }
+        };
+        fetchCampaigns();
+    }, []);
 
     const handleCreateNewCampaign = () => {
         navigate("/EmailMarketing/Campaigns/NewCampaign");
@@ -43,15 +34,22 @@ const Campaigns = () => {
         alert("Copied: " + text);
     };
 
-    const handleDelete = (id) => {
-        setCampaigns(campaigns.filter(c => c.id !== id));
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns/${id}`);
+            setCampaigns(campaigns.filter(campaign => campaign.id !== id)); // Update state after deletion
+        } catch (error) {
+            console.error("Error deleting campaign:", error);
+            alert("Failed to delete campaign");
+        }
     };
 
-    const filteredCampaigns = campaigns.filter(c => 
-        (filter === "all" || c.status.toLowerCase() === filter) && 
-        c.name.toLowerCase().includes(search.toLowerCase())
+    // Filter campaigns by search term
+    const filteredCampaigns = campaigns.filter(campaign => 
+        campaign.campaignName.toLowerCase().includes(search.toLowerCase())
     );
 
+    // Pagination logic
     const totalPages = Math.ceil(filteredCampaigns.length / itemsPerPage);
     const displayedCampaigns = filteredCampaigns.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
@@ -76,6 +74,7 @@ const Campaigns = () => {
                         </button>
                     ))}
                 </div>
+                {/* Search Input Field */}
                 <Form.Control 
                     type="text" 
                     placeholder="Search..." 
@@ -97,39 +96,54 @@ const Campaigns = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {displayedCampaigns.map((campaign) => (
-                                <tr key={campaign.id}>
-                                    <td className="text-center" style={{backgroundColor:'#FFF7C8'}}>{campaign.date}</td>
-                                    <td className="text-center" style={{backgroundColor:'#FFF7C8'}}>{campaign.name}</td>
-                                    <td className="text-center" style={{backgroundColor:'#FFF7C8'}}>3 min ago</td>
-                                    <td className="text-center" style={{backgroundColor:'#FFF7C8'}}>
-                                        {campaign.status} 
-                                        <FaCopy 
-                                            className="ms-2 text-primary" 
-                                            onClick={() => handleCopy(campaign.status)} 
-                                            style={{ cursor: "pointer" }} 
-                                        />  | 
-                                        <FaTrash 
-                                            className="ms-2 text-danger" 
-                                            onClick={() => handleDelete(campaign.id)} 
-                                            style={{ cursor: "pointer" }} 
-                                        />
-                                    </td>
+                            {displayedCampaigns.length > 0 ? (
+                                displayedCampaigns.map((campaign) => (
+                                    <tr key={campaign.id}>
+                                        <td className="text-center">{campaign.timestamp}</td> {/* Use timestamp from backend */}
+                                        <td className="text-center">{campaign.campaignName}</td> {/* Use campaignName from backend */}
+                                        <td className="text-center">3 min ago</td> {/* Placeholder for last modified */}
+                                        <td className="text-center">
+                                            <FaCopy 
+                                                className="ms-2 text-primary" 
+                                                onClick={() => handleCopy(campaign.campaignName)} 
+                                                style={{ cursor: "pointer" }} 
+                                            />  | 
+                                            <FaTrash 
+                                                className="ms-2 text-danger" 
+                                                onClick={() => handleDelete(campaign.id)} 
+                                                style={{ cursor: "pointer" }} 
+                                            />
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="4" className="text-center">No campaigns available</td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </Table>
                 </Card.Body>
             </Card>
             
             <Pagination className="justify-content-center mt-3">
-                <Pagination.Prev onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} />
+                <Pagination.Prev 
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
+                    disabled={currentPage === 1} 
+                />
                 {Array.from({ length: totalPages }, (_, i) => (
-                    <Pagination.Item key={i + 1} active={i + 1 === currentPage} onClick={() => setCurrentPage(i + 1)}>
+                    <Pagination.Item 
+                        key={i + 1} 
+                        active={i + 1 === currentPage} 
+                        onClick={() => setCurrentPage(i + 1)}
+                    >
                         {i + 1}
                     </Pagination.Item>
                 ))}
-                <Pagination.Next onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} />
+                <Pagination.Next 
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
+                    disabled={currentPage === totalPages} 
+                />
             </Pagination>
         </div>
     );

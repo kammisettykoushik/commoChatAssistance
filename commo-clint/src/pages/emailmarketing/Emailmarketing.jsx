@@ -1,6 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DirectFooter from "../../components/DFooter/footer";
+import whychooseemailmarketing from "../../assets/images/whychooseemailmarketing.jpg";
 
 const EmailMarketing = () => {
   return (
@@ -53,16 +54,17 @@ const EmailMarketing = () => {
       </div>
 
       {/* How It Works Section */}
-      <div className="how-it-works py-5">
+      <div className="how-it-works">
         <div className="container">
           <div className="row align-items-center">
             {/* Left Image Section */}
             <div className="col-lg-6 mb-4 mb-lg-0">
               <img
-                src="https://www.brsender.com/images/about/01.png"
+                src= {whychooseemailmarketing}
+                style={{ animationDuration: "1s", maxWidth: "100%", height: "auto", borderRadius: "20px", }}
                 alt="How It Works"
                 className="img-fluid rounded animate__animated animate__fadeInLeft"
-                style={{ animationDuration: "1s" }}
+               
               />
             </div>
 

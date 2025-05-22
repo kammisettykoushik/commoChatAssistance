@@ -26,7 +26,7 @@ const WhatsAppNavigation = () => {
             }}
           >
             {/* <Whatsapp size="40" color="#074799"/> */}
-            <Link to="/whatsappmarketing">
+            <Link to="/">
               <Whatsapp size="40" color="#074799" />
             </Link>
 
@@ -111,7 +111,7 @@ const WhatsAppNavigation = () => {
               </Link>
             </li>
 
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link
                 to={"/whatsappmarketing/Automations"}
                 className="nav-link"
@@ -119,7 +119,7 @@ const WhatsAppNavigation = () => {
               >
                 Automations
               </Link>
-            </li>
+            </li> */}
 
             <li className="nav-item">
               <Link

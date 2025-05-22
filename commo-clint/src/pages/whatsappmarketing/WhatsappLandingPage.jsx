@@ -1,12 +1,15 @@
 import React from "react";
+// import React, { useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./WhatsappLandingPage.module.scss";
+// import { AuthContext } from "../../App";
 const WhatsappLandingPage = () => {
+  // const { user } = useContext(AuthContext);
   return (
     <div style={{ padding: "20px" }}>
       <div style={{ textAlign: "left", margin: "20px 10%" }}>
         <span style={{ fontSize: "1.2em", fontWeight: "bold" }}>
-          Hello, Sneha!
+          Hello,"there"!
         </span>
         <h6 style={{ margin: "10px 0" }}>Welcome to Team Inbox!</h6>
       </div>

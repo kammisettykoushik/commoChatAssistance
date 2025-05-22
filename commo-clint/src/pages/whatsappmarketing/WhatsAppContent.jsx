@@ -1,23 +1,28 @@
 import React, { useState } from "react";
 import { ArrowCircleLeft2 } from "iconsax-react";
 import { contentData } from "../../utils/data";
+import { Carousel } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const WhatsAppContent = () => {
-  const [selectedContent, setSelectedContent] = useState(contentData[0]);
-  const handleIconClick = (content) => {
-    setSelectedContent(content);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleIconClick = (index) => {
+    setActiveIndex(index);
   };
+
   return (
     <div
       style={{
         display: "flex",
         gap: "50px",
         padding: "20px",
-        // backgroundColor:'#dffafa'
         backgroundColor: "whitesmoke",
         marginBottom: 20,
+        flexWrap: "wrap",
       }}
     >
+      {/* Left Side Carousel */}
       <div
         style={{
           flex: 1,
@@ -26,119 +31,85 @@ const WhatsAppContent = () => {
           alignItems: "center",
         }}
       >
-        <img
-          src={selectedContent.imageUrl}
-          alt="Dynamic"
-          style={{
-            width: "300px",
-            height: "300px",
-            borderRadius: "10px",
-            marginBottom: "20px",
-          }}
-        />
-        <div style={{ textAlign: "center" }}>
+        <Carousel
+          activeIndex={activeIndex}
+          onSelect={(selectedIndex) => setActiveIndex(selectedIndex)}
+          
+          interval={2000}
+        >
+          {contentData.map((item, index) => (
+            <Carousel.Item key={item.id}>
+              <img
+                src={item.image}
+                alt={`Slide ${index}`}
+                style={{
+                  width: "300px",
+                  height: "300px",
+                  borderRadius: "10px",
+                  marginBottom: "20px",
+                }}
+              />
+              
+            </Carousel.Item>
+          ))}
+        </Carousel>
+
+        <div style={{ textAlign: "center", marginTop: 10 }}>
           <p style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
-            {selectedContent.heading}
+            {contentData[activeIndex].heading}
           </p>
-          <span style={{ color: "#555" }}>{selectedContent.description}</span>
         </div>
       </div>
 
+      {/* Right Side Description & Grid List */}
       <div style={{ flex: 1 }}>
         <h2>
-          Drive Engagement with<b style={{ color: "blue" }}> COMMO</b> WhatsApp
+          Drive Engagement with <b style={{ color: "blue" }}>Trishoka Connect</b> Business
           Marketing Platform
         </h2>
         <p style={{ color: "#666", marginBottom: "30px" }}>
-          Build long-term relationships, drive relevant conversations, and keep
-          your customers hooked with WhatsApp marketing campaigns.
+          <span style={{ color: "#555" }}>{contentData[activeIndex].description}</span>
         </p>
 
-        <div style={{ display: "flex", gap: "20px" }}>
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              gap: "20px",
-            }}
-          >
-            {contentData.slice(0, 3).map((item) => (
-              <div
-                key={item.id}
-                onClick={() => handleIconClick(item)}
+        {/* 2x2 Grid */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "20px",
+          }}
+        >
+          {contentData.map((item, index) => (
+            <div
+              key={item.id}
+              onClick={() => handleIconClick(index)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                cursor: "pointer",
+                padding: "10px",
+                borderRadius: "8px",
+                transition: "background 0.3s",
+                backgroundColor:
+                  activeIndex === index ? "#FFEBE6" : "transparent",
+              }}
+            >
+              <ArrowCircleLeft2
+                size="48"
+                color={activeIndex === index ? "#FF8A65" : "#555"}
+              />
+              <p
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  cursor: "pointer",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  transition: "background 0.3s",
-                  backgroundColor:
-                    selectedContent.id === item.id ? "#FFEBE6" : "transparent",
+                  fontSize: "1rem",
+                  fontWeight: activeIndex === index ? "bold" : "normal",
+                  color: activeIndex === index ? "#333" : "#666",
                 }}
               >
-                <ArrowCircleLeft2
-                  size="48"
-                  color={selectedContent.id === item.id ? "#FF8A65" : "#555"}
-                />
-                <p
-                  style={{
-                    fontSize: "1rem",
-                    fontWeight:
-                      selectedContent.id === item.id ? "bold" : "normal",
-                    color: selectedContent.id === item.id ? "#333" : "#666",
-                  }}
-                >
-                  {item.heading}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Second Group (3 items) */}
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              gap: "20px",
-            }}
-          >
-            {contentData.slice(3, 6).map((item) => (
-              <div
-                key={item.id}
-                onClick={() => handleIconClick(item)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  cursor: "pointer",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  transition: "background 0.3s",
-                  backgroundColor:
-                    selectedContent.id === item.id ? "#FFEBE6" : "transparent",
-                }}
-              >
-                <ArrowCircleLeft2
-                  size="48"
-                  color={selectedContent.id === item.id ? "#FF8A65" : "#555"}
-                />
-                <p
-                  style={{
-                    fontSize: "1rem",
-                    fontWeight:
-                      selectedContent.id === item.id ? "bold" : "normal",
-                    color: selectedContent.id === item.id ? "#333" : "#666",
-                  }}
-                >
-                  {item.heading}
-                </p>
-              </div>
-            ))}
-          </div>
+                {item.heading}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Card, Form, Button, InputGroup, Row, Col } from "react-bootstrap";
 import { FaUpload, FaDownload } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 
 const CampaignsScreen = () => {
   const [campaignName, setCampaignName] = useState("");
@@ -10,6 +10,8 @@ const CampaignsScreen = () => {
   const [sendDate, setSendDate] = useState("");
   const [audioFile, setAudioFile] = useState(null);
   const [excelFile, setExcelFile] = useState(null);
+
+  const dateInputRef = useRef(null); // Date input ref
 
   const handleFileUpload = (event) => {
     if (event.target.files.length > 0) {
@@ -22,26 +24,54 @@ const CampaignsScreen = () => {
       setExcelFile(event.target.files[0]);
     }
   };
+
   const navigate = useNavigate();
 
-  const handleCreate = () => {
-    if (!campaignName || !campaignFrom || !contactList || !sendDate) {
-    navigate("/coldcallingmarketing/History");
+  const handleCreate = async () => {
+    if (!campaignName || !campaignFrom || !sendDate || !excelFile || !audioFile) {
+      alert("Please fill all fields before creating the campaign.");
       return;
     }
-    console.log("Campaign Created:", {
-      campaignName,
-      campaignFrom,
-      contactList,
-      sendDate,
-      audioFile,
-      excelFile,
-    });
+  
+    const formData = new FormData();
+    formData.append("campaignName", campaignName);
+    formData.append("campaignFrom", campaignFrom);
+    formData.append("sendDate", sendDate);
+    formData.append("audioFile", audioFile);
+    formData.append("contactListFile", excelFile);
+  
+    try {
+      const response = await fetch("http://localhost:3001/api/coldcallingmarketing/campaignscreens", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const data = await response.json();
+      if (!response.ok) {
+        // console.error("Error response from server:", data);
+        alert(`Failed to create campaign: ${data.message || 'Unknown error'}`);
+      } else {
+        alert("Campaign created successfully!");
+        console.log(data);
+  
+        // Reset form fields
+        setCampaignName("");
+        setCampaignFrom("");
+        setContactList("");
+        setSendDate("");
+        setAudioFile(null);
+        setExcelFile(null);
+        navigate("/Coldcallingmarketing/History");
+      }
+    } catch (error) {
+      console.error("Error in fetch:", error);
+      alert("Error creating campaign: " + error.message);
+    }
   };
-
+  
   return (
     <div className="d-flex justify-content-center p-4">
-      <Card className="w-50 p-4 shadow" style={{backgroundColor:'#CECEFF'}}>
+      <Card className="w-50 p-4 shadow">
         <Card.Header>
           <h4>Campaign Information</h4>
         </Card.Header>
@@ -76,12 +106,6 @@ const CampaignsScreen = () => {
               <Col>
                 <Form.Group>
                   <Form.Label>Contact List</Form.Label>
-                  {/* <Form.Control 
-                    type="text" 
-                    value={contactList} 
-                    onChange={(e) => setContactList(e.target.value)} 
-                    placeholder="Enter contact list" 
-                  /> */}
                   <InputGroup className="mt-2">
                     <InputGroup.Text>
                       <FaUpload />
@@ -97,13 +121,23 @@ const CampaignsScreen = () => {
                   )}
                 </Form.Group>
               </Col>
+
               <Col>
-                <Form.Group>
+                <Form.Group
+                  onClick={() => {
+                    if (dateInputRef.current) {
+                      dateInputRef.current.showPicker?.();
+                      dateInputRef.current.focus();
+                    }
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
                   <Form.Label>Send Campaign On</Form.Label>
-                  <Form.Control 
-                    type="date" 
-                    value={sendDate} 
-                    onChange={(e) => setSendDate(e.target.value)} 
+                  <Form.Control
+                    type="date"
+                    value={sendDate}
+                    onChange={(e) => setSendDate(e.target.value)}
+                    ref={dateInputRef}
                   />
                 </Form.Group>
               </Col>
@@ -131,8 +165,12 @@ const CampaignsScreen = () => {
             </Row>
 
             <div className="d-flex justify-content-end mt-3">
-              <Button variant="white bg-white border-dark" className="me-2" onClick={() => alert("Campaign creation canceled.")}>Cancel</Button>
-              <Button variant="success" onClick={handleCreate}>Done</Button>
+              <Button variant="secondary" className="me-2" onClick={() => alert("Campaign creation canceled.")}>
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handleCreate}>
+                Create
+              </Button>
             </div>
           </Form>
         </Card.Body>

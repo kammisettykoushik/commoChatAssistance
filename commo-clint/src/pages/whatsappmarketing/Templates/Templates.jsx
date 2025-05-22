@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Copy, UserEdit, Trash } from 'iconsax-react';
 import axios from 'axios';
+import Papa from 'papaparse';
+import { read, utils } from 'xlsx';
 
 const Templates = () => {
   const navigate = useNavigate();
@@ -17,7 +19,8 @@ const Templates = () => {
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/whatsappmarketing/templates');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`);
+        console.log('Fetched templates:', response.data); // Debug log
         setTemplates(response.data);
         setLoading(false);
       } catch (err) {
@@ -51,13 +54,10 @@ const Templates = () => {
         status: editingTemplate.status,
       };
       const response = await axios.put(
-        `http://localhost:3001/api/whatsappmarketing/templates/${editingTemplate.id}`,
+        `${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${editingTemplate.id}`,
         updatedTemplate
       );
-      const updatedTemplates = templates.map((t) =>
-        t.id === editingTemplate.id ? response.data : t
-      );
-      setTemplates(updatedTemplates);
+      setTemplates(templates.map((t) => (t.id === editingTemplate.id ? response.data : t)));
       setEditingTemplate(null);
     } catch (err) {
       console.error('Error saving edit:', err);
@@ -65,13 +65,15 @@ const Templates = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3001/api/whatsappmarketing/templates/${id}`);
-      setTemplates(templates.filter((t) => t.id !== id));
-    } catch (err) {
-      console.error('Error deleting template:', err);
-      alert('Failed to delete template');
+  const handleDelete = async (slug) => {
+    if (window.confirm('Are you sure you want to delete this template?')) {
+      try {
+        await axios.delete(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}`);
+        setTemplates(templates.filter((t) => t.slug !== slug));
+      } catch (err) {
+        console.error('Error deleting template:', err.response?.data || err.message);
+        alert(`Failed to delete template: ${err.response?.data?.error || err.message}`);
+      }
     }
   };
 
@@ -79,16 +81,78 @@ const Templates = () => {
     try {
       const template = templates.find((t) => t.id === id);
       const response = await axios.put(
-        `http://localhost:3001/api/whatsappmarketing/templates/${id}`,
+        `${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${id}`,
         { ...template, status: 'Approved', modifiedDate: new Date().toISOString() }
       );
-      const updatedTemplates = templates.map((t) =>
-        t.id === id ? response.data : t
-      );
-      setTemplates(updatedTemplates);
+      setTemplates(templates.map((t) => (t.id === id ? response.data : t)));
     } catch (err) {
       console.error('Error submitting template:', err);
       alert('Failed to submit template');
+    }
+  };
+
+  const handleSend = async (id) => {
+    const template = templates.find((t) => t.id === id);
+    if (!template.contactsUrl) {
+      alert('No contacts file found for this template');
+      return;
+    }
+
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}${template.contactsUrl}`, {
+        responseType: 'arraybuffer',
+      });
+      const ext = template.contactsUrl.split('.').pop().toLowerCase();
+      let contacts = [];
+
+      if (ext === 'csv') {
+        const text = new TextDecoder().decode(response.data);
+        contacts = await new Promise((resolve, reject) => {
+          Papa.parse(text, {
+            header: true,
+            complete: (results) => resolve(results.data),
+            error: (err) => reject(err),
+          });
+        });
+      } else if (ext === 'xlsx') {
+        const workbook = read(response.data, { type: 'array' });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        contacts = utils.sheet_to_json(sheet);
+      }
+
+      const phoneNumbers = contacts.map((contact) => contact['phone number']);
+      if (!phoneNumbers.length) {
+        alert('No phone numbers found in the contacts file');
+        return;
+      }
+
+      const sendResults = await Promise.all(
+        phoneNumbers.map(async (phone) => {
+          try {
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            console.log(`Simulated sending to ${phone}`);
+            return { phone, status: 'Sent' };
+          } catch (err) {
+            return { phone, status: 'Failed', reason: err.message };
+          }
+        })
+      );
+
+      const newStatus = sendResults.every((r) => r.status === 'Sent') ? 'Sent' : 'Failed';
+      const updatedTemplate = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${id}`,
+        {
+          ...template,
+          status: newStatus,
+          modifiedDate: new Date().toISOString(),
+        }
+      );
+
+      setTemplates(templates.map((t) => (t.id === id ? updatedTemplate.data : t)));
+      alert('Messages sent successfully!');
+    } catch (err) {
+      console.error('Error sending messages:', err);
+      alert('Failed to send messages');
     }
   };
 
@@ -96,10 +160,20 @@ const Templates = () => {
     navigate('/whatsappmarketing/Templates/SelectTemplate');
   };
 
+  const handleSavedPreviewTemplate = () => {
+    navigate('/whatsappmarketing/Templates/SavedPreview');
+  };
+
   return (
-   <div style={{backgroundColor:'#FFF8EF',padding:10}}>
-     <div className="container mt-4">
+    <div className="container mt-4" style={{ backgroundColor: '#FFF8EF', padding: 10 }}>
       <div className="d-flex justify-content-between align-items-center mb-3">
+        <button
+          className="btn"
+          onClick={handleSavedPreviewTemplate}
+          style={{ backgroundColor: '#2b3f87', color: 'white' }}
+        >
+          View Saved Templates
+        </button>
         <h3>Message Templates</h3>
         <button
           className="btn"
@@ -110,46 +184,154 @@ const Templates = () => {
         </button>
       </div>
 
-      {editingTemplate && (
-        <div className="modal show" style={{ display: 'block' }}>
+    
+
+{loading && <p>Loading templates...</p>}
+{error && <p className="text-danger">{error}</p>}
+
+{!loading && templates.length === 0 && (
+  <p className="text-center text-muted">No templates available. Please create a new template.</p>
+)}
+
+{templates.length > 0 && (
+  <table className="table table-striped">
+    <thead>
+      <tr>
+        <th>Template Name</th>
+        <th>Updated Date</th>
+        <th>Modified Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {templates.map((template) => (
+        <tr key={template.id}>
+          <td
+            onClick={() => navigate('/whatsappmarketing/BroadCast')}
+            style={{ cursor: 'pointer', color: '#2b3f87' }}
+          >
+            {template.templateName}
+          </td>
+          <td>{new Date(template.timestamp).toLocaleDateString()}</td>
+          <td>
+            {template.modifiedDate
+              ? new Date(template.modifiedDate).toLocaleDateString()
+              : new Date(template.timestamp).toLocaleDateString()}
+          </td>
+          <td
+            style={{
+              backgroundColor:
+                template.status === 'Approved'
+                  ? '#3a7027'
+                  : template.status === 'Sent'
+                  ? '#28a745'
+                  : '#e2e622',
+              color: 'white',
+            }}
+          >
+            {template.status || 'Draft'}
+          </td>
+          <td>
+            <div className="d-flex gap-3 justify-content-center">
+              <Copy
+                size="38"
+                color="#2b3f87"
+                className="btn btn-sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCopy(template.id);
+                }}
+              />
+              {(!template.status || template.status === 'Draft') && (
+                <>
+                  <UserEdit
+                    size="38"
+                    color="#2b3f87"
+                    className="btn btn-sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEdit(template);
+                    }}
+                  />
+                  <button
+                    className="btn btn-sm"
+                    style={{ color: '#2b3f87' }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSubmit(template.id);
+                    }}
+                  >
+                    Submit
+                  </button>
+                </>
+              )}
+              {template.status === 'Approved' && (
+                <button
+                  className="btn btn-sm"
+                  style={{ color: '#2b3f87' }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSend(template.id);
+                  }}
+                >
+                  Send
+                </button>
+              )}
+              <Trash
+                size="38"
+                color="#2b3f87"
+                className="btn btn-sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete(template.slug);
+                }}
+              />
+            </div>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
+
+
+      {editingTemplate && 
+      (
+        <div className="modal d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Edit Template</h5>
                 <button
                   type="button"
-                  className="close"
+                  className="btn-close"
                   onClick={() => setEditingTemplate(null)}
-                >
-                  <span>×</span>
-                </button>
+                ></button>
               </div>
               <div className="modal-body">
-                <div className="form-group">
-                  <label htmlFor="templateName">Template Name</label>
+                <div className="mb-3">
+                  <label className="form-label">Template Name</label>
                   <input
                     type="text"
-                    id="templateName"
                     className="form-control"
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                   />
                 </div>
-                <div className="form-group mt-2">
-                  <label htmlFor="updatedDate">Updated Date</label>
+                <div className="mb-3">
+                  <label className="form-label">Updated Date</label>
                   <input
                     type="date"
-                    id="updatedDate"
                     className="form-control"
                     value={newUpdatedDate}
                     onChange={(e) => setNewUpdatedDate(e.target.value)}
                   />
                 </div>
-                <div className="form-group mt-2">
-                  <label htmlFor="modifiedDate">Modified Date</label>
+                <div className="mb-3">
+                  <label className="form-label">Modified Date</label>
                   <input
                     type="date"
-                    id="modifiedDate"
                     className="form-control"
                     value={newModifiedDate}
                     onChange={(e) => setNewModifiedDate(e.target.value)}
@@ -162,92 +344,22 @@ const Templates = () => {
                   className="btn btn-secondary"
                   onClick={() => setEditingTemplate(null)}
                 >
-                  Close
+                  Cancel
                 </button>
                 <button
                   type="button"
                   className="btn btn-primary"
                   onClick={handleSaveEdit}
                 >
-                  Save Changes
+                  Save
                 </button>
               </div>
             </div>
           </div>
         </div>
       )}
-
-      {loading ? (
-        <div className="text-center">Loading templates...</div>
-      ) : error ? (
-        <div className="text-center text-danger">{error}</div>
-      ) : templates.length === 0 ? (
-        <div className="text-center">No templates found</div>
-      ) : (
-        <table className="table table-bordered table-hover">
-          <thead className="table-light">
-            <tr>
-              <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Template Name</th>
-              <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Updated Date</th>
-              <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Modified Date</th>
-              <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Status</th>
-              <th style={{ backgroundColor: '#2b3f87', color: 'white', textAlign: 'center' }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody style={{ textAlign: 'center' }}>
-            {templates.map((template) => (
-              <tr key={template.id}  onClick={() => navigate('/whatsappmarketing/BroadCast')}>
-                <td>{template.templateName}</td>
-                <td>{new Date(template.timestamp).toLocaleDateString()}</td>
-                <td>{template.modifiedDate ? new Date(template.modifiedDate).toLocaleDateString() : new Date(template.timestamp).toLocaleDateString()}</td>
-                <td
-                  style={{
-                    backgroundColor: template.status === 'Approved' ? '#3a7027' : '#e2e622',
-                    color: 'white',
-                  }}
-                >
-                  {template.status || 'Draft'}
-                </td>
-                <td>
-                  <div className="d-flex gap-3 justify-content-center">
-                    <Copy
-                      size="38"
-                      color="#2b3f87"
-                      className="btn btn-sm"
-                      onClick={() => handleCopy(template.id)}
-                    />
-                    {(!template.status || template.status === 'Draft') && (
-                      <>
-                        <UserEdit
-                          size="38"
-                          color="#2b3f87"
-                          className="btn btn-sm"
-                          onClick={() => handleEdit(template)}
-                        />
-                        <button
-                          className="btn btn-sm"
-                          style={{ color: '#2b3f87' }}
-                          onClick={() => handleSubmit(template.id)}
-                        >
-                          Submit
-                        </button>
-                      </>
-                    )}
-                    <Trash
-                      size="38"
-                      color="#2b3f87"
-                      className="btn btn-sm"
-                      onClick={() => handleDelete(template.id)}
-                    />
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      <br />
     </div>
-   </div>
   );
 };
 

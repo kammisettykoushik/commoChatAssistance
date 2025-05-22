@@ -4,9 +4,14 @@ const Template = require("../../models/whatsappmarketing/template");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const { parse } = require("csv-parse"); // For CSV parsing
-const XLSX = require("xlsx"); // For Excel parsing
+const Papa = require('papaparse'); // Import Papa Parse
+const { parseContactsFile } = require("../../utils/parseContacts");
+const slugify = require('slugify');
+const axios = require('axios');
+const WhatsApp = require('../../utils/WhatsApp'); // Import the WhatsApp module
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Multer configuration for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = path.join(__dirname, "../../uploads/whatsappmarketing/templates");
@@ -32,14 +37,76 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ storage, fileFilter });
 
-// ... (other imports and multer config remain the same)
-
-// POST: Create a new template
+// templateRoutes.js (updated POST route)
 router.post("/", upload.fields([{ name: "mediaFile" }, { name: "contactsFile" }]), async (req, res) => {
+  const mediaFile = req.files["mediaFile"] ? req.files["mediaFile"][0] : null;
+  const contactsFile = req.files["contactsFile"] ? req.files["contactsFile"][0] : null;
+  const mediaUrl = mediaFile ? `/uploads/whatsappmarketing/templates/${mediaFile.filename}` : null;
+  const contactsUrl = contactsFile ? `/uploads/whatsappmarketing/templates/${contactsFile.filename}` : null;
+
+  const cleanupFiles = () => {
+    try {
+      if (mediaFile && fs.existsSync(mediaFile.path)) fs.unlinkSync(mediaFile.path);
+      if (contactsFile && fs.existsSync(contactsFile.path)) fs.unlinkSync(contactsFile.path);
+    } catch (cleanupErr) {
+      console.error('Error during cleanup:', cleanupErr);
+    }
+  };
+
   try {
-    const { templateName, category, header, mediaType, body, footer, mediaShape, status } = req.body;
-    const mediaUrl = req.files["mediaFile"] ? `/uploads/whatsappmarketing/templates/${req.files["mediaFile"][0].filename}` : null;
-    const contactsUrl = req.files["contactsFile"] ? `/uploads/whatsappmarketing/templates/${req.files["contactsFile"][0].filename}` : null;
+    const { templateName, category, header, mediaType, body, footer, mediaShape, automation, } = req.body;
+    let contactsCount = 0;
+
+    if (contactsFile) {
+      try {
+        const contactsData = await parseContactsFile(contactsFile.path);
+        contactsCount = contactsData.length;
+      } catch (parseErr) {
+        console.error('Parsing error:', parseErr.message);
+        cleanupFiles();
+        return res.status(400).json({ error: `Failed to parse contacts file: ${parseErr.message}` });
+      }
+    }
+    // Parse and validate automation
+    const automationData = automation ? JSON.parse(automation) : null;
+    if (automationData && !automationData.isImmediately && automationData.scheduleDate && automationData.scheduleTime) {
+      const now = new Date();
+      const today = now.toISOString().split('T')[0];
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
+
+      const scheduledDate = automationData.scheduleDate;
+      const [time, period] = automationData.scheduleTime.split(' ');
+      let [hours, minutes] = time.split(':').map(Number);
+      if (period === 'PM' && hours !== 12) hours += 12;
+      if (period === 'AM' && hours === 12) hours = 0;
+
+      // Check if date is in the past
+      if (scheduledDate < today) {
+        cleanupFiles();
+        return res.status(400).json({ error: 'Schedule date cannot be in the past' });
+      }
+
+      // If scheduled for today, check if time is in the past
+      if (scheduledDate === today) {
+        if (hours < currentHour || (hours === currentHour && minutes < currentMinute)) {
+          cleanupFiles();
+          return res.status(400).json({ error: 'Schedule time cannot be in the past for today' });
+        }
+      }
+    }
+
+    // Generate slug from templateName if it's not provided
+    let slug = req.body.slug || slugify(templateName, { lower: true });
+
+    // Ensure the slug is unique by checking if it already exists in the database
+    let existingTemplate = await Template.findOne({ where: { slug } });
+    if (existingTemplate) {
+      // Append a unique identifier (timestamp) to make the slug unique
+      slug = `${slug}-${Date.now()}`;
+    }
+
+    // Create the template in the database
 
     const template = await Template.create({
       templateName,
@@ -52,23 +119,26 @@ router.post("/", upload.fields([{ name: "mediaFile" }, { name: "contactsFile" }]
       mediaShape,
       contactsUrl,
       timestamp: new Date(),
-      modifiedDate: new Date(), // Set initial modified date
-      status: status || "Draft",
+      modifiedDate: new Date(),
+      contactsCount,
+      status: "Processing",
+      reason: null,
+      slug,
+      automation: automationData, // Store automation settings
     });
 
     res.status(201).json(template);
   } catch (error) {
-    console.error(error);
+    console.error("Error in POST /templates:", error);
+    cleanupFiles();
     res.status(500).json({ error: "Failed to save template", details: error.message });
   }
 });
 
 // GET: Fetch all templates
 router.get("/", async (req, res) => {
-  console.log("Fetching templates...");
   try {
     const templates = await Template.findAll();
-    console.log("Templates fetched:", templates);
     res.status(200).json(templates);
   } catch (error) {
     console.error("Error fetching templates:", error);
@@ -77,57 +147,44 @@ router.get("/", async (req, res) => {
 });
 
 // DELETE: Remove a template by ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:slug", async (req, res) => {
   try {
-    const templateId = req.params.id;
-    const template = await Template.findByPk(templateId);
+    const templateSlug = req.params.slug.trim().toLowerCase();
+    const template = await Template.findOne({ where: { slug: templateSlug } }); // Find by slug
     if (!template) {
       return res.status(404).json({ error: "Template not found" });
     }
 
-    if (template.mediaUrl) fs.unlinkSync(path.join(__dirname, "../../", template.mediaUrl));
-    if (template.contactsUrl) fs.unlinkSync(path.join(__dirname, "../../", template.contactsUrl));
+    // Delete associated files
+    if (template.mediaUrl && fs.existsSync(path.join(__dirname, "../../", template.mediaUrl))) {
+      fs.unlinkSync(path.join(__dirname, "../../", template.mediaUrl));
+    }
+    if (template.contactsUrl && fs.existsSync(path.join(__dirname, "../../", template.contactsUrl))) {
+      fs.unlinkSync(path.join(__dirname, "../../", template.contactsUrl));
+    }
 
+    // Delete the template from the database
     await template.destroy();
     res.status(204).send();
   } catch (error) {
-    console.error(error);
+    console.error("Error deleting template:", error);
     res.status(500).json({ error: "Failed to delete template", details: error.message });
   }
 });
 
+
 // GET: Read contacts file for a specific template
-router.get("/:id/contacts", async (req, res) => {
+router.get("/:slug/contacts", async (req, res) => {
   try {
-    const templateId = req.params.id;
-    const template = await Template.findByPk(templateId);
+    const templateSlug = req.params.slug;
+    const template = await Template.findOne({ where: { slug: templateSlug } });
     if (!template || !template.contactsUrl) {
       return res.status(404).json({ error: "Template or contacts file not found" });
     }
 
     const filePath = path.join(__dirname, "../../", template.contactsUrl);
-    const ext = path.extname(template.contactsUrl).toLowerCase();
-    let contacts = [];
-
-    if (ext === ".csv") {
-      const csvData = fs.readFileSync(filePath, "utf8");
-      contacts = await new Promise((resolve, reject) => {
-        const results = [];
-        parse(csvData, { columns: true, trim: true })
-          .on("data", (row) => results.push(row))
-          .on("end", () => resolve(results))
-          .on("error", (err) => reject(err));
-      });
-    } else if (ext === ".xlsx") {
-      const workbook = XLSX.readFile(filePath);
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      contacts = XLSX.utils.sheet_to_json(sheet);
-    } else {
-      return res.status(400).json({ error: "Unsupported file format" });
-    }
-
-    res.status(200).json(contacts);
+    const contactsData = await parseContactsFile(filePath);
+    res.status(200).json(contactsData);
   } catch (error) {
     console.error("Error reading contacts file:", error);
     res.status(500).json({ error: "Failed to read contacts file", details: error.message });
@@ -135,10 +192,10 @@ router.get("/:id/contacts", async (req, res) => {
 });
 
 // PUT: Update a template by ID
-router.put("/:id", async (req, res) => {
+router.put("/:slug", async (req, res) => {
   try {
-    const templateId = req.params.id;
-    const template = await Template.findByPk(templateId);
+    const templateSlug = req.params.slug;
+    const template = await Template.findByPk(templateSlug);
     if (!template) {
       return res.status(404).json({ error: "Template not found" });
     }
@@ -147,7 +204,7 @@ router.put("/:id", async (req, res) => {
     await template.update({
       templateName: templateName || template.templateName,
       timestamp: timestamp || template.timestamp,
-      modifiedDate: modifiedDate || new Date(), // Update modified date on edit
+      modifiedDate: modifiedDate || new Date(),
       status: status || template.status,
     });
 
@@ -157,5 +214,101 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to update template", details: error.message });
   }
 });
+
+// PUT: Update contacts for a template (handle deletion here)
+router.put("/:slug/contacts", async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const { contacts } = req.body; // The new list of contacts after deletion
+
+    // Find the template by slug
+    const template = await Template.findOne({ where: { slug } });
+    if (!template) {
+      return res.status(404).json({ error: "Template not found" });
+    }
+
+    // Update the contacts file
+    if (template.contactsUrl) {
+      const filePath = path.join(__dirname, "../../", template.contactsUrl);
+      
+      // Update the contactsCount based on the new contacts list
+      const updatedContactsCount = contacts.length;
+      
+      // Update the template's contact count in the database
+      await template.update({ contactsCount: updatedContactsCount });
+
+      // Convert contacts array to CSV and save to file
+      const csvData = Papa.unparse(contacts); // Convert contacts array to CSV
+      await fs.promises.writeFile(filePath, csvData); // Write updated CSV to file
+    }
+
+    res.status(200).json({ message: "Contacts updated successfully", contactsCount: contacts.length });
+  } catch (error) {
+    console.error("Error updating contacts:", error);
+    res.status(500).json({ error: "Failed to update contacts", details: error.message });
+  }
+});
+
+router.post("/:slug/send", async (req, res) => {
+  try {
+    const slug = req.params.slug;
+    const template = await Template.findOne({ where: { slug } });
+    if (!template || !template.contactsUrl) {
+      return res.status(404).json({ error: "Template or contacts not found" });
+    }
+
+    const filePath = path.join(__dirname, "../../", template.contactsUrl);
+    const contacts = await parseContactsFile(filePath);
+
+    const batchSize = 10; // 10 messages per second
+    const delayBetweenBatchesMs = 1000; // 1 second
+
+    const totalContacts = contacts.length;
+    let sentCount = 0;
+    let failedCount = 0;
+
+    for (let i = 0; i < totalContacts; i += batchSize) {
+      const batch = contacts.slice(i, i + batchSize);
+
+      await Promise.all(batch.map(async (contact) => {
+        const phone = contact["Phone"] || contact["phone"] || contact["number"];
+        if (!phone) return;
+
+        try {
+          await WhatsApp(phone, {
+            header: template.header,
+            body: template.body,
+            footer: template.footer,
+            mediaUrl: template.mediaUrl ? `http://localhost:3001${template.mediaUrl}` : null,
+            mediaType: template.mediaType,
+          });
+          sentCount++;
+        } catch (error) {
+          console.error(`Failed to send message to ${phone}:`, error.message);
+          failedCount++;
+        }
+      }));
+
+      console.log(`Batch ${i / batchSize + 1} sent.`);
+      if (i + batchSize < totalContacts) {
+        console.log(`⏳ Waiting ${delayBetweenBatchesMs}ms before next batch...`);
+        await delay(delayBetweenBatchesMs);
+      }
+    }
+
+    // console.log(`✅ Bulk sending completed. Sent: ${sentCount}, Failed: ${failedCount}`);
+
+    res.status(200).json({ 
+      message: "Messages sending completed", 
+      totalContacts, 
+      sent: sentCount, 
+      failed: failedCount 
+    });
+  } catch (error) {
+    console.error("Error sending messages:", error);
+    res.status(500).json({ error: "Failed to send messages", details: error.message });
+  }
+});
+
 
 module.exports = router;

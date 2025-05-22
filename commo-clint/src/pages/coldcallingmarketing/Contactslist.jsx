@@ -54,7 +54,8 @@ const ContactsList = () => {
     };
 
     return (
-        <div className="p-4" style={{backgroundColor:'#FFF8EF'}}>
+
+        <div className="p-4">
             {contacts.length === 0 ? (
                 <Card className="p-4 text-center bg-light shadow-sm w-50 mx-auto">
                     <h3>No Contacts Available</h3>
@@ -71,12 +72,12 @@ const ContactsList = () => {
                         <h2 className="text-xl font-bold">Contact List</h2>
                         <div className="d-flex gap-2">
                             <Form.Group>
-                                <Form.Label className="btn btn-sm d-flex align-items-center gap-2 m-0" style={{backgroundColor:'#CDC5FF'}}>
+                                <Form.Label className="btn btn-sm btn-primary d-flex align-items-center gap-2 m-0">
                                     <Upload size={14} /> Import
                                     <Form.Control type="file" accept=".json" onChange={handleImport} hidden />
                                 </Form.Label>
                             </Form.Group>
-                            <Button onClick={handleExport}  className="btn-sm d-flex align-items-center gap-2"  style={{backgroundColor:'#CDC5FF',border:'none',color:'black'}}>
+                            <Button onClick={handleExport} variant="success" className="btn-sm d-flex align-items-center gap-2">
                                 <Download size={14} /> Export
                             </Button>
                         </div>
@@ -84,10 +85,10 @@ const ContactsList = () => {
                     <Table striped bordered hover className="text-center">
                         <thead>
                             <tr>
-                                <th style={{backgroundColor:'#CDC5FF'}}>Name</th>
-                                <th style={{backgroundColor:'#CDC5FF'}}>Mobile Number</th>
-                                <th style={{backgroundColor:'#CDC5FF'}}>Creation Date</th>
-                                <th style={{backgroundColor:'#CDC5FF'}}>Actions</th>
+                                <th>Name</th>
+                                <th>Mobile Number</th>
+                                <th>Creation Date</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -97,11 +98,11 @@ const ContactsList = () => {
                                     <td>{contact.mobile}</td>
                                     <td>{contact.date}</td>
                                     <td className="d-flex justify-content-center gap-2">
-                                        <Button onClick={() => handleEdit(contact)} className="btn-sm d-flex align-items-center gap-1">
-                                            <Edit size={14} /> 
+                                        <Button onClick={() => handleEdit(contact)} variant="warning" className="btn-sm d-flex align-items-center gap-1">
+                                            <Edit size={14} /> Edit
                                         </Button>
-                                        <Button onClick={() => handleDelete(contact.id)}  className="btn-sm d-flex align-items-center gap-1">
-                                            <Trash size={14} /> 
+                                        <Button onClick={() => handleDelete(contact.id)} variant="danger" className="btn-sm d-flex align-items-center gap-1">
+                                            <Trash size={14} /> Delete
                                         </Button>
                                     </td>
                                 </tr>

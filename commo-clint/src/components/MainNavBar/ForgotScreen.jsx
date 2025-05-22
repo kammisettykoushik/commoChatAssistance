@@ -1,28 +1,57 @@
 import React, { useState } from "react";
-import { FaLock } from "react-icons/fa"; // Forgot icon
-import { useNavigate } from "react-router-dom";
+import { FaLock } from "react-icons/fa"; // Lock icon
 
 const ForgotScreen = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [disabledAfterSuccess, setDisabledAfterSuccess] = useState(false); //  New state
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
+    setError("");
+    setSuccess("");
+    setDisabledAfterSuccess(false); // Re-enable if user edits email
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/CheckEmail")
 
-    // Simple validation to check if the email is not empty
+    // Email validation
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       setError("Please enter a valid email address.");
-    } else {
-      setError("");
-      // Logic to handle password reset (e.g., API call)
-      console.log("Password reset email sent to:", email);
+      return;
     }
+
+    setError("");
+    setSuccess("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:3001/api/authentication/forgot-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess("Password reset link has been sent to your email.");
+        setDisabledAfterSuccess(true); // Disable button after success
+        // Optional: setEmail(""); // Keep email or clear it
+      } else {
+        setError(data.error || "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      setError("Failed to send reset link. Please try again.");
+      console.error("Request error:", err);
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -40,43 +69,41 @@ const ForgotScreen = () => {
         }}
       >
         <div className="text-center mb-3">
-        <FaLock style={{ fontSize: "3rem", color: "#a85c32" }} />
+          <FaLock style={{ fontSize: "3rem", color: "#a85c32" }} />
         </div>
         <h5 className="text-center">Forgot Your Password?</h5>
 
-
-        {/* Text explaining the forgot password */}
-        <div className="mb-3">
-          <p className="text-center">
-           No worries! Enter Your Email Adress below,and 
-          </p>
-         <p className="text-center">we will send you a link to reset your password</p>
+        <div className="mb-3 text-center">
+          <p>No worries! Enter your email address below,</p>
+          <p>and we’ll send you a link to reset your password.</p>
         </div>
 
-        {/* Email input field */}
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email Address</label>
-          <input
-            type="email"
-            id="email"
-            className="form-control"
-            value={email}
-            onChange={handleEmailChange}
-          />
-          {error && <p className="text-danger">{error}</p>}
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              className="form-control"
+              value={email}
+              onChange={handleEmailChange}
+              disabled={loading || disabledAfterSuccess}
+            />
+            {error && <p className="text-danger mt-2">{error}</p>}
+            {success && <p className="text-success mt-2">{success}</p>}
+          </div>
 
-        {/* Send Button */}
-        <div className="text-center">
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className="btn w-100"
-            style={{ backgroundColor: "#032D60", color: "white" }}
-          >
-            Send Password Reset Link
-          </button>
-        </div>
+          <div className="text-center">
+            <button
+              type="submit"
+              className="btn w-100"
+              style={{ backgroundColor: "#032D60", color: "white" }}
+              disabled={loading || disabledAfterSuccess}
+            >
+              {loading ? "Sending..." : disabledAfterSuccess ? "Email Sent" : "Send Password Reset Link"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

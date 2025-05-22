@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Client.module.scss";
 import { clintServices } from "./../../utils/data";
+import whychooseus from "./../../assets/images/whychooseus.jpg";
 
 const Clients = () => {
   const radius = 150;
@@ -60,7 +61,7 @@ const Clients = () => {
           {/* Image Section */}
           <div className="col-lg-6 col-md-12 d-flex justify-content-center">
             <img
-              src="https://www.kovaion.com/wp-content/uploads/2022/12/Why-Kovaions-WhatsApp-Business-Marketing-Tool.png"
+              src={whychooseus}
               alt="Marketing Tool"
               className={styles.clintImage}
             />
@@ -71,11 +72,11 @@ const Clients = () => {
               <b>Why Choose Us</b>
             </div>
             <h1 style={{ marginTop: 20 }}>
-              <b style={{ color: "blue", fontSize: 30 }}>Why</b> Commo Whatsapp
+              <b style={{ color: "blue", fontSize: 30 }}>Why</b> Trishoka Connect Whatsapp
               Business Marketing Tool?
             </h1>
             <p style={{ color: "gray", fontSize: 20 }}>
-              Commo is one of the suitable bulk business WhatsApp marketing
+            Trishoka Connect is one of the suitable bulk business WhatsApp marketing
               platforms for small to enterprise businesses. Here are some of the
               major reasons to use Kovaion’s bulk WhatsApp business marketing
               software.
