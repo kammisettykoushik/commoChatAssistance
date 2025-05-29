@@ -32,6 +32,10 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], //>
 };
 
+// Root route
+app.get('/', (req, res) => {
+  res.send('Welcome to trishokaconnect internal API, Proceed at your own risk!');
+});
 
 // Serve static files from uploads directory
 const uploadsDir = path.join(__dirname, 'uploads');
