@@ -19,18 +19,20 @@ const app = express()
 const port = process.env.PORT || 3001;  // Make port configurable with .env
 
 
-// app.use(cors());
-app.use(bodyParser.json());
-app.use(cors(corsOptions));
-// CORS configuration to allow both www and non-www versions
+// CORS configuration - move this ABOVE app.use(cors(...))
 const corsOptions = {
   origin: [
-    'https://www.trishokaconnect.com',  // With www
-    'https://trishokaconnect.com',      // Without www
+    'https://www.trishokaconnect.com',
+    'https://trishokaconnect.com',
   ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Customize methods as>
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], //>
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
+  credentials: true, // if you're using cookies or Authorization headers
 };
+
+// Apply middleware
+app.use(cors(corsOptions));
+app.use(bodyParser.json());
 
 // Root route
 app.get('/', (req, res) => {
