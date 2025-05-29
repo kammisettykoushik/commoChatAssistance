@@ -19,8 +19,18 @@ const app = express()
 const port = process.env.PORT || 3001;  // Make port configurable with .env
 
 
-app.use(cors());
+// app.use(cors());
 app.use(bodyParser.json());
+app.use(cors(corsOptions));
+// CORS configuration to allow both www and non-www versions
+const corsOptions = {
+  origin: [
+    'https://www.trishokaconnect.com',  // With www
+    'https://trishokaconnect.com',      // Without www
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Customize methods as>
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], //>
+};
 
 
 // Serve static files from uploads directory
