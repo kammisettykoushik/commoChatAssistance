@@ -41,7 +41,7 @@ const CampaignsScreen = () => {
     formData.append("contactListFile", excelFile);
   
     try {
-      const response = await fetch("http://localhost:3001/api/coldcallingmarketing/campaignscreens", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/coldcallingmarketing/campaignscreens`, {
         method: "POST",
         body: formData,
       });

@@ -279,7 +279,7 @@ router.post("/:slug/send", async (req, res) => {
             header: template.header,
             body: template.body,
             footer: template.footer,
-            mediaUrl: template.mediaUrl ? `http://localhost:3001${template.mediaUrl}` : null,
+            mediaUrl: template.mediaUrl ? `${process.env.REACT_APP_API_URL}${template.mediaUrl}` : null,
             mediaType: template.mediaType,
           });
           sentCount++;

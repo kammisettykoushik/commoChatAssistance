@@ -14,7 +14,7 @@ const SmsSender = () => {
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/smsmarketing/contactsms"); // Adjust URL as needed
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/smsmarketing/contactsms`); // Adjust URL as needed
         setCampaigns(response.data);
       } catch (err) {
         console.error("Error fetching campaigns:", err);

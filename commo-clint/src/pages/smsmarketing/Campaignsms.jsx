@@ -149,7 +149,7 @@ const Campaignsms = () => {
   
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/smsmarketing/contactsms",
+        `${process.env.REACT_APP_API_URL}/api/smsmarketing/contactsms`,
         formDataToSend,
         {
           headers: {
@@ -194,7 +194,7 @@ const Campaignsms = () => {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const res = await axios.post("http://localhost:3001/api/smsmarketing/campaignsms", formData);
+        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/smsmarketing/campaignsms`, formData);
         console.log("Saved successfully:", res.data);
         setIsSubmitted(true);
       } catch (err) {

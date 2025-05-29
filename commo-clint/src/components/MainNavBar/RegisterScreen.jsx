@@ -55,7 +55,7 @@ const RegisterScreen = () => {
 
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const response = await axios.post('http://localhost:3001/api/authentication', {
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/authentication`, {
           firstName: formData.firstName,
           lastName: formData.lastName,
           email: formData.email,

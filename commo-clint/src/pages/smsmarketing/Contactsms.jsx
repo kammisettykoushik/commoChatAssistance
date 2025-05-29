@@ -19,7 +19,7 @@ const Contactsms = () => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/smsmarketing/campaignsms")
+    fetch(`${process.env.REACT_APP_API_URL}/api/smsmarketing/campaignsms`)
       .then((response) => response.json())
       .then((data) => {
         const mappedContacts = data.map(item => ({
@@ -78,7 +78,7 @@ const Contactsms = () => {
     };
   
     try {
-      const response = await fetch(`http://localhost:3001/api/smsmarketing/campaignsms/${editingContact.id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/smsmarketing/campaignsms/${editingContact.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -105,7 +105,7 @@ const Contactsms = () => {
     if (!window.confirm("Are you sure you want to delete this contact?")) return;
   
     try {
-      const response = await fetch(`http://localhost:3001/api/smsmarketing/campaignsms/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/smsmarketing/campaignsms/${id}`, {
         method: "DELETE",
       });
   

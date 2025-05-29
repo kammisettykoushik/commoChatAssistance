@@ -29,7 +29,7 @@ const ForgotScreen = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3001/api/authentication/forgot-password", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/authentication/forgot-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

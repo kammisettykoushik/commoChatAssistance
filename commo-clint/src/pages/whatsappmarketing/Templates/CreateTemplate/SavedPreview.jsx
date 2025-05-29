@@ -13,7 +13,7 @@ const SavedPreview = () => {
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/whatsappmarketing/templates');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`);
         console.log('Fetched templates:', response.data);
         setSavedData(response.data);
         setLoading(false);
@@ -28,7 +28,7 @@ const SavedPreview = () => {
 
   const handleViewContacts = async (slug) => {
     try {
-      const response = await axios.get(`http://localhost:3001/api/whatsappmarketing/templates/${slug}/contacts`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}/contacts`);
       setSelectedContacts(response.data);
     } catch (err) {
       console.error('Error fetching contacts:', err.response?.data || err.message);
@@ -40,7 +40,7 @@ const SavedPreview = () => {
     console.log('Deleting template with slug:', slug);
     if (window.confirm('Are you sure you want to delete this template?')) {
       try {
-        await axios.delete(`http://localhost:3001/api/whatsappmarketing/templates/${slug}`);
+        await axios.delete(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}`);
         const updatedData = savedData.filter((template) => template.slug !== slug);
         setSavedData(updatedData);
         setSelectedContacts(null);
@@ -57,7 +57,7 @@ const SavedPreview = () => {
   const handleSave = async (template) => {
     try {
       const slug = template.slug;
-      await axios.post(`http://localhost:3001/api/whatsappmarketing/templates/${slug}/send`);
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}/send`);
       alert("Messages sent successfully!");
       navigate('/whatsappmarketing/Templates');
     } catch (err) {
@@ -140,7 +140,7 @@ const SavedPreview = () => {
                       <div className="media-container my-3" style={{ textAlign: 'center' }}>
                         {template.mediaType === 'Image' ? (
                           <img
-                            src={`http://localhost:3001${template.mediaUrl}`}
+                            src={`${process.env.REACT_APP_API_URL}${template.mediaUrl}`}
                             alt={`${template.templateName} Preview`}
                             className="img-fluid"
                             style={{
@@ -156,7 +156,7 @@ const SavedPreview = () => {
                           />
                         ) : (
                           <video
-                            src={`http://localhost:3001${template.mediaUrl}`}
+                            src={`${process.env.REACT_APP_API_URL}${template.mediaUrl}`}
                             controls
                             className="img-fluid"
                             style={{
@@ -176,7 +176,7 @@ const SavedPreview = () => {
                       {template.contactsUrl && (
                         <p>
                           <strong>Contacts:</strong>{' '}
-                          <a href={`http://localhost:3001${template.contactsUrl}`} download>
+                          <a href={`${process.env.REACT_APP_API_URL}${template.contactsUrl}`} download>
                             Download
                           </a>{' '}
                           |{' '}

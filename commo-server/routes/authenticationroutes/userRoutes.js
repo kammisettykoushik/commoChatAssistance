@@ -20,7 +20,7 @@ const router = express.Router();
 dotenv.config();
 
 // const app = express();
-// app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+// app.use(cors({ origin: '${process.env.CLIENT_DOMAIN}', credentials: true }));
 // app.use(session({ secret: 'your_session_secret', resave: false, saveUninitialized: true }));
 // app.use(passport.initialize());
 // app.use(passport.session());
@@ -64,7 +64,7 @@ dotenv.config();
 //     // Successful authentication, generate JWT
 //     const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 //     // Redirect to frontend with token
-//     res.redirect(`http://localhost:3000?token=${token}`);
+//     res.redirect(`${process.env.CLIENT_DOMAIN}?token=${token}`);
 //   }
 // );
 
@@ -95,8 +95,8 @@ router.post("/forgot-password", async (req, res) => {
     await user.save();
 
     // Create a reset link
-    // const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
-    const resetLink = `http://localhost:3000/ResetPassword/${resetToken}`;
+    // const resetLink = `${process.env.CLIENT_DOMAIN}/reset-password/${resetToken}`;
+    const resetLink = `${process.env.CLIENT_DOMAIN}/ResetPassword/${resetToken}`;
 
 
     // Send the reset link via email
@@ -276,7 +276,7 @@ router.post("/reset-password", async (req, res) => {
 //   (req, res) => {
 //     // Send token to frontend or redirect
 //     const token = jwt.sign({ id: req.user.id, email: req.user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-//     res.redirect(`http://localhost:3000?token=${token}`); // or send token in JSON
+//     res.redirect(`${process.env.CLIENT_DOMAIN}?token=${token}`); // or send token in JSON
 //   }
 // );
 

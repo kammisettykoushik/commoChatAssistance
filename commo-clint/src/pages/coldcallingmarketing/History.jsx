@@ -16,7 +16,7 @@ const History = () => {
     useEffect(() => {
         const fetchCallHistory = async () => {
             try {
-                const response = await axios.get("http://localhost:3001/api/coldcallingmarketing/campaignscreens");
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/coldcallingmarketing/campaignscreens`);
                 console.log("API Data:", response.data);
                 setCallHistory(response.data);
             } catch (error) {

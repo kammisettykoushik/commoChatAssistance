@@ -32,7 +32,7 @@ const LoginScreen = () => {
 
   const handleGoogleClick = () => {
     console.log('Google login');
-    window.location.href = 'http://localhost:3001/api/authentication/google';
+    window.location.href = `${process.env.REACT_APP_API_URL}/api/authentication/google`;
   };
 
   const handleFacebookClick = () => {
@@ -49,7 +49,7 @@ const LoginScreen = () => {
 
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const response = await axios.post('http://localhost:3001/api/authentication/login', {
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/authentication/login`, {
           email: formData.email,
           password: formData.password,
         });
