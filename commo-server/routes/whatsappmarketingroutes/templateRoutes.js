@@ -259,6 +259,7 @@ router.post("/:slug/send", async (req, res) => {
 
     const filePath = path.join(__dirname, "../../", template.contactsUrl);
     const contacts = await parseContactsFile(filePath);
+    console.log("📞 Parsed contacts:", contacts.map(c => c["Phone"] || c["number"]));
 
     const batchSize = 10; // 10 messages per second
     const delayBetweenBatchesMs = 1000; // 1 second
@@ -272,10 +273,15 @@ router.post("/:slug/send", async (req, res) => {
 
       await Promise.all(batch.map(async (contact) => {
         const phone = contact["Phone"] || contact["phone"] || contact["number"];
-        if (!phone) return;
+        if (!/^\+?\d{10,15}$/.test(phone)) {
+          console.warn(`⚠️ Skipping invalid phone number: ${phone}`);
+          failedCount++;
+          return;
+        }
 
         try {
           await WhatsApp(phone, {
+            name: template.name,
             header: template.header,
             body: template.body,
             footer: template.footer,

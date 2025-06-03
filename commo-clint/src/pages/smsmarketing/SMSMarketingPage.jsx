@@ -1,7 +1,8 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import DirectFooter from "../../components/DFooter/footer";
-import whychoosesmsmarketing from "../../assets/images/whychoosesmsmarketing.jpg";
+// import whychoosesmsmarketing from "../../assets/images/whychoosesmsmarketing.jpg";
+import whychoosesmsmarketingremovebgpreview from "../../assets/images/whychoosesmsmarketingremovebgpreview.png";
 
 const SMSMarketingPage = () => {
   return (
@@ -17,7 +18,7 @@ const SMSMarketingPage = () => {
       >
         <div className="container">
           <h1 className="display-4 font-weight-bold">Unlock the Power of SMS Marketing</h1>
-          <p className="lead">Engage, inform, and convert customers directly through their phones</p>
+          <p className="lead">Most messages are generally accessed within minutes of their arrival. </p>
           <button className="btn btn-light btn-lg">Learn More</button>
         </div>
       </section>
@@ -29,9 +30,9 @@ const SMSMarketingPage = () => {
           <div className="col-md-4">
             <div className="card shadow-sm">
               <div className="card-body text-center">
-                <h5 className="card-title text-primary">Instant Reach</h5>
+                <h5 className="card-title text-primary">Immediate Delivery</h5>
                 <p className="card-text">
-                  SMS messages have an incredibly high open rate. Most messages are read within minutes of being received.
+                  Messages are received within seconds.
                 </p>
               </div>
             </div>
@@ -39,9 +40,9 @@ const SMSMarketingPage = () => {
           <div className="col-md-4">
             <div className="card shadow-sm">
               <div className="card-body text-center">
-                <h5 className="card-title text-primary">Cost-Effective</h5>
+                <h5 className="card-title text-primary">Simple & Direct</h5>
                 <p className="card-text">
-                  Compared to other marketing methods, SMS marketing offers an affordable solution that suits both small and large businesses.
+                  Short messages that deliver clear value.
                 </p>
               </div>
             </div>
@@ -49,9 +50,39 @@ const SMSMarketingPage = () => {
           <div className="col-md-4">
             <div className="card shadow-sm">
               <div className="card-body text-center">
-                <h5 className="card-title text-primary">Wide Reach</h5>
+                <h5 className="card-title text-primary">Bulk Messaging</h5>
                 <p className="card-text">
-                  SMS marketing allows you to reach your audience wherever they are, without needing internet connectivity.
+                  Send to thousands instantly.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-4 mt-4">
+            <div className="card shadow-sm">
+              <div className="card-body text-center">
+                <h5 className="card-title text-primary">Cost-Efficient</h5>
+                <p className="card-text">
+                  Low cost per message, high impact.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-4 mt-4">
+            <div className="card shadow-sm">
+              <div className="card-body text-center">
+                <h5 className="card-title text-primary">Universal Reach</h5>
+                <p className="card-text">
+                  No internet needed, works on all phones.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-4 mt-4">
+            <div className="card shadow-sm">
+              <div className="card-body text-center">
+                <h5 className="card-title text-primary">Compliance Friendly</h5>
+                <p className="card-text">
+                  Easy to integrate opt-in/opt-out options.
                 </p>
               </div>
             </div>
@@ -65,16 +96,21 @@ const SMSMarketingPage = () => {
           <div className="col-lg-6">
             <h2 className="text-primary">What is SMS Marketing?</h2>
             <p className="lead text-muted">
-              SMS marketing is a direct and effective communication channel that allows businesses to send promotional messages,
-              offers, updates, and alerts straight to the consumer’s mobile device. With high open rates and real-time engagement,
-              it’s one of the most powerful tools for reaching a broad audience instantly.
+            SMS Marketing offers a fast, reliable way to reach customers directly on their mobile phones.
+            With nearly 100% open rates and instant delivery, it’s ideal for time-sensitive messages such as flash sales, payment reminders, order confirmations, and event alerts. 
+            SMS doesn’t require internet access, making it universally accessible. It supports short, impactful messaging that captures attention quickly. 
+            Businesses can personalize messages and send them in bulk using SMS platforms that allow scheduling, automation and real-time reporting. 
+            Whether targeting existing clients or new leads, SMS Marketing ensures high visibility at low cost. 
+            It’s a great complement to other channels like email or social media, driving quick actions like clicks, visits or purchases. 
+            With proper timing and targeting, SMS campaigns can significantly boost engagement, improve customer experience, and drive repeat business. 
             </p>
           </div>
-          <div className="col-lg-4 offset-lg-1">
+          <div className="col-lg-5 offset-lg-1">
             <img
-              src={whychoosesmsmarketing}
+              src={whychoosesmsmarketingremovebgpreview}
               alt="SMS Marketing Overview"
-              className="img-fluid rounded shadow"
+              className="img-fluid"
+              style={{ height: '500px', objectFit: 'cover' }}
             />
           </div>
         </div>

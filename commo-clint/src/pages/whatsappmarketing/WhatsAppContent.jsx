@@ -17,7 +17,7 @@ const WhatsAppContent = () => {
         display: "flex",
         gap: "50px",
         padding: "20px",
-        backgroundColor: "whitesmoke",
+        backgroundColor: "white",
         marginBottom: 20,
         flexWrap: "wrap",
       }}
@@ -43,8 +43,8 @@ const WhatsAppContent = () => {
                 src={item.image}
                 alt={`Slide ${index}`}
                 style={{
-                  width: "300px",
-                  height: "300px",
+                  width: "400px",
+                  height: "350px",
                   borderRadius: "10px",
                   marginBottom: "20px",
                 }}

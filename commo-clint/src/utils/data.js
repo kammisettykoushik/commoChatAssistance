@@ -1,10 +1,10 @@
 import { Whatsapp, CallCalling, SmsNotification } from "iconsax-react";
 import { FaEnvelope,FaPhoneAlt,FaSms } from "react-icons/fa";
 import email from "./../assets/images/email.png";
-import whatsappmarketing from "./../assets/homescreenimages/whatsappmarketing.jpg";
-import emailmarketing from "./../assets/homescreenimages/emailmarketing.jpg";
+import whatsappmarketing from "./../assets/homescreenimages/whatsappmarketing.png";
+import emailmarketing from "./../assets/homescreenimages/emailmarketing.png";
 import coldcalling from "./../assets/homescreenimages/coldcallingmarketing.jpg";
-import smsmarketing from "./../assets/homescreenimages/smsmarketing.jpg";
+import smsmarketing from "./../assets/homescreenimages/smsmarketing.png";
 const servicesData = [
     {
       id: 1,

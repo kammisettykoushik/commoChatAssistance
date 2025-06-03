@@ -110,9 +110,9 @@ const ClickToGo = () => {
           <div className="col-md-4">
             <h6 className="fw-bold mb-2">Follow Us On:</h6>
             <div className="d-flex gap-3">
-              <a href="#" className="text-dark fs-5"><i className="fab fa-instagram"></i></a>
-              <a href="#" className="text-dark fs-5"><i className="fab fa-facebook"></i></a>
-              <a href="#" className="text-dark fs-5"><i className="fab fa-twitter"></i></a>
+              <a href="https://www.instagram.com/trishoka_digital_services/" className="text-dark fs-5"><i className="fab fa-instagram"></i></a>
+              <a href="https://www.facebook.com/trishokadigitalservicess" className="text-dark fs-5"><i className="fab fa-facebook"></i></a>
+              <a href="https://www.linkedin.com/company/96662799/dashboard/" className="text-dark fs-5"><i class="fab fa-linkedin-in"></i></a>
             </div>
           </div>
         </div>

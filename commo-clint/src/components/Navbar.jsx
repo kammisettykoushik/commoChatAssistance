@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaWhatsapp, FaEnvelope, FaPhoneAlt, FaSms } from 'react-icons/fa';
 import { useContext } from 'react';
 import { AuthContext } from '../App'; // Adjust path based on your structure
+import trishokaconnectlogo from "../../src/assets/images/trishokaconnectlogo.jpg";
 
 const NavBar = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext); // Use AuthContext
@@ -39,18 +40,19 @@ const NavBar = () => {
       >
         <div className="container-fluid">
           <div className="d-flex align-items-center">
-            <img
-              src="https://cdn.vectorstock.com/i/500p/69/77/logo-c-monogram-modern-letter-mockup-elegant-vector-5246977.jpg"
-              alt="C-Shape"
-              style={{ width: '40px', height: '40px', marginRight: '10px' }}
-            />
             <Link className="navbar-brand" to="/">
+            <img
+              src={trishokaconnectlogo}
+              alt="C-Shape"
+              style={{ width: '50px', height: '50px', marginLeft: '5px' }}
+            />
+            {/* <Link className="navbar-brand" to="/"> */}
               <span
                 className="brand-logo"
                 style={{
                   color: '#074799',
                   borderRadius: 5,
-                  padding: '10px 20px',
+                  padding: '1px',
                   fontSize: '18px',
                   fontWeight: 'bold',
                 }}

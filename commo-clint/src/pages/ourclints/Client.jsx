@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Client.module.scss";
 import { clintServices } from "./../../utils/data";
-import whychooseus from "./../../assets/images/whychooseus.jpg";
+import whychooseus from "./../../assets/images/whychooseus.png";
 
 const Clients = () => {
   const radius = 150;
@@ -64,6 +64,7 @@ const Clients = () => {
               src={whychooseus}
               alt="Marketing Tool"
               className={styles.clintImage}
+              // style={{ objectFit: 'cover', width: '100%' }}
             />
           </div>
           {/* Content Section */}
@@ -75,18 +76,10 @@ const Clients = () => {
               <b style={{ color: "blue", fontSize: 30 }}>Why</b> Trishoka Connect Whatsapp
               Business Marketing Tool?
             </h1>
-            <p style={{ color: "gray", fontSize: 20 }}>
-            Trishoka Connect is one of the suitable bulk business WhatsApp marketing
-              platforms for small to enterprise businesses. Here are some of the
-              major reasons to use Kovaion’s bulk WhatsApp business marketing
-              software.
+            <p style={{ color: "gray", fontSize: 20 }}> 
+            Trishoka Connect stands out as a suitable bulk business WhatsApp marketing platform for organizations, 
+            whether they are small or large enterprises. Here are some of the primary reasons to leverage Kovaion’s bulk WhatsApp business marketing software. 
             </p>
-            <ul style={{ lineHeight: 2, color: "gray", fontSize: 20 }}>
-              <li>Create intuitive templates</li>
-              <li>Create intuitive templates</li>
-              <li>Create intuitive templates</li>
-              <li>Create intuitive templates</li>
-            </ul>
           </div>
         </div>
       </div>

@@ -2,7 +2,9 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DirectFooter from "../../components/DFooter/footer";
 import whychoosewhatsappmarketing from "../../assets/images/whychoosewhatsappmarketing.jpg";
+// import whychoosewhatsappmarketingremovebgpreview from "../../assets/images/whychoosewhatsappmarketingremovebgpreview.png";
 import benefitsofwhatsappmarketing from "../../assets/images/benefitsofwhatsappmarketing.jpg";
+// import benefitsofwhatsappmarketingremovebgpreview from "../../assets/images/benefitsofwhatsappmarketingremovebgpreview.png";
 
 const WhatsAppMarketing = () => {
   return (
@@ -56,20 +58,20 @@ const WhatsAppMarketing = () => {
 
 
       <div className="container py-4">
-        <h1 className="mb-4" style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#ff156a', width: '55%', color: 'white', padding: 10 }}>
+        <h1 className="mb-4" style={{ fontFamily: 'Arial, sans-serif',  width: '55%', color: 'black', padding: 7 }}>
           WhatsApp Business Marketing
         </h1>
 
         <div className="row d-flex align-items-center">
           <div className="col-12 col-md-6 mb-4" style={{ textAlign: 'justify', maxWidth: '800px' }}>
-            <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-              WhatsApp has always been the most popular program for sending messages to others. You can use WhatsApp for WhatsApp Marketing Service and communicate everything from very official to very informal matters or information. WhatsApp has evolved into a platform for small enterprises and marketing services. It's not just about messaging. - WhatsApp isn't just the most refined platform for sharing texts with friends and family. WhatsApp marketing services and text messages, posting videos, and audios play an essential role in advertising a brand through texts, photographs, and even audio.
+            <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.7' }}>
+              WhatsApp Marketing allows businesses to communicate directly with customers through a highly engaging and personal platform. With high open and response rates, it enables quick updates, promotional messages, and customer support.
             </p>
-            <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-              There are many top most companies offering WhatsApp marketing services. They offer customers affordable and reliable WhatsApp sender and WhatsApp sender services. We provide the best service to clients who want to send bulk messages using WhatsApp access to our WhatsApp sender and delivery services. Through a variety of marketing techniques including SMS marketing services and web advertising, and customised solutions enable to quickly realise the aspirations of customers and uphold their corporate goals.
+            <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.7' }}>
+              Businesses can use bulk messaging to send content to multiple users at once, even to DND numbers, across all devices. It’s ideal for sending alerts, conducting surveys, and nurturing leads in real-time. Automation tools make it easy to schedule messages, run campaigns, and track delivery. WhatsApp creates a trusted space for business communication, helping brands build long-term relationships. Its cost-effectiveness and interactivity make it a preferred choice over traditional channels.
             </p>
-            <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-              WhatsApp marketing Services is a modern and effective way to deeply connect with your target audience for daily updates, new offers, and products. It is a great way to increase your business and attract potential customers.
+            <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.7' }}>
+              Whether you're launching a new product or engaging loyal customers, WhatsApp Marketing ensures instant visibility and a personal touch that drives better engagement and conversions.
             </p>
           </div>
 
@@ -79,7 +81,7 @@ const WhatsAppMarketing = () => {
                 src={whychoosewhatsappmarketing}
                 alt="WhatsApp Marketing"
                 className="img-fluid rounded-3 mb-3"
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'cover', width: '85%' }}
               />
              </div>
           </div>
@@ -87,30 +89,25 @@ const WhatsAppMarketing = () => {
       </div>
 
       <div className="container py-4">
-        <h1 className="mb-4" style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#ff156a', width: '55%', color: 'white', padding: 10 }}>
+        <h1 className="mb-4" style={{ fontFamily: 'Arial, sans-serif',  width: '55%', color: 'black', padding: 7 }}>
           Benefits Of WhatsApp Marketing
         </h1>
 
         <div className="row d-flex align-items-center">
           <div className="col-12 col-md-6 mb-4" style={{ textAlign: 'justify', maxWidth: '800px' }}>
-            <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-              WhatsApp Marketing has the advantage of gaining immediate responses or input from clients when compared to other online marketing channels.
-            </p>
-            <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-              With the help of WhatsApp marketing, business owners or whatsapp bulk message sender can conduct rapid polls and surveys to better assess the level of interest in their goods and services.
-            </p>
-            <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-              One of the main benefits of WhatsApp marketing for internet marketers is the ability to communicate directly with potential consumers.
-            </p>
-            <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-              With bulk WhatsApp marketing, you may send messages to DND numbers and it works with all gadgets.
-            </p>
-            <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-              Through a variety of online service providers, one can automate the process of sending WhatsApp messages to potential consumers.
-            </p>
-            <p style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
-              Businesses can utilise bulk WhatsApp marketing, like any other marketing approach, as a benefit to boost sales by creating potential leads for the company, and that too at minimal cost and higher response rates than any other medium.
-            </p>
+<ul style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.7' }}>
+  <li><b>Instant Feedback:</b> Enables real-time customer interaction.</li>
+  <li><b>High Open Rates:</b>Messages are frequently read within just a few minutes.</li>
+  <li><b>DND Compatible:</b> Works even with numbers on the Do Not Disturb list.</li>
+  <li><b>Device Independent:</b> Delivers messages across all smartphones and platforms.</li>
+  <li><b>Bulk Messaging:</b> Reach thousands at once with a single click.</li>
+  <li><b>Automation Ready:</b> Schedule and send messages effortlessly.</li>
+  <li><b>Cost-Effective:</b> Low marketing cost with high ROI.</li>
+  <li><b>Personalized Communication:</b> Builds trust and improves customer loyalty.</li>
+  <li><b>Polls & Surveys:</b> Easily collect customer opinions and feedback.</li>
+  <li><b>Lead Generation:</b> Convert more leads through direct engagement.</li>
+</ul>
+
           </div>
 
           <div className="col-12 col-md-6 mt-4 mt-md-0 d-flex flex-wrap justify-content-center">
@@ -119,7 +116,7 @@ const WhatsAppMarketing = () => {
                 src={benefitsofwhatsappmarketing}
                 alt="WhatsApp Marketing"
                 className="img-fluid rounded-3 mb-3"
-                style={{ objectFit: 'cover', }}
+                style={{ objectFit: 'cover', width: '83%' }}
               />
               </div>
           </div>

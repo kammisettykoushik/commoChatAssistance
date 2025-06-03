@@ -12,7 +12,7 @@ const WhatsApp = async (recipientPhone, template) => {
     to: recipientPhone,
     type: "template",
     template: {
-      name: "hello_world", // Your approved template name
+      name: template.name, // Your approved template name
       language: { code: "en_US" },
       components: [],
     },
@@ -28,15 +28,14 @@ const WhatsApp = async (recipientPhone, template) => {
   }
 
   if (template.header && template.mediaUrl) {
+    const mediaParam = {
+      type: template.mediaType,
+      [template.mediaType]: { link: template.mediaUrl },
+    };
+
     payload.template.components.push({
       type: "header",
-      parameters: [
-        {
-          type: template.mediaType === "image" ? "image" : "document", // Or video etc.
-          image: template.mediaType === "image" ? { link: template.mediaUrl } : undefined,
-          document: template.mediaType !== "image" ? { link: template.mediaUrl } : undefined,
-        },
-      ],
+      parameters: [mediaParam],
     });
   } else if (template.header) {
     payload.template.components.push({

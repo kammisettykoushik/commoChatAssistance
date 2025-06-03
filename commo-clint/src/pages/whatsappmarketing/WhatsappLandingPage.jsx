@@ -2,6 +2,7 @@ import React from "react";
 // import React, { useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./WhatsappLandingPage.module.scss";
+{/* <title>Trishokaconnect WhatsApp Marketing</title> */}
 // import { AuthContext } from "../../App";
 const WhatsappLandingPage = () => {
   // const { user } = useContext(AuthContext);
