@@ -105,14 +105,14 @@ const ClickToGo = () => {
           </div>
           <div className="col-md-4">
             <h6 className="fw-bold">Copyrights & Credits</h6>
-            <p className="small"><p className="mt-2">© {new Date().getFullYear()} Trishoka Connect. All Rights Reserved.</p></p>
+            <p className="small"><span className="mt-2">© {new Date().getFullYear()} Trishoka Connect. All Rights Reserved.</span></p>
           </div>
           <div className="col-md-4">
             <h6 className="fw-bold mb-2">Follow Us On:</h6>
             <div className="d-flex gap-3">
               <a href="https://www.instagram.com/trishoka_digital_services/" className="text-dark fs-5"><i className="fab fa-instagram"></i></a>
               <a href="https://www.facebook.com/trishokadigitalservicess" className="text-dark fs-5"><i className="fab fa-facebook"></i></a>
-              <a href="https://www.linkedin.com/company/96662799/dashboard/" className="text-dark fs-5"><i class="fab fa-linkedin-in"></i></a>
+              <a href="https://www.linkedin.com/company/96662799/dashboard/" className="text-dark fs-5"><i className="fab fa-linkedin-in"></i></a>
             </div>
           </div>
         </div>

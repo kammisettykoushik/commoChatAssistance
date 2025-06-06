@@ -6,12 +6,19 @@ import { Table, Button } from "react-bootstrap";
 const WhatsAppContactList = () => {
   const [templates, setTemplates] = useState([]);
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
   // Fetch templates from the API
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`,
+          {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+        );
         setTemplates(response.data);
       } catch (err) {
         console.error("Error fetching templates:", err);

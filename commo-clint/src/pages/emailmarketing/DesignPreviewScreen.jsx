@@ -56,10 +56,17 @@ const DesignPreviewScreen = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const token = localStorage.getItem('token');
 
   const fetchCampaigns = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns`,
+        {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      );
       setCampaigns(response.data);
       setLoading(false);
     } catch (err) {
@@ -78,7 +85,13 @@ const DesignPreviewScreen = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns/${id}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns/${id}`,
+        {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      );
       setCampaigns(campaigns.filter((campaign) => campaign.id !== id));
     } catch (err) {
       console.error("Error deleting campaign:", err);

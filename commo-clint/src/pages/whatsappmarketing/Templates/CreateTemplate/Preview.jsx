@@ -26,6 +26,7 @@ const Preview = () => {
   const [scheduleDate, setScheduleDate] = useState('');
   const [immediatelyTime, setImmediatelyTime] = useState('');
   const [scheduleTime, setScheduleTime] = useState('');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (isImmediately) {
@@ -162,7 +163,12 @@ const Preview = () => {
     }));
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`, formData, {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`,
+        {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setShowAutomations(false);
