@@ -1,0 +1,375 @@
+import './App.css';
+import ScrollToTop from './components/ScrollToTop';
+import RootLayout from './components/RootLayout';
+import MainNavbarlist from './components/MainNavBar/MainNavbarlist'; // Updated import
+import { createBrowserRouter, RouterProvider, Outlet, Navigate } from 'react-router-dom';
+import PrivacyPolicy from './components/legalterms/PrivacyPolicy';
+import TermsandConditions from './components/legalterms/TermsandConditions';
+import HelpCenter from './components/legalterms/HelpCenter';
+import FAQs from './components/legalterms/FAQs';
+import Navbar from './components/Navbar';
+import WhatsAppNavigation from './pages/whatsappmarketing/WhatsAppNavigation';
+import ChildNavigatin from './components/MainNavBar/ChildNavigatin';
+import Contacts from './pages/whatsappmarketing/Contact';
+import TeamInbox from './pages/whatsappmarketing/TeamInbox';
+import WhatsappLandingPage from './pages/whatsappmarketing/WhatsappLandingPage';
+import WhatsAppMarketing from './pages/whatsappmarketing/whatsappmarketing';
+import EmailMarketing from './pages/emailmarketing/Emailmarketing';
+import ColdCalling from './pages/coldcallingmarketing/ColdCalling';
+import Footer from './components/Footer';
+import Automations from './pages/whatsappmarketing/Automations';
+import Templates from './pages/whatsappmarketing/Templates/Templates';
+import BroadCast from './pages/whatsappmarketing/BroadCast';
+import Preview from './pages/whatsappmarketing/Templates/CreateTemplate/Preview';
+import SavedPreview from './pages/whatsappmarketing/Templates/CreateTemplate/SavedPreview';
+import SelectTemplate from './pages/whatsappmarketing/Templates/CreateTemplate/SelectTemplate';
+import WhatsAppContactList from './pages/whatsappmarketing/WhatsappContactList';
+import TemplateContacts from './pages/whatsappmarketing/WhatsappTemplateContacts';
+import { whatsappmarketingNavigation, emailMarketingNavigation, coldCallingMarketingNavigation, smsMarketingNavigation } from './utils/data';
+import AutomationsScreen from './pages/emailmarketing/AutomationsScreen';
+import Overview from './pages/emailmarketing/Overview';
+import Campaigns from './pages/emailmarketing/Campaigns';
+import CampaignList from './pages/emailmarketing/CampaignList';
+import CampaignContacts from './pages/emailmarketing/CampaignContacts';
+import CampaignsScreen from './pages/coldcallingmarketing/CampaignsScreen';
+import Contactslist from './pages/coldcallingmarketing/Contactslist';
+import Dashboard from './pages/coldcallingmarketing/Dashboard';
+import History from './pages/coldcallingmarketing/History';
+import Message from './pages/smsmarketing/Message';
+import Automationssms from './pages/smsmarketing/Automationssms';
+import Contactsms from './pages/smsmarketing/Contactsms';
+import SmsSender from './pages/smsmarketing/SmsSender';
+import NewCampaign from './pages/emailmarketing/NewCampaign';
+import DesignCampaign from './pages/emailmarketing/DesignCampaign';
+import DesignPreviewScreen from './pages/emailmarketing/DesignPreviewScreen';
+import BroadCastDetailsScreens from './pages/whatsappmarketing/BroadCastDetails';
+import Contact from './pages/whatsappmarketing/Contact';
+import RegisterScreen from './components/MainNavBar/RegisterScreen';
+import ForgotScreen from './components/MainNavBar/ForgotScreen';
+import ResetPasswordPage from  './components/MainNavBar/ResetPasswordPage';
+import LoginScreen from './components/MainNavBar/LoginScreen';
+import OverViewScreen from './pages/emailmarketing/OverViewScreen';
+import SentDataScreen from './pages/emailmarketing/SentDataScreen';
+import ReachScreen from './pages/emailmarketing/ReachScreen';
+import Campaignsms from './pages/smsmarketing/Campaignsms';
+import FailedCampaigns from './pages/smsmarketing/FailedCampaigns';
+import Dashboardsms from './pages/smsmarketing/Dashboardsms';
+import SMSMarketingPage from './pages/smsmarketing/SMSMarketingPage';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+// Auth Context
+export const AuthContext = createContext();
+
+
+
+
+
+
+const PrivateRoute = () => {
+  const { isLoggedIn } = useContext(AuthContext);
+  const location = useLocation();
+  const redirectPath = location.pathname + location.search; // Preserve full path
+
+  // Check token in localStorage for additional security
+  const token = localStorage.getItem('token');
+
+  return token ? (
+    <Outlet />
+  ) : (
+    <Navigate
+      to={`/LoginScreen?redirect=${encodeURIComponent(location.pathname + location.search)}`} replace />
+  );
+};
+
+const LoginRoute = () => {
+  const { isLoggedIn } = useContext(AuthContext);
+
+  if (isLoggedIn) {
+    toast.info("You're already logged in!", { autoClose: 3000 });
+    return (
+      <div style={{ backgroundColor: '#FFF8EF', padding: 20 }}>
+        <h5 className="text-center">You are already logged in</h5>
+        <p className="text-center">You can navigate to other pages using the menu.</p>
+      </div>
+    );
+  }
+
+  return <LoginScreen />;
+};
+
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+
+  useEffect(() => {
+    const handleStorageChange = () => setIsLoggedIn(!!localStorage.getItem('token'));
+    window.addEventListener('storage', handleStorageChange);
+  
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  
+
+
+  const ChildNavigationMainLayout = (prop) => (
+    <>
+      <ChildNavigatin data={prop?.data} icon={prop?.icon} />
+      <Outlet />
+    </>
+  );
+
+  const BroadCas = () => {
+    return (
+      <>
+        <h1><><BroadCast /></></h1>
+        <Outlet />
+        <Footer />
+      </>
+    );
+  };
+
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <RootLayout />, // 👈 Wrap with ScrollToTop
+      children: [
+        {
+          path: '/',
+          element: <MainNavbarlist />,
+        },
+        {
+          path: '/RegisterScreen',
+          element: <> <Navbar /><RegisterScreen /><Footer /></>,
+        },
+        {
+          path: '/LoginScreen',
+          element: <> <Navbar /> <LoginRoute /> <Footer /> </>,
+        },
+        {
+          path: '/ForgotScreen',
+          element: <> <Navbar /> <ForgotScreen /><Footer /></>,
+        },
+        {
+          path: '/ResetPassword/:token',
+          element: <> <Navbar /> <ResetPasswordPage /><Footer /></>,
+        },
+        {
+          path: '/privacy-policy',
+          element: <> <Navbar /><PrivacyPolicy /><Footer /></>,
+        },
+        {
+          path: '/TermsandConditions',
+          element: <> <Navbar /><TermsandConditions /><Footer /></>,
+        },
+        {
+          path: '/HelpCenter',
+          element: <> <Navbar /><HelpCenter /><Footer /></>,
+        },
+        {
+          path: '/FAQs',
+          element: <> <Navbar /><FAQs /><Footer /></>,
+        },
+    {
+      element: <PrivateRoute />,
+      children: [
+        {
+          path: '/whatsappmarketing',
+          element: <ChildNavigationMainLayout data={whatsappmarketingNavigation} />,
+          children: [
+            {
+              path: '',
+              element: <><WhatsappLandingPage /><Footer /></>,
+            },
+            {
+              path: 'TeamInbox',
+              element: <><TeamInbox /><Footer /></>,
+            },
+            {
+              path: 'BroadCast',
+              element: <BroadCas />,
+              children: [
+                {
+                  path: 'BroadCastDetailsScreen',
+                  element: <BroadCastDetailsScreens />,
+                },
+              ],
+            },
+            {
+              path: 'Templates',
+              element: <><Templates /><Footer /></>,
+            },
+            // {
+            //   path: 'Automations',
+            //   element: <><Automations /><Footer /></>,
+            // },
+            {
+              path: 'WhatsAppContactList',
+              element: <><WhatsAppContactList /><Footer /></>,
+            },
+            {
+              path: 'Templates/:slug/contacts',
+              element: <><TemplateContacts /><Footer /></>,
+            },
+            {
+              path: 'Templates/Preview',
+              element: <Preview />,
+            },
+            {
+              path: 'Templates/SelectTemplate',
+              element: <SelectTemplate />,
+            },
+            {
+              path: 'Templates/SavedPreview',
+              element: <SavedPreview />,
+            },
+          ],
+        },
+        {
+          path: '/EmailMarketing',
+          element: <ChildNavigationMainLayout data={emailMarketingNavigation} />,
+          children: [
+            {
+              path: '',
+              element: <WhatsappLandingPage />,
+            },
+            {
+              path: 'AutomationsScreen',
+              element: <><AutomationsScreen /><Footer /></>,
+            },
+            {
+              path: 'Campaigns',
+              element: <><Campaigns /><Footer /></>,
+            },
+            {
+              path: 'CampaignList',
+              element: <><CampaignList /><Footer /></>,
+            },
+            {
+              path: 'CampaignContacts/:campaignId',
+              element: <><CampaignContacts /><Footer /></>,
+            },
+            {
+              path: 'OverViewScreen',
+              element: <><OverViewScreen /><Footer /></>,
+            },
+            {
+              path: 'ReachScreen',
+              element: <><ReachScreen /><Footer /></>,
+            },
+            {
+              path: 'SentDataScreen',
+              element: <><SentDataScreen /><Footer /></>,
+            },
+            {
+              path: 'Overview',
+              element: <><Overview /><Footer /></>,
+            },
+            {
+              path: 'Campaigns/NewCampaign',
+              element: <><NewCampaign /><Footer /></>,
+            },
+            {
+              path: 'Campaigns/DesignCampaign',
+              element: <><DesignCampaign /><Footer /></>,
+            },
+            {
+              path: 'Campaigns/DesignPreviewScreen',
+              element: <><DesignPreviewScreen /><Footer /></>,
+            },
+          ],
+        },
+        {
+          path: '/Coldcallingmarketing',
+          element: <ChildNavigationMainLayout data={coldCallingMarketingNavigation} />,
+          children: [
+            {
+              path: '',
+              element: <WhatsappLandingPage />,
+            },
+            {
+              path: 'CampaignsScreen',
+              element: <><CampaignsScreen /><Footer /></>,
+            },
+            {
+              path: 'Contactslist',
+              element: <><Contactslist /><Footer /></>,
+            },
+            {
+              path: 'Dashboard',
+              element: <><Dashboard /><Footer /></>,
+            },
+            {
+              path: 'History',
+              element: <><History /><Footer /></>,
+            },
+          ],
+        },
+        {
+          path: '/smsMarketing',
+          element: <ChildNavigationMainLayout data={smsMarketingNavigation} />,
+          children: [
+            {
+              path: '',
+              element: <WhatsappLandingPage />,
+            },
+            {
+              path: 'Contactsms',
+              element: <><Contactsms /><Footer /></>,
+            },
+            {
+              path: 'SmsSender',
+              element: <><SmsSender /><Footer /></>,
+            },
+            {
+              path: 'Message',
+              element: <><Message /><Footer /></>,
+            },
+            {
+              path: 'Automationssms',
+              element: <><Automationssms /><Footer /></>,
+            },
+            {
+              path: 'Dashboardsms',
+              element: <><Dashboardsms /><Footer /></>,
+            },
+            {
+              path: 'Campaignsms',
+              element: <><Campaignsms /><Footer /></>,
+            },
+            {
+              path: 'FailedCampaigns',
+              element: <><FailedCampaigns /><Footer /></>,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      path: '/Features/WhatsAppMarketing',
+      element: <><Navbar/> <WhatsAppMarketing /></>,
+    },
+    {
+      path: '/Features/EmailMarketing',
+      element: <><Navbar /> <EmailMarketing /></>,
+    },
+    {
+      path: '/Features/ColdCalling',
+      element: <><Navbar /> <ColdCalling /></>,
+    },
+    {
+      path: '/Features/SMSMarketingPage',
+      element: <><Navbar /> <SMSMarketingPage /></>,
+    },
+      ],
+    }
+  ]);
+
+  return (
+    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+      <RouterProvider router={router} />
+    </AuthContext.Provider>
+  );
+}
+
+export default App;

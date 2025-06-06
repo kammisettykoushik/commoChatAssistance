@@ -1,0 +1,75 @@
+.card-hover:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+  background-color: white;
+  height: 200px;
+  width: 300px;
+  max-width: 250px;
+  margin: 0 auto;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.even {
+  border-top-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.odd {
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+.circleContainer {
+  background-color: #074799;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.circleContainer:hover {
+  transform: scale(2.0);
+}
+
+.textbold {
+  color: #074799;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.textCenterWhite {
+  color: white;
+  text-align: center;
+  margin-top: -30px;
+  margin-bottom: 20px;
+}
+
+.serviceContainer {
+  background-color: #074799;
+  padding: 40px;
+}
+
+.serviceContainer .circleContainer.whatsapp:hover {
+  transform: scale(2.0); 
+}
+
+.card-hover {
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-hover:hover {
+  transform: scale(1.05);
+}

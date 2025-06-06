@@ -1,0 +1,90 @@
+import React from "react";
+import styles from "./Client.module.scss";
+import { clintServices } from "./../../utils/data";
+import whychooseus from "./../../assets/images/whychooseus.png";
+
+const Clients = () => {
+  const radius = 150;
+  const centralCircleSize = 100;
+  const smallCircleSize = 100;
+
+  return (
+    <>
+      <div className={`${styles.servicesContainer}`}>
+        <div className={styles.aboutServices}>
+          <h1 className={styles.animatedTitle}>Welcome To Our Services</h1>
+          <p className={styles.aboutText}>
+            Explore a range of innovative marketing strategies and tools
+            designed to boost your brand's visibility and growth.
+          </p>
+          <div className={styles.buttonGroup}>
+            <button className={styles.demoButton}>Book Demo</button>
+            <button className={styles.trialButton}>Free Trial</button>
+          </div>
+        </div>
+
+        <div className={styles.circleWrapper}>
+          <div
+            className={styles.mainCircle}
+            style={{
+              width: `${centralCircleSize}px`,
+              height: `${centralCircleSize}px`,
+            }}
+          >
+            Services
+          </div>
+          {clintServices.map((service, index) => {
+            const angle = (index * 360) / clintServices.length;
+            const x = radius * Math.cos((angle * Math.PI) / 180);
+            const y = radius * Math.sin((angle * Math.PI) / 180);
+
+            return (
+              <div
+                key={service.id}
+                className={styles.serviceCircle}
+                style={{
+                  top: `calc(50% + ${y}px)`,
+                  left: `calc(50% + ${x}px)`,
+                  backgroundColor: service.color,
+                  width: `${smallCircleSize}px`,
+                  height: `${smallCircleSize}px`,
+                }}
+              >
+                {service.name}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div className="container" style={{ marginTop: 50 }}>
+        <div className="row align-items-center">
+          {/* Image Section */}
+          <div className="col-lg-6 col-md-12 d-flex justify-content-center">
+            <img
+              src={whychooseus}
+              alt="Marketing Tool"
+              className={styles.clintImage}
+              // style={{ objectFit: 'cover', width: '100%' }}
+            />
+          </div>
+          {/* Content Section */}
+          <div className="col-lg-6 col-md-12">
+            <div className={styles.clientContent}>
+              <b>Why Choose Us</b>
+            </div>
+            <h1 style={{ marginTop: 20 }}>
+              <b style={{ color: "blue", fontSize: 30 }}>Why</b> Trishoka Connect Whatsapp
+              Business Marketing Tool?
+            </h1>
+            <p style={{ color: "gray", fontSize: 20 }}> 
+            Trishoka Connect stands out as a suitable bulk business WhatsApp marketing platform for organizations, 
+            whether they are small or large enterprises. Here are some of the primary reasons to leverage Kovaion’s bulk WhatsApp business marketing software. 
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Clients;

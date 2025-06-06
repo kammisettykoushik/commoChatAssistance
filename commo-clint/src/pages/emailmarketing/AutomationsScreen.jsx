@@ -1,0 +1,211 @@
+import React, { useState, useEffect } from "react";
+import { Button, InputGroup, Dropdown, DropdownButton, FormControl } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
+const Automationssms = () => {
+  // States to hold dates and times
+  const [immediatelyDate, setImmediatelyDate] = useState(""); // Default should be today's date
+  const [scheduleDate, setScheduleDate] = useState(""); // Schedule date will be inputted
+  const [immediatelyTime, setImmediatelyTime] = useState(""); // Immediately time
+  const [scheduleTime, setScheduleTime] = useState(""); // Scheduled time
+  const [isImmediately, setIsImmediately] = useState(false); // Track if 'Immediately' is selected
+  const [isSchedule, setIsSchedule] = useState(false); // Track if 'Schedule Date' is selected
+  const navigate = useNavigate();
+
+  // Defaulting to today's date when "Immediately" is clicked
+  useEffect(() => {
+    if (isImmediately) {
+      const today = new Date().toISOString().split("T")[0]; // Today's date in YYYY-MM-DD format
+      setImmediatelyDate(today);
+    }
+  }, [isImmediately]);
+
+  const handleImmediatelyTimeChange = (time) => setImmediatelyTime(time);
+  const handleScheduleDateChange = (e) => setScheduleDate(e.target.value);
+  const handleScheduleTimeChange = (time) => setScheduleTime(time);
+
+  // Save button click logic
+  const handleSave = () => {
+    if (isImmediately || (scheduleDate && scheduleTime)) {
+      navigate("/smsmarketing/SmsSender");
+    } else {
+      alert("Please select a date and time before saving.");
+    }
+  };
+
+  return (
+    <div style={{ backgroundColor: '#EAF6FE', padding: 5 }}>
+      <div style={styles.container}>
+        <h2>Automations:</h2>
+
+        <div style={styles.row}>
+          {/* Radio buttons to switch between Immediately and Schedule Date */}
+          <div style={styles.inputGroup}>
+            <h4 style={styles.label}>Choose Option</h4>
+            <div style={styles.flexRow}>
+              <label  style={{fontSize:22,fontFamily:'bold',gap:5}}>
+                <input
+                  type="radio"
+                  name="timingOption"
+                  style={{height:20,width:20,marginRight:10,marginBottom:10}}
+                  checked={isImmediately}
+                  onChange={() => {
+                    setIsImmediately(true);
+                    setIsSchedule(false); // Deselect "Schedule Date" when "Immediately" is selected
+                  }}
+                 
+                />
+                Set Immediately
+              </label>
+              <label  style={{fontSize:22,fontFamily:'bold',}}>
+                <input
+                  type="radio"
+                  name="timingOption"
+                  checked={isSchedule}
+                  style={{height:20,width:20,marginRight:10,marginBottom:10}}
+                  onChange={() => {
+                    setIsSchedule(true);
+                    setIsImmediately(false); // Deselect "Immediately" when "Schedule Date" is selected
+                  }}
+                />
+                Set Schedule
+              </label>
+            </div>
+          </div>
+        </div>
+
+        {/* Displaying Immediately Date */}
+        {isImmediately && (
+          <div style={styles.row}>
+            <div style={styles.inputGroup}>
+              <h4 style={styles.label}>Immediately Date</h4>
+              <div style={styles.immediatelyText}>
+
+                <h4 style={{ color: 'green', border: '1px solid #0070C0', padding: 10, borderRadius: 10 }}>
+                  {immediatelyDate}
+                </h4>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Displaying Schedule Date and Time */}
+        {isSchedule && (
+          <div style={styles.row}>
+            <div style={styles.inputGroup}>
+              <h4 style={styles.label}>Schedule Date</h4>
+              <div style={styles.scheduleWrapper}>
+                <InputGroup className="mb-3" style={styles.inputWrapper}>
+                  <FormControl
+                    type="date"
+                    value={scheduleDate}
+                    onChange={handleScheduleDateChange}
+                  />
+                  <DropdownButton
+                    as={InputGroup.Append}
+                    variant="outline-secondary"
+                    title={scheduleTime || "Select Time"}
+                    id="input-group-dropdown-2"
+                    style={styles.dropdownButton}
+                  >
+                    {["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM"].map((time, index) => (
+                      <Dropdown.Item key={index} onClick={() => handleScheduleTimeChange(time)}>
+                        {time}
+                      </Dropdown.Item>
+                    ))}
+                  </DropdownButton>
+                </InputGroup>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div style={styles.infoText}>
+          <h4>Send message to contacts who opted-in for marketing</h4>
+          <p>When 'opt-in' is on, messages are sent only to those who agreed to marketing.</p>
+        </div>
+
+        <Button
+          style={styles.saveButton}
+          onClick={handleSave}
+          disabled={!(isImmediately || (scheduleDate && scheduleTime))}
+        >
+          Done
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const styles = {
+  container: {
+    backgroundColor: "white",
+    border: "2px solid #B7E0FF",
+    borderRadius: "10px",
+    padding: "20px",
+    width: "60%",
+    margin: "20px auto",
+  },
+  row: {
+    display: "flex",
+    marginTop: 10,
+    justifyContent: "space-between",
+    gap: "30px",
+  },
+  inputGroup: {
+    display: "flex",
+    flexDirection: "column",
+    width: "48%",
+  },
+  inputWrapper: {
+    border: "2px solid green",
+    borderRadius: "5px",
+  },
+  dropdownButton: {
+    border: 'none',
+  },
+  immediatelyText: {
+    fontSize: "16px",
+    marginBottom: "10px",
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+  },
+
+  flexRow: {
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    width: "100%",
+    gap: "10px", // Adds some space between the label and button
+  },
+  label: {
+    marginBottom: "0", // Removes extra space between label and button
+    lineHeight: "1.5", // Adjust line height for better readability
+    marginBottom: "10px", // Add margin-bottom to space out the button and label
+  },
+  scheduleWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+  },
+  infoText: {
+    fontSize: "14px",
+    marginBottom: "20px",
+    marginTop: 20,
+    color: "#555",
+    lineHeight: "1.5", // Adjusted line height for text block
+  },
+  saveButton: {
+    width: 100,
+    backgroundColor: "#28a745",
+    color: "white",
+    marginLeft: "0",
+    border: 'none',
+    lineHeight: "1.5", // Ensure button text is well-aligned
+    marginTop: "20px", // Ensures the button is spaced from the info text
+  },
+};
+
+
+export default Automationssms;
