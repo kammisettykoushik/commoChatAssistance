@@ -15,18 +15,11 @@ const Templates = () => {
   const [newModifiedDate, setNewModifiedDate] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`,
-          {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-        );
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`);
         console.log('Fetched templates:', response.data); // Debug log
         setTemplates(response.data);
         setLoading(false);
@@ -62,12 +55,7 @@ const Templates = () => {
       };
       const response = await axios.put(
         `${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${editingTemplate.id}`,
-        updatedTemplate,
-         {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
+        updatedTemplate
       );
       setTemplates(templates.map((t) => (t.id === editingTemplate.id ? response.data : t)));
       setEditingTemplate(null);
@@ -80,13 +68,7 @@ const Templates = () => {
   const handleDelete = async (slug) => {
     if (window.confirm('Are you sure you want to delete this template?')) {
       try {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}`,
-           {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-        );
+        await axios.delete(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}`);
         setTemplates(templates.filter((t) => t.slug !== slug));
       } catch (err) {
         console.error('Error deleting template:', err.response?.data || err.message);
@@ -100,12 +82,7 @@ const Templates = () => {
       const template = templates.find((t) => t.id === id);
       const response = await axios.put(
         `${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${id}`,
-        { ...template, status: 'Approved', modifiedDate: new Date().toISOString() },
-         {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
+        { ...template, status: 'Approved', modifiedDate: new Date().toISOString() }
       );
       setTemplates(templates.map((t) => (t.id === id ? response.data : t)));
     } catch (err) {
@@ -122,13 +99,7 @@ const Templates = () => {
     }
 
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}${template.contactsUrl}`,
-         {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-        , {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}${template.contactsUrl}`, {
         responseType: 'arraybuffer',
       });
       const ext = template.contactsUrl.split('.').pop().toLowerCase();
@@ -174,12 +145,7 @@ const Templates = () => {
           ...template,
           status: newStatus,
           modifiedDate: new Date().toISOString(),
-        },
-         {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
+        }
       );
 
       setTemplates(templates.map((t) => (t.id === id ? updatedTemplate.data : t)));

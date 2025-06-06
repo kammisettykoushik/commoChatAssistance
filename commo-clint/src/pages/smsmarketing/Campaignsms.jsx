@@ -7,7 +7,6 @@ import { read, utils } from "xlsx";
 
 const Campaignsms = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -151,11 +150,6 @@ const Campaignsms = () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/smsmarketing/contactsms`,
-        {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
         formDataToSend,
         {
           headers: {

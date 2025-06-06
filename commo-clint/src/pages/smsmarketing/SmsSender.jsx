@@ -9,19 +9,12 @@ const SmsSender = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const campaignsPerPage = 10;
-  const token = localStorage.getItem("token"); // Assuming you have a token for authentication
 
   // Fetch campaigns from backend
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/smsmarketing/contactsms`,
-          {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-        ); // Adjust URL as needed
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/smsmarketing/contactsms`); // Adjust URL as needed
         setCampaigns(response.data);
       } catch (err) {
         console.error("Error fetching campaigns:", err);

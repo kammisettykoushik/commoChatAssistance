@@ -13,7 +13,6 @@ const Contact = () => {
   const [editContactId, setEditContactId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const token = localStorage.getItem('token');
 
   // Fetch contacts from the backend
   useEffect(() => {
@@ -21,13 +20,7 @@ const Contact = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get("/api/whatsappmarketing/contacts",
-          {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-        );
+        const response = await axios.get("/api/whatsappmarketing/contacts");
         setContacts(response.data);
       } catch (error) {
         setError("Failed to load contacts. Please try again.");
@@ -44,13 +37,7 @@ const Contact = () => {
   const handleAddContact = async () => {
     if (newContact.name && newContact.phone) {
       try {
-        const response = await axios.post("/api/whatsappmarketing/contacts", 
-          {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-      newContact);
+        const response = await axios.post("/api/whatsappmarketing/contacts", newContact);
         setContacts([...contacts, response.data]);
         setNewContact({ name: "", phone: "" });
         setShowModal(false);
@@ -74,12 +61,7 @@ const Contact = () => {
   // Save Edited Contact
   const handleSaveEditedContact = async () => {
     try {
-      const response = await axios.put(`/api/whatsappmarketing/contacts/${editContactId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-       newContact);
+      const response = await axios.put(`/api/whatsappmarketing/contacts/${editContactId}`, newContact);
       const updatedContacts = contacts.map((contact) =>
         contact.id === editContactId ? response.data : contact
       );
@@ -97,13 +79,7 @@ const Contact = () => {
   // Delete Contact
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/api/whatsappmarketing/contacts/${id}`,
-        {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-      );
+      await axios.delete(`/api/whatsappmarketing/contacts/${id}`);
       setContacts(contacts.filter((contact) => contact.id !== id));
     } catch (error) {
       console.error("Error deleting contact:", error);
