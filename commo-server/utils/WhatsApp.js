@@ -5,7 +5,7 @@ const WHATSAPP_TOKEN = process.env.WHATSAPP_TOKEN;
 const WHATSAPP_PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID;
 
 const WhatsApp = async (recipientPhone, template) => {
-  const url = `https://graph.facebook.com/v18.0/${WHATSAPP_PHONE_NUMBER_ID}/messages`;
+  const url = `https://graph.facebook.com/v22.0/${WHATSAPP_PHONE_NUMBER_ID}/messages`;
 
   const payload = {
     messaging_product: "whatsapp",
@@ -18,12 +18,10 @@ const WhatsApp = async (recipientPhone, template) => {
     },
   };
 
-  if (template.body) {
+  if (template.body && Array.isArray(template.body)) {
     payload.template.components.push({
       type: "body",
-      parameters: [
-        { type: "text", text: template.body },
-      ],
+      parameters: template.body.map(text => ({ type: "text", text })),
     });
   }
 
@@ -62,10 +60,10 @@ const WhatsApp = async (recipientPhone, template) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("✅ WhatsApp message sent:", response.data);
+    console.log("WhatsApp message sent:", response.data);
     return response.data;
   } catch (error) {
-    console.error("❌ WhatsApp message error:", error.response?.data || error.message);
+    console.error("WhatsApp message error:", error.response?.data || error.message);
     throw error;
   }
 };

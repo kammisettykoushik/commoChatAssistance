@@ -77,6 +77,7 @@ const SavedPreview = () => {
     try {
       const slug = template.slug;
       await axios.post(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}/send`,
+        {},
         {
         headers: {
           Authorization: `Bearer ${token}`,

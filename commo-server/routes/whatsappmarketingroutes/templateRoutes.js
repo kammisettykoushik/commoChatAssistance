@@ -282,7 +282,7 @@ router.post("/:slug/send", authenticate, async (req, res) => {
 
         try {
           await WhatsApp(phone, {
-            name: template.name,
+            name: template.templateName,
             header: template.header,
             body: template.body,
             footer: template.footer,

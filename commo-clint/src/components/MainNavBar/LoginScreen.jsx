@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaGoogle, FaFacebook } from 'react-icons/fa';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -19,6 +19,27 @@ const LoginScreen = () => {
   const location = useLocation();
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext); // Access isLoggedIn and setIsLoggedIn
 
+    useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    const error = params.get("error");
+
+    if (error) {
+    console.error("Authentication error:", error);
+    alert("Authentication failed. Please try again.");
+    return;
+  }
+  if (token) {
+    try {
+      localStorage.setItem("token", token);
+      setIsLoggedIn(true);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error setting token:", error);
+      alert("Failed to complete authentication. Please try again.");
+    }
+  }
+}, [navigate, setIsLoggedIn]);
   const queryParams = new URLSearchParams(location.search);
   const redirectPath = queryParams.get('redirect') || '/';
 
@@ -35,11 +56,15 @@ const LoginScreen = () => {
     window.location.href = `${process.env.REACT_APP_API_URL}/api/authentication/google`;
   };
 
-  const handleFacebookClick = () => {
-    console.log('Facebook login');
-    window.location.href = '/facebook-login';
-  };
-
+const handleFacebookClick = async () => {
+  try {
+    // Add loading state if needed
+    window.location.href = `${process.env.REACT_APP_API_URL}/api/authentication/authentication/facebook`;
+  } catch (error) {
+    console.error('Facebook authentication error:', error);
+    alert('Failed to initiate Facebook login. Please try again.');
+  }
+};
   const handleSubmit = async (e) => {
     e.preventDefault();
     let validationErrors = {};

@@ -163,13 +163,12 @@ const Preview = () => {
     }));
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`,
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`, formData,
         {
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
         },
-      }, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
       });
       setShowAutomations(false);
       navigate('/whatsappmarketing/Templates/SavedPreview');

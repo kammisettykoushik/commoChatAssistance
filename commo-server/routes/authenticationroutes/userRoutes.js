@@ -9,8 +9,9 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const User = require("../../models/authentication/user"); // Ensure correct path
 // const slugify = require('slugify');
-const passport = require("passport");
+const passport = require("../../config/passport");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const dotenv = require('dotenv');
 const session = require('express-session');
 const cors = require('cors');
@@ -279,6 +280,52 @@ router.post("/reset-password", async (req, res) => {
 //     res.redirect(`${process.env.CLIENT_DOMAIN}?token=${token}`); // or send token in JSON
 //   }
 // );
+
+router.get("/authentication/facebook", 
+  (req, res, next) => {
+    // console.log("Initiating Facebook auth");
+    next();
+  },
+  passport.authenticate("facebook", { 
+    scope: ["email", "public_profile"],
+    session: false 
+  })
+);
+
+router.get("/authentication/facebook/callback",
+  (req, res, next) => {
+    // console.log("Facebook callback reached");
+    next();
+  },
+  passport.authenticate("facebook", { 
+    session: false,
+    failureRedirect: "/login",
+    // failureMessage: true 
+  }),
+  (req, res) => {
+    try {
+      console.log("User from request:", req.user);
+      if (!req.user) {
+        console.error("No user found in request");
+        return res.status(401).json({ error: "Authentication failed" });
+      }
+
+      const token = jwt.sign({
+        id: req.user.id,
+        email: req.user.email || "",
+        provider: "facebook"
+      }, process.env.JWT_SECRET, { 
+        expiresIn: "1h" 
+      });
+
+      res.redirect(`${process.env.CLIENT_DOMAIN}/login?token=${token}&provider=facebook`);
+    } catch (error) {
+      console.error("Facebook callback error:", error);
+      res.redirect(`${process.env.CLIENT_DOMAIN}/login?error=authentication_failed`);
+    }
+  }
+);
+
 
 
 module.exports = router;
