@@ -12,7 +12,6 @@ const BroadCast = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token"); // Assuming you have a token for authentication
 
   const allStatuses = [
     { label: "Sent", icon: <FaPaperPlane /> },
@@ -27,13 +26,7 @@ const BroadCast = () => {
   useEffect(() => {
     const fetchTemplateData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`,
-          {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-        );
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`);
         const templates = response.data;
 
         // Count templates by status

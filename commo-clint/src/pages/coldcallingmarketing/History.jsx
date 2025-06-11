@@ -10,20 +10,13 @@ const History = () => {
     const [showModal, setShowModal] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const recordsPerPage = 10;
-    const token = localStorage.getItem('token'); // or sessionStorage, depending on your app
 
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCallHistory = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/coldcallingmarketing/campaignscreens`,
-                    {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-                );
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/coldcallingmarketing/campaignscreens`);
                 console.log("API Data:", response.data);
                 setCallHistory(response.data);
             } catch (error) {

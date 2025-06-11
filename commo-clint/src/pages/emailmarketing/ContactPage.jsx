@@ -6,19 +6,12 @@ import { Table, Button } from "react-bootstrap";
 const CampaignList = () => {
   const [campaigns, setCampaigns] = useState([]);
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
 
   // Fetch campaigns from the API
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns`,
-          {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-        );
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns`);
         setCampaigns(response.data);
       } catch (err) {
         console.error("Error fetching campaigns:", err);

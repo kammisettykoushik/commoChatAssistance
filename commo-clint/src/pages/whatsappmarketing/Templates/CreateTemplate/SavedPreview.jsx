@@ -9,18 +9,11 @@ const SavedPreview = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedContacts, setSelectedContacts] = useState(null);
-  const token = localStorage.getItem('token'); // Assuming you have a token for authentication
 
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`,
-          {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-        );
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates`);
         console.log('Fetched templates:', response.data);
         setSavedData(response.data);
         setLoading(false);
@@ -35,13 +28,7 @@ const SavedPreview = () => {
 
   const handleViewContacts = async (slug) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}/contacts`,
-        {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-      );
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}/contacts`);
       setSelectedContacts(response.data);
     } catch (err) {
       console.error('Error fetching contacts:', err.response?.data || err.message);
@@ -53,13 +40,7 @@ const SavedPreview = () => {
     console.log('Deleting template with slug:', slug);
     if (window.confirm('Are you sure you want to delete this template?')) {
       try {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}`,
-          {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-        );
+        await axios.delete(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}`);
         const updatedData = savedData.filter((template) => template.slug !== slug);
         setSavedData(updatedData);
         setSelectedContacts(null);
@@ -76,14 +57,7 @@ const SavedPreview = () => {
   const handleSave = async (template) => {
     try {
       const slug = template.slug;
-      await axios.post(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}/send`,
-        {},
-        {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-      );
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}/send`);
       alert("Messages sent successfully!");
       navigate('/whatsappmarketing/Templates');
     } catch (err) {
