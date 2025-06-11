@@ -6,6 +6,7 @@ const path = require('path');
 const Campaign = require('../../models/coldcallingmarketing/campaignscreens');
 const slugify = require('slugify'); // Import slugify library for creating slugs
 const xlsx = require('xlsx');
+const authenticate = require('../../middlewares/authenticate');
 // const twilio = require('twilio');
 
 // Twilio config
@@ -38,7 +39,7 @@ const upload = multer({ storage });
 
 // POST /api/coldcallingmarketing/campaignscreens
 router.post(
-  '/',
+  '/', authenticate ,
   upload.fields([
     { name: 'audioFile', maxCount: 1 },
     { name: 'contactListFile', maxCount: 1 },
@@ -83,6 +84,7 @@ router.post(
               slug,  // Save the slug
               audioFile,
               contactListFile,
+              userId: req.user.id, // Assuming user ID is available in req.user
             });
     
 
@@ -101,9 +103,13 @@ router.post(
   }
 );
 
-router.get('/', async (req, res) => {
+router.get('/', authenticate, async (req, res) => {
   try {
-    const campaigns = await Campaign.findAll();
+    const campaigns = await Campaign.findAll(
+      {
+      where: { id, userId: req.user.id } // <-- Only fetch user's campaigns
+    }
+    );
     res.status(200).json(campaigns);
   } catch (error) {
     console.error('Error fetching campaigns:', error);
@@ -112,7 +118,7 @@ router.get('/', async (req, res) => {
 });
 
 // Serve TwiML that plays uploaded audio file
-router.get('/twiml/:audioFile', (req, res) => {
+router.get('/twiml/:audioFile', authenticate, (req, res) => {
   const { audioFile } = req.params;
   const audioUrl = `https://745e-2406-b400-d5-7e22-180d-8333-95cc-526f.ngrok-free.app/api/coldcallingmarketing/campaignscreens/twiml/${audioFile}`; // Use ngrok in production
 

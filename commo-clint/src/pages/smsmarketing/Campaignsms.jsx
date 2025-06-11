@@ -49,6 +49,7 @@ const Campaignsms = () => {
   const [contactsFile, setContactsFile] = useState(null);
   const [contactsData, setContactsData] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const token = localStorage.getItem("token");
 
   const dateInputRef = useRef(null);
   const handleClick = () => {
@@ -152,10 +153,11 @@ const Campaignsms = () => {
         `${process.env.REACT_APP_API_URL}/api/smsmarketing/contactsms`,
         formDataToSend,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  }
       );
   
       if (response.status === 201) {
@@ -194,7 +196,13 @@ const Campaignsms = () => {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/smsmarketing/campaignsms`, formData);
+        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/smsmarketing/campaignsms`, formData,
+          {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+        );
         console.log("Saved successfully:", res.data);
         setIsSubmitted(true);
       } catch (err) {

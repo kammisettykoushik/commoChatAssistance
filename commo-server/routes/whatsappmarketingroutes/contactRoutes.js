@@ -2,10 +2,11 @@
 const express = require('express');
 const router = express.Router();
 const Contact = require('../../models/whatsappmarketing/contact');
+const authenticate = require("../../middlewares/authenticate");
 
-router.get('/', async (req, res) => {
+router.get('/', authenticate, async (req, res) => {
     try {
-        const contacts = await Contact.findAll();
+        const contacts = await Contact.findAll({ where: { userId: req.user.id } });
         res.status(200).json(contacts);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -13,13 +14,13 @@ router.get('/', async (req, res) => {
 });
 
 // POST create a new contact
-router.post('/', async (req, res) => {
+router.post('/', authenticate, async (req, res) => {
     try {
       const { name, phone } = req.body;
       if (!name || !phone) {
         return res.status(400).json({ error: 'Name and phone are required' });
       }
-      const contact = await Contact.create({ name, phone });
+      const contact = await Contact.create({ name, phone, userId: req.user.id });
       res.status(201).json(contact);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -27,11 +28,11 @@ router.post('/', async (req, res) => {
   });
   
   // PUT update a contact
-  router.put('/:id', async (req, res) => {
+  router.put('/:id', authenticate, async (req, res) => {
     try {
       const { name, phone } = req.body;
       const { id } = req.params;
-      const contact = await Contact.findByPk(id);
+      const contact = await Contact.findOne({ where: { id, userId: req.user.id } });
       if (!contact) {
         return res.status(404).json({ error: 'Contact not found' });
       }
@@ -43,10 +44,10 @@ router.post('/', async (req, res) => {
   });
   
   // DELETE a contact
-  router.delete('/:id', async (req, res) => {
+  router.delete('/:id', authenticate, async (req, res) => {
     try {
       const { id } = req.params;
-      const contact = await Contact.findByPk(id);
+      const contact = await Contact.findOne({ where: { id, userId: req.user.id } });
       if (!contact) {
         return res.status(404).json({ error: 'Contact not found' });
       }

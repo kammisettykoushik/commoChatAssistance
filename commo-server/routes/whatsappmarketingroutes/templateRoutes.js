@@ -10,7 +10,7 @@ const slugify = require('slugify');
 const axios = require('axios');
 const WhatsApp = require('../../utils/WhatsApp'); // Import the WhatsApp module
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
+const authenticate = require("../../middlewares/authenticate");
 // Multer configuration for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -38,7 +38,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage, fileFilter });
 
 // templateRoutes.js (updated POST route)
-router.post("/", upload.fields([{ name: "mediaFile" }, { name: "contactsFile" }]), async (req, res) => {
+router.post("/", authenticate, upload.fields([{ name: "mediaFile" }, { name: "contactsFile" }]), async (req, res) => {
   const mediaFile = req.files["mediaFile"] ? req.files["mediaFile"][0] : null;
   const contactsFile = req.files["contactsFile"] ? req.files["contactsFile"][0] : null;
   const mediaUrl = mediaFile ? `/uploads/whatsappmarketing/templates/${mediaFile.filename}` : null;
@@ -125,6 +125,7 @@ router.post("/", upload.fields([{ name: "mediaFile" }, { name: "contactsFile" }]
       reason: null,
       slug,
       automation: automationData, // Store automation settings
+      userId: req.user.id,
     });
 
     res.status(201).json(template);
@@ -136,9 +137,9 @@ router.post("/", upload.fields([{ name: "mediaFile" }, { name: "contactsFile" }]
 });
 
 // GET: Fetch all templates
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
   try {
-    const templates = await Template.findAll();
+    const templates = await Template.findAll({ where: { userId: req.user.id } });
     res.status(200).json(templates);
   } catch (error) {
     console.error("Error fetching templates:", error);
@@ -147,10 +148,10 @@ router.get("/", async (req, res) => {
 });
 
 // DELETE: Remove a template by ID
-router.delete("/:slug", async (req, res) => {
+router.delete("/:slug", authenticate, async (req, res) => {
   try {
     const templateSlug = req.params.slug.trim().toLowerCase();
-    const template = await Template.findOne({ where: { slug: templateSlug } }); // Find by slug
+    const template = await Template.findOne({ where: { slug: templateSlug, userId: req.user.id } }); // Find by slug
     if (!template) {
       return res.status(404).json({ error: "Template not found" });
     }
@@ -174,10 +175,10 @@ router.delete("/:slug", async (req, res) => {
 
 
 // GET: Read contacts file for a specific template
-router.get("/:slug/contacts", async (req, res) => {
+router.get("/:slug/contacts", authenticate, async (req, res) => {
   try {
     const templateSlug = req.params.slug;
-    const template = await Template.findOne({ where: { slug: templateSlug } });
+    const template = await Template.findOne({ where: { slug: templateSlug, userId: req.user.id } });
     if (!template || !template.contactsUrl) {
       return res.status(404).json({ error: "Template or contacts file not found" });
     }
@@ -192,10 +193,10 @@ router.get("/:slug/contacts", async (req, res) => {
 });
 
 // PUT: Update a template by ID
-router.put("/:slug", async (req, res) => {
+router.put("/:slug", authenticate, async (req, res) => {
   try {
     const templateSlug = req.params.slug;
-    const template = await Template.findByPk(templateSlug);
+    const template = await Template.findByPk({ where: { slug: templateSlug, userId: req.user.id } });
     if (!template) {
       return res.status(404).json({ error: "Template not found" });
     }
@@ -216,13 +217,13 @@ router.put("/:slug", async (req, res) => {
 });
 
 // PUT: Update contacts for a template (handle deletion here)
-router.put("/:slug/contacts", async (req, res) => {
+router.put("/:slug/contacts", authenticate, async (req, res) => {
   try {
     const { slug } = req.params;
     const { contacts } = req.body; // The new list of contacts after deletion
 
     // Find the template by slug
-    const template = await Template.findOne({ where: { slug } });
+    const template = await Template.findOne({ where: { slug, userId: req.user.id } });
     if (!template) {
       return res.status(404).json({ error: "Template not found" });
     }
@@ -249,10 +250,10 @@ router.put("/:slug/contacts", async (req, res) => {
   }
 });
 
-router.post("/:slug/send", async (req, res) => {
+router.post("/:slug/send", authenticate, async (req, res) => {
   try {
     const slug = req.params.slug;
-    const template = await Template.findOne({ where: { slug } });
+    const template = await Template.findOne({ where: { slug, userId: req.user.id } });
     if (!template || !template.contactsUrl) {
       return res.status(404).json({ error: "Template or contacts not found" });
     }
@@ -281,7 +282,7 @@ router.post("/:slug/send", async (req, res) => {
 
         try {
           await WhatsApp(phone, {
-            name: template.name,
+            name: template.templateName,
             header: template.header,
             body: template.body,
             footer: template.footer,

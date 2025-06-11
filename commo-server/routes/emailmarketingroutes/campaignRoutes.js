@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const Papa = require('papaparse'); // Import Papa Parse
 const { parseEmailContactsFile } = require('../../utils/parseEmailContacts');
+const authenticate = require("../../middlewares/authenticate");
 
 // Multer config
 const storage = multer.diskStorage({
@@ -34,7 +35,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage, fileFilter });
 
 // POST: Create a new campaign
-router.post('/', upload.fields([{ name: 'image' }, { name: 'file' }]), async (req, res) => {
+router.post('/', authenticate, upload.fields([{ name: 'image' }, { name: 'file' }]), async (req, res) => {
   const imageFile = req.files['image'] ? req.files['image'][0] : null;
   const contactsFile = req.files['file'] ? req.files['file'][0] : null;
   const imageUrl = imageFile ? `/uploads/emailmarketing/campaigns/${imageFile.filename}` : null;
@@ -72,6 +73,7 @@ router.post('/', upload.fields([{ name: 'image' }, { name: 'file' }]), async (re
       timestamp: new Date(),
       contactsCount,
       status: 'Draft',
+      userId: req.user.id,
     });
 
     res.status(201).json(newCampaign);
@@ -83,9 +85,9 @@ router.post('/', upload.fields([{ name: 'image' }, { name: 'file' }]), async (re
 });
 
 // GET: Fetch all campaigns
-router.get('/', async (req, res) => {
+router.get('/', authenticate, async (req, res) => {
   try {
-    const campaigns = await Campaign.findAll();
+    const campaigns = await Campaign.findAll({ where: { userId: req.user.id } });
     res.status(200).json(campaigns);
   } catch (error) {
     console.error('Error fetching campaigns:', error);
@@ -94,10 +96,10 @@ router.get('/', async (req, res) => {
 });
 
 // GET: Fetch contacts for a campaign
-router.get('/:id/contacts', async (req, res) => {
+router.get('/:id/contacts', authenticate, async (req, res) => {
   try {
     const campaignId = req.params.id;
-    const campaign = await Campaign.findByPk(campaignId);
+    const campaign = await Campaign.findByPk({ where: { id: campaignId, userId: req.user.id } });
     if (!campaign || !campaign.contactsUrl) {
       return res.status(404).json({ error: 'Campaign or contacts file not found' });
     }
@@ -112,10 +114,10 @@ router.get('/:id/contacts', async (req, res) => {
 });
 
 // PUT: Update a campaign
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticate, async (req, res) => {
   try {
     const { id } = req.params;
-    const campaign = await Campaign.findByPk(id);
+    const campaign = await Campaign.findOne({ where: { id, userId: req.user.id } }); // <-- Filter
     if (!campaign) {
       return res.status(404).json({ error: 'Campaign not found' });
     }
@@ -144,13 +146,13 @@ router.put('/:id', async (req, res) => {
 
 
 // PUT: Update contacts for a campaign
-router.put('/:id/contacts', async (req, res) => {
+router.put('/:id/contacts', authenticate, async (req, res) => {
   try {
     const { id } = req.params;
     const { contacts } = req.body;
 
     // Find the campaign
-    const campaign = await Campaign.findByPk(id);
+    const campaign = await Campaign.findOne({ where: { id, userId: req.user.id } }); // <-- Filter
     if (!campaign) {
       return res.status(404).json({ error: 'Campaign not found' });
     }
@@ -170,10 +172,10 @@ router.put('/:id/contacts', async (req, res) => {
 });
 
 // DELETE: Delete a campaign
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticate, async (req, res) => {
   try {
     const { id } = req.params;
-    const campaign = await Campaign.findByPk(id);
+    const campaign = await Campaign.findOne({ where: { id, userId: req.user.id } }); // <-- Filter
     if (!campaign) {
       return res.status(404).json({ error: 'Campaign not found' });
     }

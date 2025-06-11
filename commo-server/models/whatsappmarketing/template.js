@@ -8,6 +8,10 @@ const Template = sequelize.define("Template", {
     autoIncrement: true,
     primaryKey: true,
   },
+  userId: {
+    type: DataTypes.INTEGER,
+    references: { model: "Users", key: "id" },
+  },
   templateName: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -68,10 +72,6 @@ const Template = sequelize.define("Template", {
   reason: {
     type: DataTypes.STRING,
     allowNull: true,
-  },
-  userId: {
-    type: DataTypes.INTEGER,
-    references: { model: "Users", key: "id" },
   },
   automation: { // New field to store automation settings
     type: DataTypes.JSON, // Stores { isImmediately, immediatelyDate, scheduleDate, scheduleTime }

@@ -11,13 +11,19 @@ const TemplateContacts = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const contactsPerPage = 10;
+  const token = localStorage.getItem("token");
 
   // Fetch contacts for the template using slug
   useEffect(() => {
     const fetchTemplateContacts = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}/contacts` // Use slug instead of templateId
+          `${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}/contacts`, // Use slug instead of templateId
+          {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
         );
         console.log('Fetched Contacts:', response.data); // Log fetched data
         setContacts(response.data);
@@ -47,7 +53,12 @@ const TemplateContacts = () => {
       // Call the backend to update the contacts file
       await axios.put(
         `${process.env.REACT_APP_API_URL}/api/whatsappmarketing/templates/${slug}/contacts`, // Use slug here as well
-        { contacts: updatedContacts }
+        { contacts: updatedContacts },
+        {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
       );
 
       // Update local state

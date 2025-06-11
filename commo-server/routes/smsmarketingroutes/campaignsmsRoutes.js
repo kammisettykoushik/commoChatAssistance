@@ -1,15 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const campaignsms = require("../../models/smsmarketing/campaignsms");
+const authenticate = require("../../middlewares/authenticate");
 
 
-
-router.post("/", async (req, res) => {
+router.post("/", authenticate, async (req, res) => {
     try {
         // console.log("Incoming request body:", req.body);
-        const newCampaign = new campaignsms(req.body);
-        const savedCampaign = await newCampaign.save();
-        res.status(201).json({ message: "Campaign saved successfully", data: savedCampaign });
+        const newCampaign = await campaignsms.create({
+            ...req.body,
+            userId: req.user.id, // <-- Set userId from authenticated user
+        });
+        res.status(201).json({ message: "Campaign saved successfully", data: newCampaign });
     } catch (error) {
         console.error("Error saving campaign:", error);
         if (error.name === "ValidationError") {
@@ -19,9 +21,13 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
     try {
-      const templates = await campaignsms.findAll();
+      const templates = await campaignsms.findAll(
+        {
+        where: { userId: req.user.id } // <-- Only fetch user's campaigns
+      }
+      );
       res.status(200).json(templates);
     } catch (error) {
       console.error("Error fetching templates:", error);
@@ -29,12 +35,12 @@ router.get("/", async (req, res) => {
     }
   });
 
-  router.put("/:id", async (req, res) => {
+  router.put("/:id", authenticate, async (req, res) => {
     try {
       const { id } = req.params;
   
       const [updated] = await campaignsms.update(req.body, {
-        where: { id: id }
+        where: { id: id, userId: req.user.id }
       });
   
       if (updated === 0) {
@@ -48,11 +54,11 @@ router.get("/", async (req, res) => {
     }
   });
   
-  router.delete("/:id", async (req, res) => {
+  router.delete("/:id", authenticate, async (req, res) => {
     try {
       const { id } = req.params;
       const deleted = await campaignsms.destroy({
-        where: { id: id }
+        where: { id: id, userId: req.user.id }
       });
   
       if (deleted === 0) {

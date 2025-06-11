@@ -37,7 +37,7 @@ const LoginScreen = () => {
 
   const handleFacebookClick = () => {
     console.log('Facebook login');
-    window.location.href = '/facebook-login';
+      window.location.href = `${process.env.REACT_APP_API_URL}/api/authentication/authentication/facebook`;
   };
 
   const handleSubmit = async (e) => {

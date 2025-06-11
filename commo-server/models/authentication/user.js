@@ -65,7 +65,15 @@ const User = sequelize.define("User", {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW
   },
-
+  facebookId: {
+  type: DataTypes.STRING,
+  unique: true,
+  allowNull: true
+},
+provider: {
+  type: DataTypes.STRING,
+  allowNull: true
+  }
   
 });
  

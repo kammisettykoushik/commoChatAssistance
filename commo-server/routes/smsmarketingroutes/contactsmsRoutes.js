@@ -5,7 +5,7 @@ const router = express.Router();
 const contactsms = require("../../models/smsmarketing/contactsms");
 const multer = require("multer");
 const csv = require("csv-parser");
-
+const authenticate = require("../../middlewares/authenticate");
 // Ensure directory exists
 const dir = "uploads/smsmarketing";
 if (!fs.existsSync(dir)) {
@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // POST: Create a campaign
-router.post("/", upload.single("contactsFile"), async (req, res) => {
+router.post("/", authenticate, upload.single("contactsFile"), async (req, res) => {
   try {
     const {
       campaignName,
@@ -56,6 +56,7 @@ router.post("/", upload.single("contactsFile"), async (req, res) => {
             contactsUrl,
             contactsCount,
             status: "Processing",
+            userId: req.user.id,
           });
 
           res.status(201).json({
@@ -78,9 +79,9 @@ router.post("/", upload.single("contactsFile"), async (req, res) => {
 
 
 // GET: All campaigns
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
   try {
-    const campaigns = await contactsms.findAll(); // Fixed
+    const campaigns = await contactsms.findAll({ where: { userId: req.user.id } }); // Fixed
     res.status(200).json(campaigns);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch campaigns", error: error.message });

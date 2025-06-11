@@ -7,6 +7,10 @@ const Campaign = sequelize.define("Campaign", {
     autoIncrement: true,
     primaryKey: true,
   },
+  userId: {
+    type: DataTypes.INTEGER,
+    references: { model: "Users", key: "id" },
+  },
   campaignName: {
     type: DataTypes.STRING,
     allowNull: false,

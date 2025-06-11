@@ -11,17 +11,32 @@ const campaignsmsRoutes = require('./routes/smsmarketingroutes/campaignsmsRoutes
 const contactsmsRoutes = require('./routes/smsmarketingroutes/contactsmsRoutes');
 const path = require('path');
 const fs = require('fs');
+const session = require('express-session');
+const passport = require('./config/passport'); // Ensure this path is correct
+// const adminRoutes = require('./routes/adminroutes/adminRoutes'); // Ensure this path is correct
 
 
 require('dotenv').config();
 
 const app = express()
 const port = process.env.PORT || 3001;  // Make port configurable with .env
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your-session-secret',
+  resave: false,
+  saveUninitialized: false
+}));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(cors());
 // CORS configuration - move this ABOVE app.use(cors(...))
 const corsOptions = {
   origin: [
+    'http://localhost:3000', // React app running locally
     'https://www.trishokaconnect.com',
     'https://trishokaconnect.com',
   ],
@@ -45,6 +60,26 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 app.use('/uploads', express.static(uploadsDir));
+
+app.get('/webhook', (req, res) => {
+  const VERIFY_TOKEN = 'your_custom_token';
+
+  const mode = req.query['hub.mode'];
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
+
+  if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+    console.log('Webhook verified!');
+    res.status(200).send(challenge);
+  } else {
+    res.sendStatus(403);
+  }
+});
+
+
+// Admin routes
+// app.use('/api/admin', adminRoutes);
+
 
 
 //Whatsapp marketing url path starts here:-

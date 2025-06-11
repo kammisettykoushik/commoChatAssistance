@@ -7,6 +7,10 @@ const campaignsms = sequelize.define("campaignsms", {
         autoIncrement: true,
         primaryKey: true,
     },
+    userId: {
+    type: DataTypes.INTEGER,
+    references: { model: "Users", key: "id" },
+  },
     firstName: {
         type: DataTypes.STRING,
         allowNull: false,

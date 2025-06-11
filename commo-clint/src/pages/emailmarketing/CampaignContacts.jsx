@@ -11,13 +11,19 @@ const CampaignContacts = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const contactsPerPage = 10;
+  const token = localStorage.getItem("token");
 
   // Fetch contacts for the campaign
   useEffect(() => {
     const fetchCampaignContacts = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns/${campaignId}/contacts`
+          `${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns/${campaignId}/contacts`,
+          {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
         );
         console.log('Fetched Contacts:', response.data); // Log fetched data
         setContacts(response.data);
@@ -44,7 +50,12 @@ const CampaignContacts = () => {
       );
       await axios.put(
         `${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns/${campaignId}/contacts`,
-        { contacts: updatedContacts }
+        { contacts: updatedContacts },
+        {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
       );
       setContacts(updatedContacts);
       setSelectedContacts([]);

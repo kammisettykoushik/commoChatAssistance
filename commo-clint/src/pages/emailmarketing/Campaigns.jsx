@@ -11,12 +11,19 @@ const Campaigns = () => {
     const [campaigns, setCampaigns] = useState([]); // Empty array for backend data
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 15;
+    const token = localStorage.getItem("token");
 
     // Fetch campaigns from the backend API
     useEffect(() => {
         const fetchCampaigns = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns`,
+                    {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+                );
                 setCampaigns(response.data || []); // Fallback to empty array
             } catch (error) {
                 console.error("Error fetching campaigns:", error);
@@ -36,7 +43,13 @@ const Campaigns = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns/${id}`);
+            await axios.delete(`${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns/${id}`,
+                {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+            );
             setCampaigns(campaigns.filter(campaign => campaign.id !== id)); // Update state after deletion
         } catch (error) {
             console.error("Error deleting campaign:", error);

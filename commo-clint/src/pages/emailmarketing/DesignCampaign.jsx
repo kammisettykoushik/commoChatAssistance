@@ -35,6 +35,7 @@ const DesignCampaign = () => {
   const [excelData, setExcelData] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
   // Custom styles for the component
   const styles = {
@@ -189,8 +190,11 @@ const DesignCampaign = () => {
 
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/api/emailmarketing/campaigns`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  });
       localStorage.removeItem('savedCampaignData');
       navigate('/EmailMarketing/Campaigns/DesignPreviewScreen');
     } catch (error) {

@@ -13,6 +13,7 @@ const Contact = () => {
   const [editContactId, setEditContactId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const token = localStorage.getItem("token");
 
   // Fetch contacts from the backend
   useEffect(() => {
@@ -20,7 +21,13 @@ const Contact = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get("/api/whatsappmarketing/contacts");
+        const response = await axios.get("/api/whatsappmarketing/contacts",
+          {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+        );
         setContacts(response.data);
       } catch (error) {
         setError("Failed to load contacts. Please try again.");

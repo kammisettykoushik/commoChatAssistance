@@ -2,11 +2,13 @@ const express = require("express");
 const router = express.Router();
 const Broadcast = require("../../models/whatsappmarketing/broadcast");
 const Template = require("../../models/whatsappmarketing/template");
+const authenticate = require("../../middlewares/authenticate");
 
 // GET: Fetch all broadcasts
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
   try {
     const broadcasts = await Broadcast.findAll({
+      where: { userId: req.user.id },
       include: [{ model: Template, attributes: ["templateName"] }],
     });
     res.status(200).json(broadcasts);
@@ -17,16 +19,17 @@ router.get("/", async (req, res) => {
 });
 
 // POST: Create a new broadcast
-router.post("/", async (req, res) => {
+router.post("/", authenticate, async (req, res) => {
   try {
     const { templateId, status, reason } = req.body;
-    const template = await Template.findByPk(templateId);
+    const template = await Template.findOne({ where: { id: templateId, userId: req.user.id } });
     if (!template) {
       return res.status(404).json({ error: "Template not found" });
     }
 
     const broadcast = await Broadcast.create({
       templateId,
+      userId: req.user.id, 
       contactsCount: template.contactsCount,
       status: status || "Processing",
       reason,
