@@ -30,21 +30,21 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(cors());
+// app.use(cors());
 // CORS configuration - move this ABOVE app.use(cors(...))
-const corsOptions = {
-  origin: [
-    'http://localhost:3000', // React app running locally
-    'https://www.trishokaconnect.com',
-    'https://trishokaconnect.com',
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
-  credentials: true, // if you're using cookies or Authorization headers
-};
+// const corsOptions = {
+//   origin: [
+//     'http://localhost:3000', // React app running locally
+//     'https://www.trishokaconnect.com',
+//     'https://trishokaconnect.com',
+//   ],
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
+//   credentials: true, // if you're using cookies or Authorization headers
+// };
 
 // Apply middleware
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // Root route
