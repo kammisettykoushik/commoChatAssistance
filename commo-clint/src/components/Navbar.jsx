@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaWhatsapp, FaEnvelope, FaPhoneAlt, FaSms } from 'react-icons/fa';
 import { useContext } from 'react';
 import { AuthContext } from '../App'; // Adjust path based on your structure
-import trishokaconnectlogo from "../../src/assets/images/trishokaconnectlogo.jpg";
+import trishokaconnectlogo from "../../src/assets/images/trishokaconnectlogo.png";
 
 const NavBar = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext); // Use AuthContext
@@ -44,7 +44,7 @@ const NavBar = () => {
             <img
               src={trishokaconnectlogo}
               alt="C-Shape"
-              style={{ width: '50px', height: '50px', marginLeft: '5px' }}
+              style={{ width: '140px', height: '160px', marginLeft: '10px' }}
             />
             {/* <Link className="navbar-brand" to="/"> */}
               <span
@@ -57,7 +57,6 @@ const NavBar = () => {
                   fontWeight: 'bold',
                 }}
               >
-                Trishoka Connect
               </span>
             </Link>
           </div>

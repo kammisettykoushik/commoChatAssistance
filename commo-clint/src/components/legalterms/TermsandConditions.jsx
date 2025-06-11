@@ -13,8 +13,8 @@ const TermsandConditions = () => {
         </p>
         <ul>
           <li>User, "you", or "your" refers to any individual or entity using our platform. </li>
-          <li>"Services" Services refers to our marketing software, including WhatsApp, SMS, cold calling and email marketing</li>
-          <li>"Content" refers to messages, images, links, audio or video material sent using our platform</li>
+          <li>"Services" refers to our marketing software, including WhatsApp, SMS, cold calling and email marketing.</li>
+          <li>"Content" refers to messages, images, links, audio or video material sent using our platform.</li>
         </ul>
 
         <h2 className="mt-4 text-secondary">Eligibility</h2>
@@ -30,7 +30,7 @@ const TermsandConditions = () => {
 
         <h2 className="mt-4 text-secondary">Account Registration and Security</h2>
         <ul>
-          <li>you must provide valid contact and business details during registration.</li>
+          <li>You must provide valid contact and business details during registration.</li>
           <li>You are responsible for maintaining the security of your account and password.</li>
           <li>You must notify us immediately of any unauthorized access or use of your account.</li>
         </ul>
