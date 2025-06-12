@@ -112,9 +112,9 @@ const LoginScreen = () => {
         <p className="text-center">Welcome back! Please log in to continue.</p>
 
         <div className="d-flex justify-content-center mb-3">
-          <a href="https://accounts.google.com/"><button className="btn btn-outline-dark mx-2 border-rounded" onClick={handleGoogleClick}>
+          <button className="btn btn-outline-dark mx-2 border-rounded" onClick={handleGoogleClick}>
             <FaGoogle className="me-2" style={{ color: '#DB4437' }} /> Google
-          </button></a>
+          </button>
           <button className="btn btn-outline-dark mx-2" onClick={handleFacebookClick}>
             <FaFacebook className="me-2" style={{ color: 'blue' }} /> Facebook
           </button>
