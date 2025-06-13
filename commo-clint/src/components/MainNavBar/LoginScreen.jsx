@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaGoogle, FaFacebook } from 'react-icons/fa';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -39,6 +39,16 @@ const LoginScreen = () => {
     console.log('Facebook login');
       window.location.href = `${process.env.REACT_APP_API_URL}/api/authentication/authentication/facebook`;
   };
+  useEffect(() => {
+  const queryParams = new URLSearchParams(window.location.search);
+  const token = queryParams.get('token');
+  const provider = queryParams.get('provider');
+  if (token) {
+    localStorage.setItem('token', token);
+    setIsLoggedIn(true);
+    navigate('/');
+  }
+}, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

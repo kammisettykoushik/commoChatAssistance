@@ -281,33 +281,21 @@ router.post("/reset-password", async (req, res) => {
 //   }
 // );
 
-router.get("/authentication/facebook", 
-  (req, res, next) => {
-    // console.log("Initiating Facebook auth");
-    next();
-  },
-  passport.authenticate("facebook", { 
+router.get("/authentication/facebook",
+  passport.authenticate("facebook", {
     scope: ["email", "public_profile"],
-    session: false 
+    session: false
   })
 );
 
 router.get("/authentication/facebook/callback",
-  (req, res, next) => {
-    // console.log("Facebook callback reached");
-    next();
-  },
-  passport.authenticate("facebook", { 
-    successRedirect: '/dashboard', // Redirect to a success page or handle in the callback
+  passport.authenticate("facebook", {
     session: false,
-    failureRedirect: "/login",
-    // failureMessage: true 
+    failureRedirect: "/login"
   }),
   (req, res) => {
     try {
-      console.log("User from request:", req.user);
       if (!req.user) {
-        console.error("No user found in request");
         return res.status(401).json({ error: "Authentication failed" });
       }
 
@@ -315,18 +303,17 @@ router.get("/authentication/facebook/callback",
         id: req.user.id,
         email: req.user.email || "",
         provider: "facebook"
-      }, process.env.JWT_SECRET, { 
-        expiresIn: "1h" 
+      }, process.env.JWT_SECRET, {
+        expiresIn: "1h"
       });
 
-      res.redirect(`${process.env.CLIENT_DOMAIN}/login?token=${token}&provider=facebook`);
+      res.redirect(`${process.env.CLIENT_DOMAIN}/?token=${token}&provider=facebook`);
     } catch (error) {
       console.error("Facebook callback error:", error);
-      res.redirect(`${process.env.CLIENT_DOMAIN}/login?error=authentication_failed`);
+      res.redirect(`${process.env.CLIENT_DOMAIN}/LoginScreen?error=authentication_failed`);
     }
   }
 );
-
 
 
 module.exports = router;

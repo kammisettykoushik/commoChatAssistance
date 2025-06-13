@@ -18,7 +18,7 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
     clientID: process.env.FB_APP_ID,
     clientSecret: process.env.FB_APP_SECRET,
-    callbackURL: `${process.env.CLIENT_DOMAIN}/api/authentication/facebook/callback`,
+    callbackURL: 'https://api.trishokaconnect.com/api/authentication/facebook/callback',
     profileFields: ['id', 'emails', 'name'],
     // enableProof: true
   },
