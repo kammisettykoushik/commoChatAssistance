@@ -298,7 +298,7 @@ router.get("/authentication/facebook/callback",
     next();
   },
   passport.authenticate("facebook", { 
-    successRedirect: '/dashboard',
+    successRedirect: '/dashboard', // Redirect to a success page or handle in the callback
     session: false,
     failureRedirect: "/login",
     // failureMessage: true 
