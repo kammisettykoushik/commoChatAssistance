@@ -47,6 +47,7 @@ const corsOptions = {
 
 // Apply middleware
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); 
 app.use(bodyParser.json());
 
 // Root route
