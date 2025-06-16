@@ -281,14 +281,14 @@ router.post("/reset-password", async (req, res) => {
 //   }
 // );
 
-router.get("/authentication/facebook",
+router.get("/facebook",
   passport.authenticate("facebook", {
     scope: ["email", "public_profile"],
     session: false
   })
 );
 
-router.get("/authentication/facebook/callback",
+router.get("/facebook/callback",
   passport.authenticate("facebook", {
     session: false,
     failureRedirect: "/login"

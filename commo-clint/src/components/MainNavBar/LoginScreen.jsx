@@ -37,7 +37,7 @@ const LoginScreen = () => {
 
   const handleFacebookClick = () => {
     console.log('Facebook login');
-      window.location.href = `${process.env.REACT_APP_API_URL}/api/authentication/authentication/facebook`;
+      window.location.href = `${process.env.REACT_APP_API_URL}/api/authentication/facebook`;
   };
   useEffect(() => {
   const queryParams = new URLSearchParams(window.location.search);
